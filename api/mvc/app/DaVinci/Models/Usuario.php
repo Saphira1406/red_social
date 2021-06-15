@@ -1,4 +1,5 @@
 <?php
+
 namespace DaVinci\Models;
 
 use DaVinci\DB\DBConnection;
@@ -10,6 +11,28 @@ class Usuario
     private $usuario;
     private $password;
     private $email;
+
+    /**
+     * Crea un nuevo usuario en la base de datos.
+     *
+     * @param array $data
+     * @return bool
+     */
+
+    public function crear(array $data): bool
+    {
+        $db = DBConnection::getConnection();
+
+        $query = "INSERT INTO usuarios (nombre, apellido, email, password) 
+                  VALUES (:nombre, :apellido, :email, :password)";
+
+        $stmt = $db->prepare($query);
+
+        if (!$stmt->execute($data)) {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * Retorna el usuario al que pertenece el $email.
@@ -28,7 +51,7 @@ class Usuario
         $stmt->execute([$email]);
 
         // Si no podemos obtener la fila, retornamos null.
-        if(!$fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        if (!$fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
             return null;
         }
 
@@ -58,7 +81,7 @@ class Usuario
         $stmt->execute([$pk]);
 
         // Si no podemos obtener la fila, retornamos null.
-        if(!$fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        if (!$fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
             return null;
         }
 

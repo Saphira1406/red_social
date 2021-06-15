@@ -17,7 +17,7 @@
             <input type="password" class="form-control" id="password" />
           </div>
           <div class="d-grid gap-2 col-4 m-auto">
-            <button type="submit" class="btn boton">Iniciar Sesión</button>
+            <button type="submit" class="btn boton">Ingresar</button>
           </div>
         </form>
       </div>

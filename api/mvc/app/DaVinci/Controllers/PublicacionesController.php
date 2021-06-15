@@ -2,7 +2,6 @@
 
 namespace DaVinci\Controllers;
 
-
 use DaVinci\Auth\Auth;
 use DaVinci\Core\App;
 use DaVinci\Core\Route;
