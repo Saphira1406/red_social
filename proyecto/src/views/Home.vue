@@ -82,6 +82,7 @@ section:nth-child(2) p {
 
 .botonLogin {
   border: 1px solid #361973 !important;
+  color: #361973 !important;
 }
 
 .botonLogin:hover {
