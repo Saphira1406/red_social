@@ -38,6 +38,17 @@ export  default {
 </script>
 
 <style lang="scss">
+
+@font-face {
+  font-family: 'NewYork';
+  src: url("./assets/tipografia/NewYork.otf");
+}
+
+@font-face {
+  font-family: 'SourceSansPro';
+  src: url("./assets/tipografia/SourceSansPro-Regular.ttf");
+}
+
 #footer {
   display: flex;
   height: 50px;
