@@ -14,26 +14,69 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/publicaciones">Publicaciones</router-link>
           </li>
-          <li class="nav-item">
+          <li 
+            v-if="auth.user.id !== null"
+            class="nav-item"
+          >
             <router-link class="nav-link" to="/perfil">Perfil</router-link>
+          </li>
+          <li
+            v-if="auth.user.id === null"
+            class="nav-item"
+          >
+            <router-link class="nav-link" to="/login">Iniciar Sesión</router-link>
+          </li>
+          <li
+            v-else
+            class="nav-item"
+          >
+            <button
+                class="btn nav-link"
+                @click="logout"
+            >{{ auth.user.email }} (Cerrar Sesión)</button>
           </li>
         </ul>
       </div>
     </nav>
   </header>
-  <router-view></router-view>
+
+  <router-view @logged="logUser"></router-view>
+
   <footer id="footer">
     <p>Copyright &copy; Florencia Mellone | Erica Torrico | Da Vinci 2021</p>
   </footer>
 </template>
 
 <script>
-export  default {
-  data: function () {
-    return {
+import authService from "./services/auth.js";
 
+export default {
+  data () {
+    return {
+      auth: {
+        user: {
+          id: null,
+          email: null,
+          usuario: null,
+        },
+      }
     }
   },
+  methods: {
+    logUser () {
+      this.auth.user = authService.getUserData();
+    },
+    logout () {
+      // TODO: Hacer que el logout realmente elimine la cookie.
+      // TODO: Hacer que tanto front como back verifiquen que el usuario esté autenticado.
+      authService.logout();
+      this.auth.user = {
+        id: null,
+        email: null,
+        usuario: null,
+      }
+    }
+  }
 };
 </script>
 

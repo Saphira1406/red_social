@@ -1,9 +1,15 @@
 <?php
-require_once __DIR__ . '/../autoload.php';
 
-header("Content-Type: application/json");
+use DaVinci\Auth\Auth;
+use DaVinci\Models\Usuario;
 
-// session_start();
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Headers: Content-Type");
+
+require __DIR__ . '/mvc/autoload.php';
+
+session_start();
 
 $inputData = file_get_contents('php://input');
 $postData = json_decode($inputData, true);
@@ -11,57 +17,29 @@ $postData = json_decode($inputData, true);
 $email = trim($postData['email']);
 $password = $postData['password'];
 
-$auth = new Authentication();
+$auth = new Auth();
 $success = $auth->login($email, $password);
 
 if ($auth->login($email, $password)) {
-    // $_SESSION['id'] = $fila['id'];
-    echo json_encode([
-        'success' => true,
-        'msg' => 'El producto se insertó con éxito.',
-    ]);
-} else {
-    echo json_encode([
-        'success' => false,
-        'msg' => 'Ocurrió un error al tratar de insertar el producto.',
-    ]);
-}
 
-// Vamos a autenticar al usuario con los datos que nos llegan en el JSON.
-/*
-header("Content-Type: application/json");
+    $usuario = new Usuario();
+    $usuario = $usuario->getByEmail($email);
 
-session_start();
-
-$db = mysqli_connect('localhost', 'root', '', 'cwm');
-mysqli_set_charset($db, 'utf8mb4');
-
-$inputData = file_get_contents('php://input');
-$postData = json_decode($inputData, true);
-
-$email = mysqli_real_escape_string($db, $postData['email']);
-$password = $postData['password'];
-
-$query = "SELECT * FROM usuarios
-            WHERE email = '{$email}'";
-$res = mysqli_query($db, $query);
-
-if($fila = mysqli_fetch_assoc($res)) {
-    if(password_verify($password, $fila['password'])) {
-        $_SESSION['id'] = $fila['id'];
+    if ($usuario) {
+        //     $_SESSION['id'] = $usuario->getId();
 
         echo json_encode([
             'success' => true,
             'data' => [
-                'id' => $fila['id'],
-                'usuario' => $fila['usuario'],
+                'id' => $usuario->getId(),
+                'usuario' => $usuario->getUsuario(),
+                'email' => $email,
             ]
         ]);
         exit;
     }
 }
-
 echo json_encode([
     'success' => false,
+    'msg' => 'Ocurrió un error al tratar de insertar el producto.',
 ]);
-*/
