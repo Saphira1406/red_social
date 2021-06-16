@@ -21,6 +21,8 @@ nombre VARCHAR
 (45),
   apellido VARCHAR
 (45),
+imagen VARCHAR
+(60) NOT NULL DEFAULT 'default.jpg',
 
   PRIMARY KEY
 (id)
@@ -32,10 +34,8 @@ nombre VARCHAR
 CREATE TABLE
 IF NOT EXISTS publicaciones
 (id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
-/*
 imagen VARCHAR
 (60),
-*/
 texto TEXT
 (1000), 
 usuarios_id INT UNSIGNED,
