@@ -11,7 +11,7 @@
     <section class="d-flex justify-content-center align-items-center publicaciones-seccion">
 
     </section>
-    <section class="publicaciones-seccion d-flex justify-content-center align-items-center flex-column pt-3">
+    <section v-if="userId" class="publicaciones-seccion d-flex justify-content-center align-items-center flex-column pt-3">
       <div class="card mb-4 publicaciones" style="width: 50rem;">
         <div class="card-header">
           <div class="mt-1 mb-1 d-flex align-items-end">
@@ -43,6 +43,13 @@
 <script>
 export default {
   name: "Publicaciones",
+  props: ['userId'],
+  emits: ['logged'],
+  data () {
+    return {
+
+    }
+  },
 }
 </script>
 

@@ -76,6 +76,7 @@ export default {
         .then(rta => {
           //  estado.classList.remove('d-none', 'alert-danger', 'alert-success');
           console.log('respuesta del Post', rta);
+          this.$router.push("login");
           /*
                           estado.classList.add('alert');
                           if (responseData.success) {
