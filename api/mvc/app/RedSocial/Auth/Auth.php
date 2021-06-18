@@ -1,7 +1,8 @@
 <?php
-namespace DaVinci\Auth;
 
-use DaVinci\Models\Usuario;
+namespace RedSocial\Auth;
+
+use RedSocial\Models\Usuario;
 
 class Auth
 {
@@ -21,9 +22,9 @@ class Auth
         $user = $user->getByEmail($email);
 
         // Verificamos si hay un usuario.
-        if($user !== null) {
+        if ($user !== null) {
             // Comparamos los passwords.
-            if(password_verify($password, $user->getPassword())) {
+            if (password_verify($password, $user->getPassword())) {
                 $this->setAsAuthenticated($user);
                 return true;
             }
@@ -67,7 +68,7 @@ class Auth
      */
     public function getUser()
     {
-        if(!$this->isAuthenticated()) {
+        if (!$this->isAuthenticated()) {
             return null;
         }
 

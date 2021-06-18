@@ -1,10 +1,10 @@
 <?php
 
-namespace DaVinci\Core;
+namespace RedSocial\Core;
 
 /**
  * Class Request
- * @package DaVinci\Core
+ * @package RedSocial\Core
  *
  * Maneja lo referente a la petición del usuario.
  * Esto incluye:

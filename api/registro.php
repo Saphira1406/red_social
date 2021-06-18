@@ -1,7 +1,7 @@
 <?php
 
-use DaVinci\Models\Usuario;
-use DaVinci\Validation\Validator;
+use RedSocial\Models\Usuario;
+use RedSocial\Validation\Validator;
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");

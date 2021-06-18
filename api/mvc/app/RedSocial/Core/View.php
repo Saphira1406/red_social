@@ -1,6 +1,6 @@
 <?php
 
-namespace DaVinci\Core;
+namespace RedSocial\Core;
 
 class View
 {

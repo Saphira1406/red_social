@@ -27,7 +27,7 @@
  * PDO: un método static.
  */
 
-namespace DaVinci\DB;
+namespace RedSocial\DB;
 
 use Exception;
 use PDO;

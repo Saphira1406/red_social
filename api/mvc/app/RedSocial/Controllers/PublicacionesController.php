@@ -1,13 +1,13 @@
 <?php
 
-namespace DaVinci\Controllers;
+namespace RedSocial\Controllers;
 
-use DaVinci\Auth\Auth;
-use DaVinci\Core\App;
-use DaVinci\Core\Route;
-use DaVinci\Core\View;
-use DaVinci\Models\Publicacion;
-use DaVinci\Validation\Validator;
+use RedSocial\Auth\Auth;
+use RedSocial\Core\App;
+use RedSocial\Core\Route;
+use RedSocial\Core\View;
+use RedSocial\Models\Publicacion;
+use RedSocial\Validation\Validator;
 
 class PublicacionesController extends Controller
 {
