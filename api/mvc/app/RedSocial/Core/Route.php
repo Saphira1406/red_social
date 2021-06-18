@@ -1,10 +1,10 @@
 <?php
 
-namespace DaVinci\Core;
+namespace RedSocial\Core;
 
 /**
  * Class Route
- * @package DaVinci\Core
+ * @package RedSocial\Core
  *
  * Se encarga de manejar todo lo relativo a las rutas.
  *
@@ -65,13 +65,13 @@ class Route
     {
         // Verificamos si existe la ruta tal cual
         // me la piden.
-        if(isset(self::$routes[$method][$url])) {
+        if (isset(self::$routes[$method][$url])) {
             return true;
         }
         // Verificamos si existe una ruta
         // parametrizada (que contenga valores entre
         // {}) que matchee la ruta que nos piden.
-        else if(self::parameterizedRouteExists($method, $url)) {
+        else if (self::parameterizedRouteExists($method, $url)) {
             return true;
         } else {
             return false;
@@ -104,15 +104,15 @@ class Route
 
             // Verificamos que cuenten con la misma cantidad
             // de partes.
-            if(count($routeParts) != count($urlParts)) {
+            if (count($routeParts) != count($urlParts)) {
                 $routeMatches = false;
             } else {
                 // Recorremos las partes y las comparamos con las de la url.
                 foreach ($routeParts as $key => $part) {
                     // Verificamos si no coinciden exactamente.
-                    if($routeParts[$key] != $urlParts[$key]) {
+                    if ($routeParts[$key] != $urlParts[$key]) {
                         // Verificamos si tiene una {
-                        if(strpos($routeParts[$key], '{') === 0) {
+                        if (strpos($routeParts[$key], '{') === 0) {
                             // Obtenemos el nombre
                             // del parámetro, quitando
                             // las llaves del comienzo
@@ -131,7 +131,7 @@ class Route
             }
 
             // Verificamos si la ruta matchea.
-            if($routeMatches) {
+            if ($routeMatches) {
                 // Guardamos los datos de la
                 // ruta.
                 self::$controllerAction = $controllerAction;
@@ -157,7 +157,7 @@ class Route
     {
         // Si obtuvimos una url parametrizada,
         // la retornamos.
-        if(!is_null(self::$controllerAction)) {
+        if (!is_null(self::$controllerAction)) {
             return self::$controllerAction;
         }
 

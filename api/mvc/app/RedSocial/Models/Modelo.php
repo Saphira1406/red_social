@@ -1,6 +1,6 @@
 <?php
 
-namespace DaVinci\Models;
+namespace RedSocial\Models;
 
 /**
  * Class Modelo
@@ -8,7 +8,7 @@ namespace DaVinci\Models;
  * Ofrece todas las acciones básicas de un ABM (traer todos, traer por PK, crear, editar, eliminar)
  * a través de unas propiedades configurables.
  *
- * @package DaVinci\Models
+ * @package RedSocial\Models
  */
 class Modelo
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace DaVinci\Models;
+namespace RedSocial\Models;
 
-use DaVinci\DB\DBConnection;
+use RedSocial\DB\DBConnection;
 use JsonSerializable;
 use PDO;
 

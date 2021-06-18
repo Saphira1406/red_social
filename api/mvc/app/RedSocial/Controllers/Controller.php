@@ -1,10 +1,10 @@
 <?php
 
-namespace DaVinci\Controllers;
+namespace RedSocial\Controllers;
 
 
-use DaVinci\Auth\Auth;
-use DaVinci\Core\App;
+use RedSocial\Auth\Auth;
+use RedSocial\Core\App;
 
 class Controller
 {
@@ -22,7 +22,7 @@ class Controller
      */
     protected function requiresAuth()
     {
-        if(!$this->auth->isAuthenticated()) {
+        if (!$this->auth->isAuthenticated()) {
             $_SESSION['status_error'] = 'Tenés que iniciar sesión para poder realizar esta acción.';
             App::redirect('iniciar-sesion');
         }

@@ -1,29 +1,29 @@
 <?php
 
-namespace DaVinci\Controllers;
+namespace RedSocial\Controllers;
 
-use DaVinci\Auth\Auth;
-use DaVinci\Core\App;
-use DaVinci\Core\View;
-use DaVinci\Validation\Validator;
+use RedSocial\Auth\Auth;
+use RedSocial\Core\App;
+use RedSocial\Core\View;
+use RedSocial\Validation\Validator;
 
 class AuthController
 {
     public function loginForm()
     {
-        if(isset($_SESSION['old_data'])) {
+        if (isset($_SESSION['old_data'])) {
             $oldData = $_SESSION['old_data'];
             unset($_SESSION['old_data']);
         } else {
             $oldData = [];
         }
-        if(isset($_SESSION['errores'])) {
+        if (isset($_SESSION['errores'])) {
             $errores = $_SESSION['errores'];
             unset($_SESSION['errores']);
         } else {
             $errores = [];
         }
-        if(isset($_SESSION['status_error'])) {
+        if (isset($_SESSION['status_error'])) {
             $statusError = $_SESSION['status_error'];
             unset($_SESSION['status_error']);
         } else {
@@ -44,7 +44,7 @@ class AuthController
             'password' => ['required'],
         ]);
 
-        if(!$validator->passes()) {
+        if (!$validator->passes()) {
             $_SESSION['errores'] = $validator->getErrores();
             $_SESSION['old_data'] = $_POST;
             App::redirect('iniciar-sesion');
@@ -55,10 +55,10 @@ class AuthController
 
         $auth = new Auth;
 
-        if(!$auth->login($email, $password)) {
-//            $_SESSION['errores'] = [
-//                'db' => 'Las credenciales ingresadas no coinciden con nuestros registros.'
-//            ];
+        if (!$auth->login($email, $password)) {
+            //            $_SESSION['errores'] = [
+            //                'db' => 'Las credenciales ingresadas no coinciden con nuestros registros.'
+            //            ];
             $_SESSION['status_error'] = 'Las credenciales ingresadas no coinciden con nuestros registros.';
             $_SESSION['old_data'] = $_POST;
             App::redirect('iniciar-sesion');
@@ -70,8 +70,8 @@ class AuthController
 
     public function logout()
     {
-//        $auth = new Auth;
-//        $auth->logout();
+        //        $auth = new Auth;
+        //        $auth->logout();
         (new Auth)->logout();
         $_SESSION['status_success'] = 'Cerraste sesión con éxito. ¡Te esperamos pronto!';
         App::redirect('iniciar-sesion');

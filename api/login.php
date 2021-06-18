@@ -1,7 +1,7 @@
 <?php
 
-use DaVinci\Auth\Auth;
-use DaVinci\Models\Usuario;
+use RedSocial\Auth\Auth;
+use RedSocial\Models\Usuario;
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");

@@ -1,10 +1,10 @@
 <?php
 
-namespace DaVinci\Core;
+namespace RedSocial\Core;
 
 /**
  * Class App
- * @package DaVinci\Core
+ * @package RedSocial\Core
  *
  * Maneja el funcionamiento básico de la aplicación.
  */
@@ -44,7 +44,7 @@ class App
         $this->request = new Request();
 
         // Verificamos si la ruta existe.
-        if(Route::exists($this->request->getMethod(), $this->request->getRequestedUrl())) {
+        if (Route::exists($this->request->getMethod(), $this->request->getRequestedUrl())) {
             $controller = Route::getController($this->request->getMethod(), $this->request->getRequestedUrl());
             $this->executeController($controller);
         } else {
@@ -68,12 +68,12 @@ class App
 
         // $controllerName = "HomeController";
         // Le agregamos el namespace a la clase.
-        $controllerName = "\\DaVinci\\Controllers\\" . $controllerName;
+        $controllerName = "\\RedSocial\\Controllers\\" . $controllerName;
         // Esto nos deja, ej:
-        // \DaVinci\Controllers\HomeController
+        // \RedSocial\Controllers\HomeController
 
         // Instanciamos el controller.
-        // Ej: new \DaVinci\Controllers\HomeController
+        // Ej: new \RedSocial\Controllers\HomeController
         $controllerObject = new $controllerName;
 
         // Ejecutamos su método.
@@ -88,7 +88,7 @@ class App
     public static function redirect($path = '')
     {
         // Quitamos la barra de inicio de la ruta, de estar presente.
-        if(strpos($path, '/') === 0) {
+        if (strpos($path, '/') === 0) {
             $path = substr($path, 1);
         }
 
@@ -105,7 +105,7 @@ class App
     public static function urlTo($path = '')
     {
         // Quitamos la barra de inicio de la ruta, de estar presente.
-        if(strpos($path, '/') === 0) {
+        if (strpos($path, '/') === 0) {
             $path = substr($path, 1);
         }
 

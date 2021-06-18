@@ -1,5 +1,6 @@
 <?php
-namespace DaVinci\Validation;
+
+namespace RedSocial\Validation;
 /*
  * Uso:
  *
@@ -57,7 +58,7 @@ class Validator
         */
         // Queremos aplicar las reglas de validación que nos pasaron a los campos que nos pasaron.
         // Recorremos las reglas de validación que nos pasaron.
-        foreach($this->reglas as $nombreCampo => $reglasCampo) {
+        foreach ($this->reglas as $nombreCampo => $reglasCampo) {
             // Aplicar las reglas del campo al campo.
             $this->aplicarListaReglas($nombreCampo, $reglasCampo);
         }
@@ -75,7 +76,7 @@ class Validator
         // $campo = 'nombre';
         // $listaReglas = ['required', 'numeric', 'min:2']
         // Quermos aplicar esa lista de reglas al campo, así que la recorremos.
-        foreach($listaReglas as $regla) {
+        foreach ($listaReglas as $regla) {
             // $regla = 'required';
             // $regla = 'min:2';
 
@@ -103,19 +104,19 @@ class Validator
         // Existen 2 posibles combinaciones de reglas, una como required, otra como min que lleva parámetros
         // después de un :
         // Así que vamos a verificar en qué caso estamos de los dos, para proceder acordemente.
-        if(strpos($regla, ':') !== false) {
+        if (strpos($regla, ':') !== false) {
             // Separamos el nombre de la validación de sus parámetros.
-//            $dataRegla = explode(':', $regla);
-//            $nombreRegla = $dataRegla[0];
-//            $parametroRegla = $dataRegla[1];
+            //            $dataRegla = explode(':', $regla);
+            //            $nombreRegla = $dataRegla[0];
+            //            $parametroRegla = $dataRegla[1];
             // Simplificando lo de arriba...
-//            list($nombreRegla, $parametroRegla) = explode(':', $regla);
+            //            list($nombreRegla, $parametroRegla) = explode(':', $regla);
             // Simplificado a php 7...
             [$nombreRegla, $parametroRegla] = explode(':', $regla);
 
             $nombreMetodo = '_' . $nombreRegla;
 
-            if(!method_exists($this, $nombreMetodo)) {
+            if (!method_exists($this, $nombreMetodo)) {
                 throw new Exception('No existe una validación llamada ' . $nombreRegla . '.');
             }
 
@@ -130,7 +131,7 @@ class Validator
             // Necesitamos asegurarnos de que la regla de validación exista.
             // Es decir, necesitamos saber si existe en esta clase un método que tenga como nombre $nombreMetodo.
             // Eso lo podemos lograr con ayuda de la función method_exists().
-            if(!method_exists($this, $nombreMetodo)) {
+            if (!method_exists($this, $nombreMetodo)) {
                 throw new Exception('No existe una validación llamada ' . $regla . '.');
             }
 
@@ -144,15 +145,15 @@ class Validator
             $this->{$nombreMetodo}($campo);
         }
 
-//        switch($regla) {
-//            case 'required':
-//                $this->_required($campo);
-//                break;
-//
-//            case 'numeric':
-//                $this->_numeric($campo);
-//                break;
-//        }
+        //        switch($regla) {
+        //            case 'required':
+        //                $this->_required($campo);
+        //                break;
+        //
+        //            case 'numeric':
+        //                $this->_numeric($campo);
+        //                break;
+        //        }
     }
 
     /**
@@ -164,7 +165,7 @@ class Validator
     protected function registrarError($campo, $mensaje)
     {
         // Verificamos si existe ya una posición para el $campo, y sino la creamos.
-        if(!isset($this->errores[$campo])) {
+        if (!isset($this->errores[$campo])) {
             $this->errores[$campo] = [];
         }
 
@@ -212,7 +213,7 @@ class Validator
     protected function _required($campo)
     {
         // Realizamos la validación, y si falla, guardamos un mensaje de error.
-        if(empty($this->campos[$campo])) {
+        if (empty($this->campos[$campo])) {
             $this->registrarError($campo, 'El ' . $campo . ' debe completarse.');
         }
     }
@@ -224,7 +225,7 @@ class Validator
      */
     protected function _numeric($campo)
     {
-        if(!is_numeric($this->campos[$campo])) {
+        if (!is_numeric($this->campos[$campo])) {
             $this->registrarError($campo, 'El ' . $campo . ' debe ser un número.');
         }
     }
@@ -237,7 +238,7 @@ class Validator
      */
     protected function _min($campo, $cantidad)
     {
-        if(strlen($this->campos[$campo]) < $cantidad) {
+        if (strlen($this->campos[$campo]) < $cantidad) {
             $this->registrarError($campo, 'El ' . $campo . ' debe tener al menos ' . $cantidad . ' caracteres.');
         }
     }
