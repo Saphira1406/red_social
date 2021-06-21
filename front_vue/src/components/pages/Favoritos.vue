@@ -1,5 +1,7 @@
 <template>
-<h1>Favoritos</h1>
+  <section class="coming-soon">
+    <img src="./../../assets/img/soon.png"  class="img-fluid" alt="en construccion">
+  </section>
 </template>
 
 <script>
@@ -9,5 +11,8 @@ export default {
 </script>
 
 <style scoped>
-
+.coming-soon {
+  background: none;
+  margin-bottom: 2em;
+}
 </style>
