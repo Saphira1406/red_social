@@ -7,7 +7,7 @@
   </section>
 
   <section class="info">
-    <div class="card m-5 card-info" style="width: 18rem;">
+    <div class="card m-5 card-info" style="width: 25rem;">
       <div class="card-header">
         <p class="h5">Información</p>
       </div>

@@ -11,7 +11,7 @@
     <section class="d-flex justify-content-center align-items-center publicaciones-seccion">
 
     </section>
-    <section v-if="userId" class="publicaciones-seccion d-flex justify-content-center align-items-center flex-column pt-3">
+    <section  class="publicaciones-seccion d-flex justify-content-center align-items-center flex-column pt-3">
       <div class="card mb-4 publicaciones" style="width: 50rem;">
         <div class="card-body">
           <form action="#" id="publicar">
@@ -43,9 +43,15 @@
           <div class="mt-1 mb-1 d-flex align-items-end">
             <img src="./../assets/img/persona_2.jpg" class="img-fluid size" alt="foto de perfil">
             <p class="nombre_usuario">Nombre de Usuario</p>
-            <button href="" class="ml-auto align-self-center" style="background: none; border: none;">
-              <img src="./../assets/img/editar.png"  class="icon-edit" alt="icono de editar">
-            </button>
+            <div class="dropdown ml-auto align-self-center">
+              <button class="btn " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="./../assets/img/editar.png"  class="icon-edit" alt="icono de editar">
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Editar</a>
+                <a class="dropdown-item" href="#">Eliminar</a>
+              </div>
+            </div>
           </div>
         </div>
         <img src="./../assets/img/group-friends.jpg" class="card-img-top img-fluid" alt="grupo de amigos">
@@ -73,9 +79,15 @@
           <div class="mt-1 mb-1 d-flex align-items-end">
             <img src="./../assets/img/persona_3.jpg" class="img-fluid size" alt="foto de perfil">
             <p class="nombre_usuario">Nombre de Usuario</p>
-            <button href="" class="ml-auto align-self-center" style="background: none; border: none;">
-              <img src="./../assets/img/editar.png"  class="icon-edit" alt="icono de editar">
-            </button>
+            <div class="dropdown ml-auto align-self-center">
+              <button class="btn " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="./../assets/img/editar.png"  class="icon-edit" alt="icono de editar">
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Editar</a>
+                <a class="dropdown-item" href="#">Eliminar</a>
+              </div>
+            </div>
           </div>
         </div>
         <img src="./../assets/img/img-publicacion.jpg" class="card-img-top img-fluid" alt="grupo de amigos">
@@ -175,12 +187,20 @@ select {
 }
 
 .icon-edit {
-  width: 55%;
+  width: 45%;
 }
 
 .comentario {
   background-color: rgba(242,166,73, .7);
   padding: .5em;
   border-radius: 15px;
+}
+
+.dropdown-menu {
+  background-color: rgb(242,166,73);
+}
+
+.dropdown-item:hover {
+  background-color: rgba(242,137,114, .7);
 }
 </style>
