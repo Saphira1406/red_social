@@ -7,6 +7,7 @@ import Publicacion from "../components/pages/Publicacion";
 import Amigos from "../components/pages/Amigos";
 import Favoritos from "../components/pages/Favoritos";
 import Perfil from "../views/Perfil";
+import Editar from "../components/pages/Editar";
 
 
 const routes = [
@@ -26,6 +27,12 @@ const routes = [
   {
     path: '/perfil',
     component: Perfil,
+    children: [
+      {
+        path: '',
+        component: Editar,
+      }
+    ],
   },
   {
     path: '/publicaciones',
