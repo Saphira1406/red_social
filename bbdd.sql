@@ -111,7 +111,7 @@ INSERT INTO publicaciones
 SET texto
 = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
 
-imagen = "group-friends.b1451980.jpg", usuarios_id = 1;
+imagen = "group-friends.jpg", usuarios_id = 1;
 
 INSERT INTO publicaciones
 SET texto
@@ -123,7 +123,7 @@ INSERT INTO publicaciones
 SET texto
 = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
 
-imagen = "img-publicacion.8860351c.jpg", usuarios_id = 2;
+imagen = "img-publicacion.jpg", usuarios_id = 2;
 
 INSERT INTO publicaciones
 SET texto
