@@ -7,14 +7,10 @@
         <h2 class="card-title">Iniciar sesión</h2>
       </div>
       <div class="card-body">
-        <form action="#" 
-          class="row g-3" 
-          method="post"
-          @submit.prevent="login"
-        >
+        <form action="#" class="row g-3" method="post" @submit.prevent="login">
           <div class="col-12">
             <label for="email" class="form-label">Email</label>
-            <input                     
+            <input
               type="email"
               name="email"
               id="email"
@@ -24,7 +20,7 @@
           </div>
           <div class="col-12">
             <label for="password" class="form-label">Contraseña</label>
-            <input                     
+            <input
               type="password"
               name="password"
               id="password"
@@ -32,8 +28,12 @@
               v-model="user.password"
             />
           </div>
-          <div class="d-grid gap-2 w-100 d-flex justify-content-center mx-auto mt-2">
-            <button type="submit" class="btn boton mx-auto">Iniciar Sesión</button>
+          <div
+            class="d-grid gap-2 w-100 d-flex justify-content-center mx-auto mt-2"
+          >
+            <button type="submit" class="btn boton mx-auto">
+              Iniciar Sesión
+            </button>
           </div>
         </form>
       </div>
@@ -90,7 +90,7 @@ section {
 .card {
   width: 60%;
   margin-top: 1em;
-  background: rgba(54,25,115, .6);
+  background: rgba(54, 25, 115, 0.6);
 }
 
 .boton {

@@ -85,3 +85,48 @@ SET NULL
 ON
 UPDATE CASCADE
 )ENGINE = InnoDB;
+
+-- INSERTS
+
+-- USUARIOS
+
+INSERT INTO usuarios
+SET email
+= 'uno@uno',
+password = "$2y$10$AeSRdA8WTWJpZ3ZFwkEQIeG6a5g20EVY8ig3slJI3CjA9yQqd7Xtq";
+
+INSERT INTO usuarios
+SET email
+= 'dos@dos',
+password = "$2y$10$BWHWXmfmJrV9sVVQEAxIWu3yBxrFU.hdpKSNBGVDJCmmtU/xLQkLu";
+
+INSERT INTO usuarios
+SET email
+= 'tres@tres',
+password = "$2y$10$FYRDwgiPDZ1A4I4CepGTQ.ZfbZblq2VjVhEKIwCmhCoW/3hokW4tq";
+
+-- PUBLICACIONES
+
+INSERT INTO publicaciones
+SET texto
+= 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+
+imagen = "group-friends.jpg", usuarios_id = 1;
+
+INSERT INTO publicaciones
+SET texto
+= 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+
+usuarios_id = 2;
+
+INSERT INTO publicaciones
+SET texto
+= 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+
+imagen = "img-publicacion.jpg", usuarios_id = 2;
+
+INSERT INTO publicaciones
+SET texto
+= 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+
+usuarios_id = 3;

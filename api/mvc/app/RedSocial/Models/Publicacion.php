@@ -8,9 +8,28 @@ use PDO;
 
 class Publicacion extends Modelo implements JsonSerializable
 {
+    /** @var string La tabla con la que el Modelo se mapea. */
+    protected $table = 'publicaciones';
+
+    /** @var string El nombre del campo que es la PK. */
+    protected $primaryKey = 'id';
+
+    /** @var array La lista de atributos/campos de la tabla que se mapean con las propiedades del Modelo. */
+    protected $attributes = [
+        'id',
+        'usuarios_id',
+        'texto',
+        'imagen',
+    ];
+
     private $id;
-    private $id_usuario;
+    private $usuarios_id;
     private $texto;
+    private $imagen;
+
+    // Propiedades para las clases de las tablas asociadas.
+    /** @var Usuario */
+    private $usuario;
 
     /**
      * Esta función debe retornar cómo se representa como JSON este objeto.
@@ -20,14 +39,15 @@ class Publicacion extends Modelo implements JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'id'           => $this->getId(),
-            'id_usuario'   => $this->getIdUsuario(),
-            'texto'        => $this->getTexto(),
+            'id'            => $this->getId(),
+            'usuarios_id'   => $this->getIdUsuario(),
+            'texto'         => $this->getTexto(),
+            'imagen'        => $this->getImagen(),
         ];
     }
 
     /**
-     * Retorna todos las publicaciones de la base de datos.
+     * Retorna todas las publicaciones de la base de datos.
      *
      * @return array|Publicacion[]
      */
@@ -45,15 +65,44 @@ class Publicacion extends Modelo implements JsonSerializable
         while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
             //            $salida[] = $fila;
             // En cada vuelta, instanciamos una publicación para almacenar los datos del registro.
-            $prod = new self();
-            $prod->setId($fila['id']);
-            $prod->setIdUsuario($fila['id_usuario']);
-            $prod->setTexto($fila['texto']);
 
-            $salida[] = $prod;
+            $publicacion = new self();
+            /*
+            $publicacion->setId($fila['id']);
+            $publicacion->setUsuariosId($fila['usuarios_id']);
+            $publicacion->setTexto($fila['texto']);
+            $publicacion->setImagen($fila['imagen']);
+*/
+            $publicacion->cargarDatosDeArray($fila);
+
+
+            $usuario = new Usuario();
+            $usuario->cargarDatosDeArray([
+                'usuarios_id' => $fila['usuarios_id'],
+                'usuario' => $fila['usuario'],
+            ]);
+
+            $publicacion->setUsuario($usuario);
+            $salida[] = $publicacion;
         }
 
         return $salida;
+    }
+
+    /**
+     * @return Usuario
+     */
+    public function getUsuario(): Usuario
+    {
+        return $this->usuario;
+    }
+
+    /**
+     * @param Usuario $usuario
+     */
+    public function setUsuario(Usuario $usuario): void
+    {
+        $this->usuario = $usuario;
     }
 
     /**
@@ -61,7 +110,7 @@ class Publicacion extends Modelo implements JsonSerializable
      * Si no existe, retorna null.
      *
      * @param int $id
-     * @return Producto|null
+     * @return Publicacion|null
      */
     public function traerPorPK($id)
     {
@@ -76,15 +125,16 @@ class Publicacion extends Modelo implements JsonSerializable
 
         $fila = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $prod = new self();
-        $prod->setId($fila['id']);
-        $prod->setIdUsuario($fila['id_usuario']);
-        $prod->setTexto($fila['texto']);
-        return $prod;
+        $publicacion = new self();
+        $publicacion->setId($fila['id']);
+        $publicacion->setUsuariosId($fila['usuarios_id']);
+        $publicacion->setTexto($fila['texto']);
+        $publicacion->setImagen($fila['imagen']);
+        return $publicacion;
     }
 
     /**
-     * Crea un nuevo producto en la base de datos.
+     * Crea una nueva publicación en la base de datos.
      *
      * @param array $data
      * @return bool
@@ -92,8 +142,8 @@ class Publicacion extends Modelo implements JsonSerializable
     public function crear(array $data): bool
     {
         $db = DBConnection::getConnection();
-        $query = "INSERT INTO publicaciones (id_usuario, texto) 
-                  VALUES (:id_usuario, :texto)";
+        $query = "INSERT INTO publicaciones (usuarios_id, texto) 
+                  VALUES (:usuarios_id, :texto)";
         $stmt = $db->prepare($query);
 
         //        return $stmt->execute($data);
@@ -150,15 +200,15 @@ class Publicacion extends Modelo implements JsonSerializable
      */
     public function getIdUsuario()
     {
-        return $this->id_usuario;
+        return $this->usuarios_id;
     }
 
     /**
-     * @param mixed $id_usuario
+     * @param mixed $usuarios_id
      */
-    public function setIdUsuario($id_usuario)
+    public function setUsuariosId($usuarios_id)
     {
-        $this->id_usuario = $id_usuario;
+        $this->usuarios_id = $usuarios_id;
     }
 
     /**
@@ -175,5 +225,21 @@ class Publicacion extends Modelo implements JsonSerializable
     public function setTexto($texto)
     {
         $this->texto = $texto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImagen()
+    {
+        return $this->imagen;
+    }
+
+    /**
+     * @param mixed $imagen
+     */
+    public function setImagen($imagen)
+    {
+        $this->imagen = $imagen;
     }
 }
