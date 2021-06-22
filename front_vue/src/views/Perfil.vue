@@ -6,8 +6,9 @@
     </div>
   </section>
 
-  <section class="info">
-    <div class="card m-5 card-info" style="width: 18rem;">
+  <section class="info d-flex justify-content-center align-items-center flex-column">
+    <router-view></router-view>
+    <div class="card mt-3 mb-3 card-info" style="width: 35rem;">
       <div class="card-header">
         <p class="h5">Información</p>
       </div>
@@ -15,7 +16,8 @@
         <li class="list-group-item font-weight-bold">Nombre: </li>
         <li class="list-group-item font-weight-bold">Apellido: </li>
         <li class="list-group-item font-weight-bold">Email: </li>
-
+        <li class="list-group-item font-weight-bold">Fecha de Nacimiento: </li>
+        <li class="list-group-item font-weight-bold">Sexo: </li>
       </ul>
     </div>
   </section>
@@ -36,7 +38,7 @@ name: "Perfil"
 
 .info {
   background: rgba(242,137,114, .1);
-  padding-top: 1em;
+  padding-top: 2em;
   margin-top: -1em;
   padding-bottom: 1em;
   margin-bottom: -1em;
