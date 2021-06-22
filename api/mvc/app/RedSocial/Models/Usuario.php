@@ -3,10 +3,25 @@
 namespace RedSocial\Models;
 
 use RedSocial\DB\DBConnection;
+use JsonSerializable;
 use PDO;
 
-class Usuario
+class Usuario extends Modelo
 {
+    /** @var string La tabla con la que el Modelo se mapea. */
+    protected $table = 'usuarios';
+
+    /** @var string El nombre del campo que es la PK. */
+    protected $primaryKey = 'id';
+
+    /** @var array La lista de atributos/campos de la tabla que se mapean con las propiedades del Modelo. */
+    protected $attributes = [
+        'id',
+        'usuario',
+        'password',
+        'email',
+    ];
+
     private $id;
     private $usuario;
     private $password;

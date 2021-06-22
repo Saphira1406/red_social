@@ -137,9 +137,7 @@ export default {
     loadPublications () {
       // this.loading = true;
 
-      // Ejemplo de la petición al back de MVC. :)
       apiFetch('mvc/public/publicaciones')
-        // apiFetch('/productos.php')
         .then(publicaciones => {
           // this.loading = false;
           // Asignamos los productos al state del componente.
