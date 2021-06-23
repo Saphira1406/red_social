@@ -1,61 +1,79 @@
 <template>
-  <main class="d-flex justify-content-center align-items-center">
-    <section></section>
-    <section class="container-fluid">
-      <h1>Red Social</h1>
-      <p>Comparte tus experiencias para que otros puedan aprender de ti</p>
-      <div class="d-grid gap-2">
-        <router-link to="registrarse" class="btn boton" type="button">Registrate</router-link>
-      </div>
-      <div class="d-grid gap-2 pt-3">
-        <router-link to="login" class="btn botonLogin" type="button">Iniciar Sesión</router-link>
-      </div>
-    </section>
+  <main>
+    <div
+      v-if="!userId"
+      class="home d-flex justify-content-center align-items-center"
+    >
+      <div class="bg-home"></div>
+      <section class="container-fluid">
+        <h1>Red Social</h1>
+        <p>Comparte tus experiencias para que otros puedan aprender de ti</p>
+        <div class="d-grid gap-2">
+          <router-link to="registrarse" class="btn boton" type="button"
+            >Registrate</router-link
+          >
+        </div>
+        <div class="d-grid gap-2 pt-3">
+          <router-link to="login" class="btn botonLogin" type="button"
+            >Iniciar Sesión</router-link
+          >
+        </div>
+      </section>
+    </div>
+    <seccion-publicaciones v-else />
   </main>
 </template>
 
 <script>
+import SeccionPublicaciones from '../components/pages/SeccionPublicaciones.vue'
 // @ is an alias to /src
 
 export default {
+  components: { SeccionPublicaciones },
   name: 'Home',
+  props: ['userId'],
 }
 </script>
 
 <style>
-
-main {
-  height: 83vh;
-  background: rgba(242,137,114, .1);
+body {
+  min-height: 100vh;
+}
+main > div:first-child {
+  background: rgba(242, 137, 114, 0.1);
 }
 
-section:nth-child(1) {
+.bg-home {
   width: 70%;
-  height: 83vh;
+  height: calc(100vh - 73px - 50px);
   background-image: url("./../assets/img/backgroundHome.jpg");
   background-position: center center;
   background-repeat: no-repeat;
   margin-right: 2.5em;
 }
 
-section:nth-child(2){
+.home section {
   margin-top: -5em;
 }
 
-section:nth-child(2) h1 {
-  font-family: 'NewYork', serif;
+.home section h1 {
+  font-family: "NewYork", serif;
   font-weight: bold;
   font-size: 5em;
 }
 
-section:nth-child(2) p {
-  font-family: 'SourceSansPro', sans-serif;
+.home section p {
+  font-family: "SourceSansPro", sans-serif;
   font-size: 1.3em;
 }
 
 .boton {
-  background: rgb(54,25,115);
-  background: linear-gradient(351deg, rgba(54,25,115,1) 37%, rgba(172,92,207,1) 87%);
+  background: rgb(54, 25, 115);
+  background: linear-gradient(
+    351deg,
+    rgba(54, 25, 115, 1) 37%,
+    rgba(172, 92, 207, 1) 87%
+  );
   color: white;
   margin-top: 1em;
   width: 35%;
@@ -72,8 +90,12 @@ section:nth-child(2) p {
 }
 
 .botonLogin:hover {
-  background: rgb(54,25,115);
-  background: linear-gradient(351deg, rgba(54,25,115,1) 37%, rgba(172,92,207,1) 87%);
+  background: rgb(54, 25, 115);
+  background: linear-gradient(
+    351deg,
+    rgba(54, 25, 115, 1) 37%,
+    rgba(172, 92, 207, 1) 87%
+  );
   color: white !important;
 }
 </style>
