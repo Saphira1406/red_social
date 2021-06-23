@@ -13,6 +13,18 @@ class PublicacionesController extends Controller
 {
     public function listado()
     {
+        // El token lo seteamos previamente en una cookie, así que de una cookie lo vamos a leer.
+        /*
+        $token = $_COOKIE['token'] ?? null;
+        if (!$token || !parseAndVerifyToken($token)) {
+            echo json_encode([
+                'success' => false,
+                'msg' => 'Se requiere iniciar sesión para realizar esta acción.'
+            ]);
+            exit;
+        }
+*/
+        $this->requiresAuth();
         $publicaciones = (new Publicacion())->traerTodo();
 
         // Para pasarle datos a una vista, usamos el segundo parámetro de la función render().

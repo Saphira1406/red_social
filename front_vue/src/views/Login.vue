@@ -68,11 +68,11 @@ export default {
       authService
         .login(this.user.email, this.user.password)
         .then(response => {
-          this.loading = false;
+          // this.loading = false;
           console.log(response);
           if (response.success) {
             this.$emit('logged', response.data);
-            this.$router.push("publicaciones");
+            // this.$router.push("publicaciones");
           }
         });
     }

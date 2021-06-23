@@ -3,7 +3,7 @@
     <div class="card-body">
       <form action="#" id="publicar">
         <div class="form-row">
-          <div class="form-group col-2" id="img-publish">
+          <div class="form-group col-1" id="img-publish">
             <img
               src="./../../assets/img/persona_2.jpg"
               class="img-fluid size-publish"
@@ -20,23 +20,25 @@
             ></textarea>
           </div>
         </div>
-        <div class="form-group">
-          <label
-            for="exampleFormControlFile1"
-            style="color: #361973; cursor: pointer;"
-          >
-            <img
-              src="./../../assets/img/image_violeta.png"
-              class="img-fluid icono"
-              alt="icono de imagen"
+        <div class="form-row">
+          <div class="form-group col-11 offset-1">
+            <label
+              for="exampleFormControlFile1"
+              style="color: #361973; cursor: pointer;"
+            >
+              <img
+                src="./../../assets/img/image_violeta.png"
+                class="img-fluid icono"
+                alt="icono de imagen"
+              />
+              Agregar imagen
+            </label>
+            <input
+              type="file"
+              class="form-control-file d-none"
+              id="exampleFormControlFile1"
             />
-            Imagen
-          </label>
-          <input
-            type="file"
-            class="form-control-file d-none"
-            id="exampleFormControlFile1"
-          />
+          </div>
         </div>
         <div class="text-center">
           <button type="submit" class="btn boton boton-publicar">
@@ -57,7 +59,7 @@
             alt="foto de perfil"
           />
           <p class="nombre_usuario">
-            Nombre de Usuario {{ publicacion.usuarios_id }}
+            (Nombre de Usuario) - Id de usuario: {{ publicacion.usuarios_id }}
           </p>
           <div class="dropdown ml-auto align-self-center">
             <button
@@ -140,7 +142,7 @@ export default {
       apiFetch('mvc/public/publicaciones')
         .then(publicaciones => {
           // this.loading = false;
-          // Asignamos los productos al state del componente.
+          // Asignamos las publicaciones al state del componente.
           this.publicaciones = publicaciones;
         });
     },
@@ -177,11 +179,11 @@ export default {
 }
 
 .size-publish {
-  width: 45%;
+  /* width: 45%; */
   border-radius: 50%;
 }
 #img-publish {
-  margin-right: -4em;
+  /* margin-right: -4em; */
 }
 
 .icon-edit {

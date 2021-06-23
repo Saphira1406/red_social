@@ -25,7 +25,6 @@
   ></section>
 
   <section
-    v-if="userId"
     class="publicaciones-seccion d-flex justify-content-center align-items-center flex-column pt-3"
   >
     <router-view></router-view>
@@ -35,8 +34,6 @@
 <script>
 export default {
   name: "Publicaciones",
-  props: ['userId'],
-  emits: ['logged'],
   data () {
     return {
 

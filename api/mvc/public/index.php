@@ -9,7 +9,8 @@
 //      Este header define una lista de los dominios a los que permitimos que nos hagan peticiones.
 //      Opcionalmente pueden poner "*" para permitir cualquier dominio (nota: dependiendo de otros
 //      esto puede no permitirse).
-header("Access-Control-Allow-Origin: *");
+
+header("Access-Control-Allow-Origin: http://localhost:8080");
 // 2. Access-Control-Allow-Methods
 //      Este header define una lista con los métodos de HTTP que permitimos que tengan las peticiones.
 //      En una API REST, generalmente hay 6 que vamos a necesitar habilitar.
@@ -17,6 +18,10 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS");
 
 header("Access-Control-Allow-Headers: Content-Type");
+
+header("Access-Control-Allow-Credentials: true");
+
+
 
 session_start();
 

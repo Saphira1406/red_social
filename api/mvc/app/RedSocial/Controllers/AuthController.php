@@ -47,7 +47,7 @@ class AuthController
         if (!$validator->passes()) {
             $_SESSION['errores'] = $validator->getErrores();
             $_SESSION['old_data'] = $_POST;
-            App::redirect('iniciar-sesion');
+            // App::redirect('iniciar-sesion');
         }
 
         $email = $_POST['email'];
@@ -61,11 +61,11 @@ class AuthController
             //            ];
             $_SESSION['status_error'] = 'Las credenciales ingresadas no coinciden con nuestros registros.';
             $_SESSION['old_data'] = $_POST;
-            App::redirect('iniciar-sesion');
+            // App::redirect('iniciar-sesion');
         }
 
         $_SESSION['status_success'] = '¡Bienvenido/a al sitio!';
-        App::redirect('productos');
+        // App::redirect('productos');
     }
 
     public function logout()
@@ -74,6 +74,6 @@ class AuthController
         //        $auth->logout();
         (new Auth)->logout();
         $_SESSION['status_success'] = 'Cerraste sesión con éxito. ¡Te esperamos pronto!';
-        App::redirect('iniciar-sesion');
+        // App::redirect('iniciar-sesion');
     }
 }

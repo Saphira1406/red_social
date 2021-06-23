@@ -56,7 +56,8 @@ class Publicacion extends Modelo implements JsonSerializable
         // Pedimos la conexión a la clase DBConnection...
         $db = DBConnection::getConnection();
 
-        $query = "SELECT * FROM publicaciones";
+        $query = "SELECT p.*, u.email FROM publicaciones p
+                  INNER JOIN usuarios u on p.usuarios_id = u.id";
         $stmt = $db->prepare($query);
         $stmt->execute();
 
@@ -67,22 +68,25 @@ class Publicacion extends Modelo implements JsonSerializable
             // En cada vuelta, instanciamos una publicación para almacenar los datos del registro.
 
             $publicacion = new self();
+
+            $publicacion->cargarDatosDeArray($fila);
             /*
             $publicacion->setId($fila['id']);
             $publicacion->setUsuariosId($fila['usuarios_id']);
             $publicacion->setTexto($fila['texto']);
             $publicacion->setImagen($fila['imagen']);
-*/
-            $publicacion->cargarDatosDeArray($fila);
+            */
 
+            //  $publicacion->setUsuario($fila['email']);
 
             $usuario = new Usuario();
             $usuario->cargarDatosDeArray([
-                'usuarios_id' => $fila['usuarios_id'],
-                'usuario' => $fila['usuario'],
+                'id' => $fila['usuarios_id'],
+                'email' => $fila['email'],
             ]);
 
             $publicacion->setUsuario($usuario);
+
             $salida[] = $publicacion;
         }
 

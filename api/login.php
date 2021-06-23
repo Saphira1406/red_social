@@ -4,9 +4,6 @@ use RedSocial\Auth\Auth;
 use RedSocial\Models\Usuario;
 
 require_once __DIR__ . '/bootstrap/init.php';
-// header("Access-Control-Allow-Origin: *");
-// header("Access-Control-Allow-Methods: POST");
-// header("Access-Control-Allow-Headers: Content-Type");
 require_once __DIR__ . '/functions/auth.php';
 
 require __DIR__ . '/mvc/autoload.php';
@@ -30,11 +27,10 @@ if ($auth->login($email, $password)) {
     if ($usuario) {
         //     $_SESSION['id'] = $usuario->getId();
         $token = createToken($usuario->getId());
-        setcookie('token', $token, 0, "", "", false, true);
+        $cookie = setcookie('token', $token, 0, "", "", false, true);
 
         echo json_encode([
             'success' => true,
-            'token' => $_COOKIE['token'],
             'data' => [
                 'id' => $usuario->getId(),
                 'usuario' => $usuario->getUsuario(),

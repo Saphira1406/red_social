@@ -24,7 +24,7 @@ class Controller
     {
         if (!$this->auth->isAuthenticated()) {
             $_SESSION['status_error'] = 'Tenés que iniciar sesión para poder realizar esta acción.';
-            App::redirect('iniciar-sesion');
+            // App::redirect('iniciar-sesion');
         }
     }
 }
