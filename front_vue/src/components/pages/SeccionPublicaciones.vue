@@ -14,7 +14,7 @@
         <router-link
           to="/publicaciones/favoritos"
           type="button"
-          class="btn  tamaño-btn"
+          class="btn tamaño-btn"
           >Favoritos</router-link
         >
       </div>

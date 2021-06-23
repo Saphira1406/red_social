@@ -72,7 +72,7 @@ export default {
           console.log(response);
           if (response.success) {
             this.$emit('logged', response.data);
-            // this.$router.push("publicaciones");
+            this.$router.push("/");
           }
         });
     }
@@ -84,7 +84,7 @@ export default {
 section {
   background: url("./../assets/img/backgroundLogin.jpg") no-repeat;
   background-size: cover;
-  height: 96vh;
+  height: calc(100vh - 73px - 50px);
   padding-top: 1em;
 }
 .card {

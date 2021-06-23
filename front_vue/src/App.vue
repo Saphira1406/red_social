@@ -25,11 +25,13 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/">Home</router-link>
           </li>
+          <!--
           <li class="nav-item">
             <router-link class="nav-link" to="/publicaciones"
               >Publicaciones</router-link
             >
           </li>
+          -->
           <li v-if="auth.user.id !== null" class="nav-item">
             <router-link class="nav-link" to="/perfil">Perfil</router-link>
           </li>
