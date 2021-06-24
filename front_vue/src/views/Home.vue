@@ -20,7 +20,7 @@
         </div>
       </section>
     </div>
-    <seccion-publicaciones v-else />
+    <seccion-publicaciones v-else :userId="userId" />
   </main>
 </template>
 

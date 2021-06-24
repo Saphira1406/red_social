@@ -43,6 +43,7 @@ class Publicacion extends Modelo implements JsonSerializable
             'usuarios_id'   => $this->getIdUsuario(),
             'texto'         => $this->getTexto(),
             'imagen'        => $this->getImagen(),
+            'usuario'       => $this->getUsuario()
         ];
     }
 
@@ -56,7 +57,7 @@ class Publicacion extends Modelo implements JsonSerializable
         // Pedimos la conexión a la clase DBConnection...
         $db = DBConnection::getConnection();
 
-        $query = "SELECT p.*, u.email FROM publicaciones p
+        $query = "SELECT p.*, u.email, u.nombre, u.apellido, u.imagen as img_perfil FROM publicaciones p
                   INNER JOIN usuarios u on p.usuarios_id = u.id";
         $stmt = $db->prepare($query);
         $stmt->execute();
@@ -81,8 +82,11 @@ class Publicacion extends Modelo implements JsonSerializable
 
             $usuario = new Usuario();
             $usuario->cargarDatosDeArray([
-                'id' => $fila['usuarios_id'],
-                'email' => $fila['email'],
+                'id'       => $fila['usuarios_id'],
+                'email'    => $fila['email'],
+                'nombre'   => $fila['nombre'],
+                'apellido' => $fila['apellido'],
+                'imagen'   => $fila['img_perfil'],
             ]);
 
             $publicacion->setUsuario($usuario);

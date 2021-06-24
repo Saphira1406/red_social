@@ -5,9 +5,11 @@
         <div class="form-row">
           <div class="form-group col-1" id="img-publish">
             <img
-              src="./../../assets/img/persona_2.jpg"
+              src="imageUrl(publicacion.usuario.imagen)"
               class="img-fluid size-publish"
-              alt="foto de perfil"
+              alt="
+                `Foto de perfil de ${publicacion.usuario.nombre} ${publicacion.usuario.apellido}`
+              "
             />
           </div>
           <div class="form-group col-11">
@@ -54,14 +56,22 @@
       <div class="card-header">
         <div class="mt-1 mb-1 d-flex align-items-end">
           <img
-            src="./../../assets/img/persona_2.jpg"
-            class="img-fluid size"
-            alt="foto de perfil"
+            :src="imageUrl(publicacion.usuario.imagen)"
+            class="img-fluid
+          size"
+            :alt="
+              `Foto de perfil de ${publicacion.usuario.nombre} ${publicacion.usuario.apellido}`
+            "
           />
           <p class="nombre_usuario">
-            (Nombre de Usuario) - Id de usuario: {{ publicacion.usuarios_id }}
+            {{
+              publicacion.usuario.nombre + " " + publicacion.usuario.apellido
+            }}
           </p>
-          <div class="dropdown ml-auto align-self-center">
+          <div
+            v-if="publicacion.usuarios_id == userId"
+            class="dropdown ml-auto align-self-center"
+          >
             <button
               class="btn "
               type="button"
@@ -127,9 +137,11 @@ import { API_IMGS_FOLDER } from "../../constants/api.js";
 
 export default {
   name: "Publicacion",
+  props: ['userId'],
   data: function () {
     return {
       publicaciones: [],
+      //   id: '',
     }
   },
   methods: {
