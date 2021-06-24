@@ -22,14 +22,14 @@
   <section
     class="publicaciones-seccion d-flex justify-content-center align-items-center flex-column pt-3"
   >
-    <router-view :userId="userId"></router-view>
+    <router-view :user="user"></router-view>
   </section>
 </template>
 
 <script>
 export default {
   name: "Publicaciones",
-  props: ['userId'],
+  props: ['user'],
   data () {
     return {
 

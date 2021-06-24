@@ -80,12 +80,12 @@ class Usuario extends Modelo implements JsonSerializable
         $usuario->id = $fila['id'];
         $usuario->usuario = $fila['usuario'];
         $usuario->password = $fila['password'];
-        $usuario->email = $fila['email'];
-        /*
+        $usuario->imagen = $fila['imagen'];
+        $usuario->email = $email;
         $usuario->nombre = $fila['nombre'];
         $usuario->apellido = $fila['apellido'];
-        $usuario->imagen = $fila['imagen'];
-*/
+
+
         return $usuario;
     }
 
@@ -115,9 +115,9 @@ class Usuario extends Modelo implements JsonSerializable
         $usuario->usuario = $fila['usuario'];
         $usuario->password = $fila['password'];
         $usuario->email = $fila['email'];
+        $usuario->imagen = $fila['imagen'];
         $usuario->nombre = $fila['nombre'];
         $usuario->apellido = $fila['apellido'];
-        $usuario->imagen = $fila['imagen'];
 
         return $usuario;
     }

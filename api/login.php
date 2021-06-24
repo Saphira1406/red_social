@@ -34,6 +34,9 @@ if ($auth->login($email, $password)) {
             'data' => [
                 'id' => $usuario->getId(),
                 'usuario' => $usuario->getUsuario(),
+                'imagen' => $usuario->getImagen(),
+                'nombre' => $usuario->getNombre(),
+                'apellido' => $usuario->getApellido(),
                 'email' => $email,
             ]
         ]);
