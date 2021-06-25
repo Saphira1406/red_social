@@ -2,7 +2,7 @@
   <div>
     <header>
       <nav
-        class="navbar navbar-expand-lg navbar-light"
+        class="navbar navbar-expand-md navbar-light"
         style="background-color: rgba(242,137,114, .5);"
       >
         <h1 class="mb-0">
@@ -29,10 +29,10 @@
             </li>
 -->
             <li class="nav-item">
-              <router-link class="nav-link" to="/perfil">
+              <router-link class="nav-link px-3" to="/perfil">
                 <img
                   :src="imageUrl(auth.user.imagen)"
-                  class="img-fluid avatar mr-3"
+                  class="img-fluid avatar mr-2"
                   :alt="
                     `Foto de perfil de ${auth.user.nombre} ${auth.user.apellido}`
                   "
@@ -48,7 +48,7 @@
           </li>
           -->
             <li class="nav-item">
-              <button class="btn nav-link" @click="logout">
+              <button class="btn nav-link px-3" @click="logout">
                 Cerrar Sesión
               </button>
             </li>
@@ -167,6 +167,10 @@ h1 .navbar-brand {
 .avatar {
   width: 30px;
   border-radius: 50%;
+}
+
+.nav-link {
+  /* line-height: 30px; */
 }
 
 body footer {

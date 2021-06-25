@@ -32,7 +32,7 @@
               >
                 <img
                   src="./../../assets/img/image_violeta.png"
-                  class="img-fluid icono"
+                  class="img-fluid icono mr-2"
                   alt="icono de imagen"
                 />
                 Agregar imagen
@@ -112,10 +112,22 @@
           :key="comentario.id"
         >
           <div class="mt-1 mb-3 comentario">
-            <p class="nombre_usuario">
-              (Nombre de Usuario) - Id de usuario: {{ comentario.usuarios_id }}
-            </p>
-            <p class="mx-3">
+            <div class="d-flex align-items-center mx-3">
+              <img
+                :src="imageUrl(comentario.usuario.imagen)"
+                class="img-fluid
+          size"
+                :alt="
+                  `Foto de perfil de ${comentario.usuario.nombre} ${comentario.usuario.apellido}`
+                "
+              />
+              <p class="nombre_usuario mb-0">
+                {{
+                  comentario.usuario.nombre + " " + comentario.usuario.apellido
+                }}
+              </p>
+            </div>
+            <p class="mt-2 mx-3">
               {{ comentario.texto }}
             </p>
           </div>
