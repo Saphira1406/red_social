@@ -153,10 +153,9 @@ export default {
   src: url("./assets/tipografia/SourceSansPro-Regular.ttf");
 }
 
-body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+main {
+  min-height: calc(100vh - 74px - 50px);
+  background: rgba(242, 137, 114, 0.1);
 }
 
 h1 .navbar-brand {

@@ -1,7 +1,7 @@
 <template>
   <section
     id="barra"
-    class="publicaciones-seccion card card-btn d-flex justify-content-center align-items-center pt-3"
+    class="bg-transparent card card-btn d-flex justify-content-center align-items-center pt-3"
   >
     <div class="card-body">
       <div class="btn-group" role="group" aria-label="Basic example">
@@ -20,7 +20,7 @@
   ></section>
 
   <section
-    class="publicaciones-seccion d-flex justify-content-center align-items-center flex-column pt-3"
+    class="d-flex justify-content-center align-items-center flex-column pt-3"
   >
     <router-view :user="user"></router-view>
   </section>
@@ -39,8 +39,8 @@ export default {
 </script>
 
 <style scoped>
-.publicaciones-seccion {
-  background: rgba(242, 137, 114, 0.1);
+.bg-transparent {
+  background: transparent;
 }
 #barra {
   margin-top: 0.001em;

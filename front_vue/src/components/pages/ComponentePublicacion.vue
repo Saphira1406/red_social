@@ -106,26 +106,17 @@
             {{ publicacion.texto }}
           </p>
         </div>
-        <div class="card-footer">
+        <div
+          class="card-footer"
+          v-for="comentario in publicacion.comentarios"
+          :key="comentario.id"
+        >
           <div class="mt-1 mb-3 comentario">
-            <p class="nombre_usuario">Nombre de Usuario</p>
-            <p class="mx-3">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            <p class="nombre_usuario">
+              (Nombre de Usuario) - Id de usuario: {{ comentario.usuarios_id }}
             </p>
-          </div>
-          <div class="mt-1 mb-3 comentario">
-            <p class="nombre_usuario">Nombre de Usuario</p>
             <p class="mx-3">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-          </div>
-          <div class="mt-1 mb-3 comentario">
-            <p class="nombre_usuario">Nombre de Usuario</p>
-            <p class="mx-3">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              {{ comentario.texto }}
             </p>
           </div>
         </div>
