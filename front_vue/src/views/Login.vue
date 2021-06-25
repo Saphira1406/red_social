@@ -84,7 +84,7 @@ export default {
 section {
   background: url("./../assets/img/backgroundLogin.jpg") no-repeat;
   background-size: cover;
-  height: calc(100vh - 73px - 50px);
+  height: calc(100vh - 74px - 50px);
   padding-top: 1em;
 }
 .card {

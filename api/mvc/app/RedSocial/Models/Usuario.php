@@ -6,7 +6,7 @@ use RedSocial\DB\DBConnection;
 use JsonSerializable;
 use PDO;
 
-class Usuario extends Modelo
+class Usuario extends Modelo implements JsonSerializable
 {
     /** @var string La tabla con la que el Modelo se mapea. */
     protected $table = 'usuarios';
@@ -20,12 +20,18 @@ class Usuario extends Modelo
         'usuario',
         'password',
         'email',
+        'nombre',
+        'apellido',
+        'imagen',
     ];
 
     private $id;
     private $usuario;
     private $password;
     private $email;
+    private $nombre;
+    private $apellido;
+    private $imagen;
 
     /**
      * Crea un nuevo usuario en la base de datos.
@@ -74,7 +80,11 @@ class Usuario extends Modelo
         $usuario->id = $fila['id'];
         $usuario->usuario = $fila['usuario'];
         $usuario->password = $fila['password'];
-        $usuario->email = $fila['email'];
+        $usuario->imagen = $fila['imagen'];
+        $usuario->email = $email;
+        $usuario->nombre = $fila['nombre'];
+        $usuario->apellido = $fila['apellido'];
+
 
         return $usuario;
     }
@@ -105,6 +115,9 @@ class Usuario extends Modelo
         $usuario->usuario = $fila['usuario'];
         $usuario->password = $fila['password'];
         $usuario->email = $fila['email'];
+        $usuario->imagen = $fila['imagen'];
+        $usuario->nombre = $fila['nombre'];
+        $usuario->apellido = $fila['apellido'];
 
         return $usuario;
     }
@@ -171,5 +184,69 @@ class Usuario extends Modelo
     public function setEmail($email): void
     {
         $this->email = $email;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * @param string $nombre
+     */
+    public function setNombre($nombre): void
+    {
+        $this->nombre = $nombre;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApellido()
+    {
+        return $this->apellido;
+    }
+
+    /**
+     * @param string $apellido
+     */
+    public function setApellido($apellido): void
+    {
+        $this->apellido = $apellido;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImagen()
+    {
+        return $this->imagen;
+    }
+
+    /**
+     * @param string $imagen
+     */
+    public function setImagen($imagen): void
+    {
+        $this->imagen = $imagen;
+    }
+
+    /**
+     * Esta función debe retornar cómo se representa como JSON este objeto.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'id'            => $this->getId(),
+            'email'         => $this->getEmail(),
+            'nombre'        => $this->getNombre(),
+            'apellido'      => $this->getApellido(),
+            'imagen'        => $this->getImagen(),
+        ];
     }
 }

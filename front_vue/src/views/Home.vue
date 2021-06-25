@@ -1,12 +1,12 @@
 <template>
   <main>
     <div
-      v-if="!userId"
+      v-if="!user.id"
       class="home d-flex justify-content-center align-items-center"
     >
       <div class="bg-home"></div>
       <section class="container-fluid">
-        <h1>Red Social</h1>
+        <p class="h1">Red Social</p>
         <p>Comparte tus experiencias para que otros puedan aprender de ti</p>
         <div class="d-grid gap-2">
           <router-link to="registrarse" class="btn boton" type="button"
@@ -20,7 +20,7 @@
         </div>
       </section>
     </div>
-    <seccion-publicaciones v-else />
+    <seccion-publicaciones v-else :user="user" />
   </main>
 </template>
 
@@ -31,21 +31,18 @@ import SeccionPublicaciones from '../components/pages/SeccionPublicaciones.vue'
 export default {
   components: { SeccionPublicaciones },
   name: 'Home',
-  props: ['userId'],
+  props: ['user'],
 }
 </script>
 
 <style>
-body {
-  min-height: 100vh;
-}
 main > div:first-child {
   background: rgba(242, 137, 114, 0.1);
 }
 
 .bg-home {
   width: 70%;
-  height: calc(100vh - 73px - 50px);
+  min-height: calc(100vh - 74px - 50px);
   background-image: url("./../assets/img/backgroundHome.jpg");
   background-position: center center;
   background-repeat: no-repeat;
@@ -56,7 +53,7 @@ main > div:first-child {
   margin-top: -5em;
 }
 
-.home section h1 {
+.home section .h1 {
   font-family: "NewYork", serif;
   font-weight: bold;
   font-size: 5em;

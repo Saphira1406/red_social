@@ -8,6 +8,9 @@ let userData = {
     id: null,
     usuario: null,
     email: null,
+    imagen: null,
+    nombre: null,
+    apellido: null,
 };
 
 /**
@@ -37,6 +40,9 @@ const authService = {
                     userData = {
                         id: response.data.id,
                         usuario: response.data.usuario,
+                        imagen: response.data.imagen,
+                        nombre: response.data.nombre,
+                        apellido: response.data.apellido,
                         email
                     };
                     // Guardamos en localStorage el estado del usuario.
@@ -66,6 +72,9 @@ const authService = {
                 id: null,
                 usuario: null,
                 email: null,
+                imagen: null,
+                nombre: null,
+                apellido: null,
             };
             localStorage.removeItem('userData');
             return true;

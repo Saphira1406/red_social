@@ -44,8 +44,8 @@ export default {
   position: absolute;
   content: "";
   width: 100%;
-  height: 37%;
-  top: 5em;
+  height: 50%;
+  top: 0;
   left: 0;
   z-index: -1;
   background: rgb(172, 92, 207);
@@ -76,6 +76,6 @@ export default {
 .img-profile {
   width: 170px;
   border-radius: 50%;
-  margin-top: 6.5em;
+  margin-top: 1.5em;
 }
 </style>

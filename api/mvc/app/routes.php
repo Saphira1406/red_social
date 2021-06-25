@@ -53,3 +53,16 @@ Route::add('GET', '/publicaciones/{id}', 'PublicacionesController@ver');
 // Hacemos el eliminar.
 // Nota: Si esto fuera una API REST, entonces el verbo sería DELETE.
 Route::add('POST', '/publicaciones/{id}/eliminar', 'PublicacionesController@eliminar');
+
+/*
+ |--------------------------------------------------------------------------
+ | Usuarios
+ |--------------------------------------------------------------------------
+ */
+
+// Registramos una ruta para el detalle de cada usuario.
+Route::add('GET', '/usuarios/{id}', 'UsuariosController@ver');
+
+// Hacemos el eliminar.
+// Nota: Si esto fuera una API REST, entonces el verbo sería DELETE.
+Route::add('POST', '/usuarios/{id}/eliminar', 'UsuariosController@eliminar');

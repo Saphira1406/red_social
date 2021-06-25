@@ -1,20 +1,15 @@
 <template>
   <section
     id="barra"
-    class="publicaciones-seccion card card-btn d-flex justify-content-center align-items-center pt-3"
+    class="bg-transparent card card-btn d-flex justify-content-center align-items-center pt-3"
   >
     <div class="card-body">
       <div class="btn-group" role="group" aria-label="Basic example">
-        <router-link to="/publicaciones/" type="button" class="btn  tamaño-btn"
+        <router-link to="/" type="button" class="btn  tamaño-btn"
           >Publicaciones</router-link
         >
-        <router-link to="/publicaciones/amigos" class="btn  tamaño-btn"
-          >Amigos</router-link
-        >
-        <router-link
-          to="/publicaciones/favoritos"
-          type="button"
-          class="btn tamaño-btn"
+        <router-link to="/amigos" class="btn  tamaño-btn">Amigos</router-link>
+        <router-link to="/favoritos" type="button" class="btn tamaño-btn"
           >Favoritos</router-link
         >
       </div>
@@ -25,15 +20,16 @@
   ></section>
 
   <section
-    class="publicaciones-seccion d-flex justify-content-center align-items-center flex-column pt-3"
+    class="d-flex justify-content-center align-items-center flex-column pt-3"
   >
-    <router-view></router-view>
+    <router-view :user="user"></router-view>
   </section>
 </template>
 
 <script>
 export default {
   name: "Publicaciones",
+  props: ['user'],
   data () {
     return {
 
@@ -43,8 +39,8 @@ export default {
 </script>
 
 <style scoped>
-.publicaciones-seccion {
-  background: rgba(242, 137, 114, 0.1);
+.bg-transparent {
+  background: transparent;
 }
 #barra {
   margin-top: 0.001em;

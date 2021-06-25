@@ -1,120 +1,124 @@
 <template>
-  <div class="card mb-4 publicaciones" style="width: 50rem;">
-    <div class="card-body">
-      <form action="#" id="publicar">
-        <div class="form-row">
-          <div class="form-group col-1" id="img-publish">
-            <img
-              src="./../../assets/img/persona_2.jpg"
-              class="img-fluid size-publish"
-              alt="foto de perfil"
-            />
-          </div>
-          <div class="form-group col-11">
-            <label for="exampleFormControlTextarea1" class="form-label"></label>
-            <textarea
-              class="form-control"
-              id="exampleFormControlTextarea1"
-              rows="1"
-              placeholder="¿Qué estás pensando?"
-            ></textarea>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-11 offset-1">
-            <label
-              for="exampleFormControlFile1"
-              style="color: #361973; cursor: pointer;"
-            >
+  <div class="container-fluid">
+    <div class="card mb-4 publicaciones">
+      <div class="card-body">
+        <form action="#" id="publicar">
+          <div class="form-row">
+            <div class="form-group col-1" id="img-publish">
               <img
-                src="./../../assets/img/image_violeta.png"
-                class="img-fluid icono"
-                alt="icono de imagen"
+                :src="imageUrl(user.imagen)"
+                class="img-fluid size-publish"
+                :alt="`Foto de perfil de ${user.nombre} ${user.apellido}`"
               />
-              Agregar imagen
-            </label>
-            <input
-              type="file"
-              class="form-control-file d-none"
-              id="exampleFormControlFile1"
-            />
+            </div>
+            <div class="form-group col-11">
+              <label
+                for="exampleFormControlTextarea1"
+                class="form-label"
+              ></label>
+              <textarea
+                class="form-control"
+                id="exampleFormControlTextarea1"
+                rows="1"
+                placeholder="¿Qué estás pensando?"
+              ></textarea>
+            </div>
           </div>
-        </div>
-        <div class="text-center">
-          <button type="submit" class="btn boton boton-publicar">
-            Publicar
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <div v-for="publicacion in publicaciones" :key="publicacion.id">
-    <div class="card mb-4 publicaciones" style="width: 50rem;">
-      <div class="card-header">
-        <div class="mt-1 mb-1 d-flex align-items-end">
-          <img
-            src="./../../assets/img/persona_2.jpg"
-            class="img-fluid size"
-            alt="foto de perfil"
-          />
-          <p class="nombre_usuario">
-            (Nombre de Usuario) - Id de usuario: {{ publicacion.usuarios_id }}
-          </p>
-          <div class="dropdown ml-auto align-self-center">
-            <button
-              class="btn "
-              type="button"
-              id="dropdownMenuButton"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <img
-                src="./../../assets/img/editar.png"
-                class="icon-edit"
-                alt="icono de editar"
+          <div class="form-row">
+            <div class="form-group col-11 offset-1">
+              <label
+                for="exampleFormControlFile1"
+                style="color: #361973; cursor: pointer;"
+              >
+                <img
+                  src="./../../assets/img/image_violeta.png"
+                  class="img-fluid icono"
+                  alt="icono de imagen"
+                />
+                Agregar imagen
+              </label>
+              <input
+                type="file"
+                class="form-control-file d-none"
+                id="exampleFormControlFile1"
               />
+            </div>
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn boton boton-publicar">
+              Publicar
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">Editar</a>
-              <a class="dropdown-item" href="#">Eliminar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div v-for="publicacion in publicaciones" :key="publicacion.id">
+      <div class="card mb-4 publicaciones">
+        <div class="card-header">
+          <div class="mt-1 mb-1 d-flex align-items-end">
+            <img
+              :src="imageUrl(publicacion.usuario.imagen)"
+              class="img-fluid
+          size"
+              :alt="
+                `Foto de perfil de ${publicacion.usuario.nombre} ${publicacion.usuario.apellido}`
+              "
+            />
+            <p class="nombre_usuario">
+              {{
+                publicacion.usuario.nombre + " " + publicacion.usuario.apellido
+              }}
+            </p>
+            <div
+              v-if="publicacion.usuarios_id == user.id"
+              class="dropdown ml-auto align-self-center"
+            >
+              <button
+                class="btn "
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <img
+                  src="./../../assets/img/editar.png"
+                  class="icon-edit"
+                  alt="icono de editar"
+                />
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Editar</a>
+                <a class="dropdown-item" href="#">Eliminar</a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <img
-        v-if="publicacion.imagen !== null"
-        :src="imageUrl(publicacion.imagen)"
-        class="card-img-top img-fluid"
-        alt=""
-      />
-      <div class="card-body">
-        <p class="card-text">
-          {{ publicacion.texto }}
-        </p>
-      </div>
-      <div class="card-footer">
-        <div class="mt-1 mb-3 comentario">
-          <p class="nombre_usuario">Nombre de Usuario</p>
-          <p class="ml-3 mr-3">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        <img
+          v-if="publicacion.imagen !== null"
+          :src="imageUrl(publicacion.imagen)"
+          class="img-fluid"
+          alt=""
+        />
+        <div class="card-body">
+          <p class="card-text">
+            {{ publicacion.texto }}
           </p>
         </div>
-        <div class="mt-1 mb-3 comentario">
-          <p class="nombre_usuario">Nombre de Usuario</p>
-          <p class="ml-3 mr-3">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </p>
-        </div>
-        <div class="mt-1 mb-3 comentario">
-          <p class="nombre_usuario">Nombre de Usuario</p>
-          <p class="ml-3 mr-3">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </p>
+        <div
+          class="card-footer"
+          v-for="comentario in publicacion.comentarios"
+          :key="comentario.id"
+        >
+          <div class="mt-1 mb-3 comentario">
+            <p class="nombre_usuario">
+              (Nombre de Usuario) - Id de usuario: {{ comentario.usuarios_id }}
+            </p>
+            <p class="mx-3">
+              {{ comentario.texto }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -127,15 +131,28 @@ import { API_IMGS_FOLDER } from "../../constants/api.js";
 
 export default {
   name: "Publicacion",
+  props: ['user'],
   data: function () {
     return {
       publicaciones: [],
+      usuario: [],
     }
   },
   methods: {
     imageUrl (image) {
       return `${API_IMGS_FOLDER}/${image}`;
     },
+    /*
+    loadUser (id) {
+      // this.loading = true;
+      apiFetch('mvc/public/usuarios/' + id)
+        .then(usuario => {
+          // this.loading = false;
+          // Asignamos el usuario al state del componente.
+          this.usuario = usuario;
+        });
+    },
+    */
     loadPublications () {
       // this.loading = true;
 
@@ -148,6 +165,7 @@ export default {
     },
   },
   mounted () {
+    //  this.loadUser(this.user);
     this.loadPublications();
   }
 }
@@ -157,6 +175,8 @@ export default {
 .publicaciones {
   background-color: rgba(242, 166, 73, 0.5);
   font-family: "SourceSansPro", sans-serif;
+  max-width: 50rem;
+  margin: auto;
 }
 .size {
   width: 7%;
