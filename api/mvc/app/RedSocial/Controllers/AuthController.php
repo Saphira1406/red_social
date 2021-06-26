@@ -3,12 +3,17 @@
 namespace RedSocial\Controllers;
 
 use RedSocial\Auth\Auth;
+use RedSocial\Models\Usuario;
+
 use RedSocial\Core\App;
 use RedSocial\Core\View;
 use RedSocial\Validation\Validator;
 
+require_once __DIR__ . '../../../../../functions/auth.php';
+
 class AuthController
 {
+    /*
     public function loginForm()
     {
         if (isset($_SESSION['old_data'])) {
@@ -36,36 +41,57 @@ class AuthController
             'statusError' => $statusError,
         ]);
     }
-
+*/
     public function loginProcesar()
     {
-        $validator = new Validator($_POST, [
+        $inputData = file_get_contents('php://input');
+        $postData = json_decode($inputData, true);
+
+        /*
+        $validator = new Validator($postData, [
             'email' => ['required'],
             'password' => ['required'],
         ]);
 
         if (!$validator->passes()) {
             $_SESSION['errores'] = $validator->getErrores();
-            $_SESSION['old_data'] = $_POST;
+            $_SESSION['old_data'] = $postData;
             // App::redirect('iniciar-sesion');
         }
-
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+*/
+        $email = trim($postData['email']);
+        $password = $postData['password'];
 
         $auth = new Auth;
 
-        if (!$auth->login($email, $password)) {
-            //            $_SESSION['errores'] = [
-            //                'db' => 'Las credenciales ingresadas no coinciden con nuestros registros.'
-            //            ];
-            $_SESSION['status_error'] = 'Las credenciales ingresadas no coinciden con nuestros registros.';
-            $_SESSION['old_data'] = $_POST;
-            // App::redirect('iniciar-sesion');
-        }
+        if ($auth->login($email, $password)) {
 
-        $_SESSION['status_success'] = '¡Bienvenido/a al sitio!';
-        // App::redirect('productos');
+            $usuario = new Usuario();
+            $usuario = $usuario->getByEmail($email);
+
+            if ($usuario) {
+                //     $_SESSION['id'] = $usuario->getId();
+                $token = createToken($usuario->getId());
+                setcookie('token', $token, 0, "", "", false, true);
+
+                echo json_encode([
+                    'success' => true,
+                    'data' => [
+                        'id' => $usuario->getId(),
+                        'usuario' => $usuario->getUsuario(),
+                        'imagen' => $usuario->getImagen(),
+                        'nombre' => $usuario->getNombre(),
+                        'apellido' => $usuario->getApellido(),
+                        'email' => $email,
+                    ]
+                ]);
+                exit;
+            }
+        }
+        echo json_encode([
+            'success' => false,
+            'msg' => 'Ocurrió un error al tratar de loguearse.',
+        ]);
     }
 
     public function logout()
@@ -73,7 +99,14 @@ class AuthController
         //        $auth = new Auth;
         //        $auth->logout();
         (new Auth)->logout();
-        $_SESSION['status_success'] = 'Cerraste sesión con éxito. ¡Te esperamos pronto!';
+        // $_SESSION['status_success'] = 'Cerraste sesión con éxito. ¡Te esperamos pronto!';
         // App::redirect('iniciar-sesion');
+
+        // Borramos la cookie con el token.
+        setcookie('token', null, time() - 3600 * 24);
+
+        echo json_encode([
+            'success' => true,
+        ]);
     }
 }

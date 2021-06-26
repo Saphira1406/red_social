@@ -23,7 +23,7 @@ Route::add('GET', '/', 'HomeController@index');
  | Autenticación
  |--------------------------------------------------------------------------
  */
-Route::add('GET', '/iniciar-sesion', 'AuthController@loginForm');
+// Route::add('GET', '/iniciar-sesion', 'AuthController@loginForm');
 Route::add('POST', '/iniciar-sesion', 'AuthController@loginProcesar');
 Route::add('POST', '/cerrar-sesion', 'AuthController@logout');
 
@@ -59,6 +59,9 @@ Route::add('DELETE', '/publicaciones/{id}/eliminar', 'PublicacionesController@el
  | Usuarios
  |--------------------------------------------------------------------------
  */
+
+// Hacemos la ruta para grabar.
+Route::add('POST', '/usuarios/nuevo', 'UsuariosController@nuevoGuardar');
 
 // Registramos una ruta para el detalle de cada usuario.
 Route::add('GET', '/usuarios/{id}', 'UsuariosController@ver');

@@ -23,7 +23,7 @@ header("Access-Control-Allow-Credentials: true");
 
 
 
-session_start();
+// session_start();
 
 // Antes que nada, requerimos el autoload.
 require __DIR__ . '/../autoload.php';
