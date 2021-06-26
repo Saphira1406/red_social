@@ -61,12 +61,12 @@ class PublicacionesController extends Controller
 //        View::renderJson($producto);
     }
 
-
+*/
     public function nuevoForm()
     {
         $this->requiresAuth();
 
-        View::render('productos/nuevo-form');
+        // View::render('productos/nuevo-form');
     }
 
     public function nuevoGuardar()
@@ -75,46 +75,37 @@ class PublicacionesController extends Controller
 
         // Validamos usando la clase Validator, que más adelante haremos desde 0 en clase.
         $validator = new Validator($_POST, [
-            'nombre'        => ['required', 'min:3'],
-            'id_categoria'  => ['required', 'numeric'],
-            'id_marca'      => ['required', 'numeric'],
-            'precio'        => ['required', 'numeric'],
+            'texto'        => ['required', 'min:3'],
         ]);
 
-        if(!$validator->passes()) {
+        if (!$validator->passes()) {
             $_SESSION['error'] = 'Ocurrieron errores de validación';
-//            header('Location: ./../producto-nuevo.php');
-            App::redirect('/productos/nuevo');
+            //            header('Location: ./../producto-nuevo.php');
+            // App::redirect('/productos/nuevo');
             exit;
         }
 
         // Captura de datos.
-        $nombre             = $_POST['nombre'];
-        $id_categoria       = $_POST['id_categoria'];
-        $id_marca           = $_POST['id_marca'];
-        $precio             = $_POST['precio'];
-        $cuotas_sin_interes = $_POST['cuotas_sin_interes'];
-        $descripcion        = $_POST['descripcion'];
+        $texto             = $_POST['texto'];
+        $usuarios_id       = $_POST['usuarios_id'];
 
-        $producto = new Producto();
-        $exito = $producto->crear([
-            'nombre' => $nombre,
-            'id_marca' => $id_marca,
-            'id_categoria' => $id_categoria,
-            'precio' => $precio,
-            'cuotas_sin_interes' => $cuotas_sin_interes,
-            'descripcion' => $descripcion,
+
+        $publicacion = new Publicacion();
+        $exito = $publicacion->crear([
+            'texto' => $texto,
+            'usuarios_id' => $usuarios_id,
+
         ]);
 
-        if($exito) {
+        if ($exito) {
             $_SESSION['error'] = 'Ocurrieron errores de validación';
-            App::redirect('/productos');
+            //  App::redirect('/productos');
         } else {
-            $_SESSION['error'] = 'Ocurrió un error al grabar el producto.';
-            App::redirect('/productos/nuevo');
+            $_SESSION['error'] = 'Ocurrió un error al grabar la publicación.';
+            //   App::redirect('/productos/nuevo');
         }
     }
-
+    /*
     public function eliminar()
     {
         $this->requiresAuth();

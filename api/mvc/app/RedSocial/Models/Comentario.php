@@ -6,27 +6,47 @@ use RedSocial\DB\DBConnection;
 use JsonSerializable;
 use PDO;
 
-class Comentario implements JsonSerializable
+class Comentario extends Modelo implements JsonSerializable
 {
-    /** @var int */
-    protected $publicaciones_id;
-    /** @var int */
-    protected $id;          // id del comentario
-    /** @var string */
-    protected $usuarios_id;
-    /** @var string */
-    protected $texto;
+    /** @var string La tabla con la que el Modelo se mapea. */
+    protected $table = 'comentarios';
+
+    /** @var string El nombre del campo que es la PK. */
+    protected $primaryKey = 'id';
+
+    /** @var array La lista de atributos/campos de la tabla que se mapean con las propiedades del Modelo. */
+    protected $attributes = [
+        'id',
+        'usuarios_id',
+        'texto',
+        'publicaciones_id',
+    ];
+
+
+    private $publicaciones_id;
+    private $id;          // id del comentario
+    private $usuarios_id;
+    private $texto;
+
+    // Propiedades para las clases de las tablas asociadas.
+    /** @var Usuario */
+    private $usuario;
+
+    // Propiedades para las clases de las tablas asociadas.
+    /** @var Publicacion */
+    private $publicacion;
 
     /**
      * @param array $data
      */
+    /*
     public function cargarDatosDeArray(array $data)
     {
         $this->setId($data['id']);
-        $this->setIdUsuario($data['usuarios_id']);
+        $this->setUsuariosId($data['usuarios_id']);
         $this->setTexto($data['texto']);
     }
-
+*/
     /**
      * Esta función debe retornar cómo se representa como JSON este objeto.
      *
@@ -36,10 +56,10 @@ class Comentario implements JsonSerializable
     {
         return [
             'id'                => $this->getId(),
-            'publicaciones_id'  => $this->getIdPublicacion(),
-            'usuarios_id'       => $this->getIdUsuario(),
+            'publicaciones_id'  => $this->getPublicacionesId(),
+            'usuarios_id'       => $this->getUsuariosId(),
             'texto'             => $this->getTexto(),
-
+            'usuario'           => $this->getUsuario(),
         ];
     }
 
@@ -71,13 +91,39 @@ class Comentario implements JsonSerializable
         // $ids = [1, 2, 3, 27]
         $holders = array_fill(0, count($ids), '?');
         $query =
-            "SELECT * FROM comentarios WHERE publicaciones_id IN (" . implode(',', $holders) . ")";
+            "SELECT c.*, u.email, u.nombre, u.apellido, u.imagen AS img_perfil FROM comentarios c INNER JOIN usuarios u ON c.usuarios_id = u.id WHERE publicaciones_id IN (" . implode(',', $holders) . ")";
         $db = DBConnection::getConnection();
         $stmt = $db->prepare($query);
         $stmt->execute($ids);
 
-        $stmt->setFetchMode(PDO::FETCH_CLASS, self::class);
-        return $stmt->fetchAll();
+        $salida = [];
+
+        while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            //            $salida[] = $fila;
+            // En cada vuelta, instanciamos un comentario para almacenar los datos del registro.
+
+            $comentario = new self();
+
+            $comentario->cargarDatosDeArray($fila);
+
+            $usuario = new Usuario();
+            $usuario->cargarDatosDeArray([
+                'id'       => $fila['usuarios_id'],
+                'email'    => $fila['email'],
+                'nombre'   => $fila['nombre'],
+                'apellido' => $fila['apellido'],
+                'imagen'   => $fila['img_perfil'],
+            ]);
+
+            $comentario->setUsuario($usuario);
+
+            $salida[] = $comentario;
+        }
+
+        return $salida;
+
+        // $stmt->setFetchMode(PDO::FETCH_CLASS, self::class);
+        // return $stmt->fetchAll();
     }
 
     /**
@@ -99,7 +145,7 @@ class Comentario implements JsonSerializable
     /**
      * @return string
      */
-    public function getIdUsuario(): string
+    public function getUsuariosId(): string
     {
         return $this->usuarios_id;
     }
@@ -107,7 +153,7 @@ class Comentario implements JsonSerializable
     /**
      * @param string $usuarios_id
      */
-    public function setIdUsuario(string $usuarios_id): void
+    public function setUsuariosId(string $usuarios_id): void
     {
         $this->usuarios_id = $usuarios_id;
     }
@@ -131,7 +177,7 @@ class Comentario implements JsonSerializable
     /**
      * @return int
      */
-    public function getIdPublicacion(): int
+    public function getPublicacionesId(): int
     {
         return $this->publicaciones_id;
     }
@@ -139,8 +185,40 @@ class Comentario implements JsonSerializable
     /**
      * @param int $publicaciones_id
      */
-    public function setIdPublicacion(int $publicaciones_id): void
+    public function setPublicacionesId(int $publicaciones_id): void
     {
         $this->publicaciones_id = $publicaciones_id;
+    }
+
+    /**
+     * @return Usuario
+     */
+    public function getUsuario(): Usuario
+    {
+        return $this->usuario;
+    }
+
+    /**
+     * @param Usuario $usuario
+     */
+    public function setUsuario(Usuario $usuario): void
+    {
+        $this->usuario = $usuario;
+    }
+
+    /**
+     * @return Publicacion
+     */
+    public function getPublicacion(): Publicacion
+    {
+        return $this->publicacion;
+    }
+
+    /**
+     * @param Publicacion $publicacion
+     */
+    public function setPublicacion(Publicacion $publicacion): void
+    {
+        $this->publicacion = $publicacion;
     }
 }

@@ -62,7 +62,7 @@ class Publicacion extends Modelo implements JsonSerializable
         $db = DBConnection::getConnection();
 
         $query = "SELECT p.*, u.email, u.nombre, u.apellido, u.imagen as img_perfil FROM publicaciones p
-                  INNER JOIN usuarios u on p.usuarios_id = u.id";
+                  INNER JOIN usuarios u ON p.usuarios_id = u.id";
         $stmt = $db->prepare($query);
         $stmt->execute();
 
@@ -129,7 +129,7 @@ class Publicacion extends Modelo implements JsonSerializable
         // le corresponde gracias al id de la misma (que usamos como clave en el array de salida), y
         // hacer la asignación.
         foreach ($comentariosTotales as $comentario) {
-            $idPublicacion = $comentario->getIdPublicacion();
+            $idPublicacion = $comentario->getPublicacionesId();
             $salida[$idPublicacion]->addComentario($comentario);
         }
 
