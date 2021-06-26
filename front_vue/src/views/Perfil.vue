@@ -17,19 +17,36 @@
         <p class="h5">Información</p>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item font-weight-bold">Nombre:</li>
-        <li class="list-group-item font-weight-bold">Apellido:</li>
-        <li class="list-group-item font-weight-bold">Email:</li>
-        <li class="list-group-item font-weight-bold">Fecha de Nacimiento:</li>
-        <li class="list-group-item font-weight-bold">Sexo:</li>
+        <li class="list-group-item font-weight-bold">Nombre: {{usuario.nombre}}</li>
+        <li class="list-group-item font-weight-bold">Apellido {{usuario.apellido}}:</li>
+        <li class="list-group-item font-weight-bold">Email: {{usuario.email}}</li>
       </ul>
     </div>
   </section>
 </template>
 
 <script>
+import { apiFetch } from "../functions/fetch.js";
+
 export default {
-  name: "Perfil"
+  name: "Perfil",
+  props: ['user'],
+  data: function () {
+    return {
+      usuario: [],
+    }
+  },
+  methods: {
+    loadUsario() {
+      apiFetch('mvc/public/usuarios/{id}')
+      .then(usuarios => {
+        this.usuario = usuarios;
+      });
+    }
+  },
+  mounted() {
+    this.loadUsario()
+  }
 }
 </script>
 

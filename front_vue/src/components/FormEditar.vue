@@ -77,30 +77,13 @@
                   placeholder="ejemplo@mail.com"
                 />
               </div>
-              <div class="form-group">
-                <label for="fecha">Fecha de Nacimiento</label>
-                <input
-                  type="date"
-                  class="form-control"
-                  id="fecha"
-                  placeholder="Another input placeholder"
-                />
-              </div>
-              <div class="form-group">
-                <label for="sexo">Sexo</label>
-                <select class="form-control" id="sexo">
-                  <option>Mujer</option>
-                  <option>Hombre</option>
-                  <option>No Binario</option>
-                </select>
-              </div>
               <div class="d-flex justify-content-center">
-                <button type="submit" class="boton p-1 w-50">Guardar</button>
+                <button type="submit" class="boton w-50 boton-guardar">Guardar</button>
               </div>
             </form>
 
-            <div class="card border-danger mt-5 mb-3">
-              <div class="card-body text-danger">
+            <div class="card border-danger fondo mt-5 mb-3">
+              <div class="card-body text-white">
                 <h5 class="card-title">Eliminar Cuenta</h5>
                 <p class="card-text">
                   Si eliminas tu cuenta se borrarán todos tus datos y
@@ -132,11 +115,19 @@ export default {
   border-radius: 20px;
   margin-top: -1em;
 }
+.boton-guardar {
+  border: 1px solid #361973;
+  padding: .5em;
+}
 .img-profile {
   width: 35%;
   border-radius: 50%;
 }
 .img-profile:hover {
   opacity: 0.5;
+}
+.modal-content, .fondo{
+  background: rgba(54, 25, 115, 0.9);
+  color: white;
 }
 </style>
