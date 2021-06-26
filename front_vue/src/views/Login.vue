@@ -42,7 +42,7 @@
 </template>
 
 <script>
-// import {apiFetch} from "../functions/fetch.js";
+// import { apiFetch } from "../functions/fetch.js";
 import authService from "../services/auth.js";
 
 export default {
@@ -64,9 +64,14 @@ export default {
   methods: {
     login () {
       // TODO: Validar el form...
-      this.loading = true;
-      authService
-        .login(this.user.email, this.user.password)
+      // this.loading = true;
+      authService.login(this.user.email, this.user.password)
+        /*
+              apiFetch('mvc/public/iniciar-sesion', {
+                method: 'POST',
+                body: JSON.stringify(this.user.email, this.user.password),
+              })
+        */
         .then(response => {
           // this.loading = false;
           console.log(response);

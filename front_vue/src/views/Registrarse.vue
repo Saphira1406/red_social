@@ -45,7 +45,7 @@
             />
           </div>
           <div class="d-grid gap-2 w-100 d-flex justify-content-center mx-auto">
-            <button type="submit" class="btn boton mx-auto" >Registrarse</button>
+            <button type="submit" class="btn boton mx-auto">Registrarse</button>
           </div>
         </form>
       </div>
@@ -69,14 +69,19 @@ export default {
   },
   methods: {
     crearUsuario () {
-      apiFetch('/registro.php', {
+      // apiFetch('/registro.php', {
+      apiFetch('mvc/public/usuarios/nuevo', {
         method: 'post',
         body: JSON.stringify(this.usuario),
       })
         .then(rta => {
           //  estado.classList.remove('d-none', 'alert-danger', 'alert-success');
           console.log('respuesta del Post', rta);
-          this.$router.push("login");
+
+          if (rta.success) {
+            this.$router.push("login");
+          }
+
           /*
                           estado.classList.add('alert');
                           if (responseData.success) {
@@ -109,12 +114,16 @@ section {
 .card {
   width: 60%;
   margin-top: 1em;
-  background: rgba(54,25,115, .6);
+  background: rgba(54, 25, 115, 0.6);
 }
 
 .boton {
-  background: rgb(54,25,115);
-  background: linear-gradient(351deg, rgba(54,25,115,1) 37%, rgba(172,92,207,1) 87%);
+  background: rgb(54, 25, 115);
+  background: linear-gradient(
+    351deg,
+    rgba(54, 25, 115, 1) 37%,
+    rgba(172, 92, 207, 1) 87%
+  );
   color: white;
 }
 </style>

@@ -9,7 +9,6 @@
     <div class="card mb-4 publicaciones">
       <div class="card-body">
         <form action="#" @submit.prevent="crearPublicacion">
-          <input type="hidden" id="usuarios_id" :value="user.id" />
           <div class="form-row">
             <div class="form-group col-1">
               <img
@@ -163,6 +162,7 @@ export default {
       publicacion: {
         texto: null,
         imagen: null,
+        usuarios_id: this.user.id,
       },
       errors: {
         texto: null,
@@ -202,12 +202,6 @@ export default {
       apiFetch('mvc/public/publicaciones/nuevo', {
         method: 'POST',
         body: JSON.stringify(this.publicacion),
-        headers: {
-          // Si bien a esta altura no nos es estrictamente necesario, siempre deberíamos ser
-          // prolijos y aclarar el tipo de dato de lo que estamos enviando desde la petición
-          // al servidor.
-          'Content-Type': 'application/json',
-        }
       })
         .then(rta => {
           // this.loading = false;

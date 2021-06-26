@@ -62,33 +62,36 @@ class PublicacionesController extends Controller
     }
 
 */
+    /*
     public function nuevoForm()
     {
         $this->requiresAuth();
 
         // View::render('productos/nuevo-form');
     }
-
+*/
     public function nuevoGuardar()
     {
+        $inputData = file_get_contents('php://input');
+        $postData = json_decode($inputData, true);
+
         $this->requiresAuth();
 
-        // Validamos usando la clase Validator, que más adelante haremos desde 0 en clase.
-        $validator = new Validator($_POST, [
+        // Validamos usando la clase Validator, que más adelante haremos desde 0 en clase.      
+        $validator = new Validator($postData, [
             'texto'        => ['required', 'min:3'],
         ]);
 
         if (!$validator->passes()) {
-            $_SESSION['error'] = 'Ocurrieron errores de validación';
+            // $_SESSION['error'] = 'Ocurrieron errores de validación';
             //            header('Location: ./../producto-nuevo.php');
             // App::redirect('/productos/nuevo');
             exit;
         }
 
-        // Captura de datos.
-        $texto             = $_POST['texto'];
-        $usuarios_id       = $_POST['usuarios_id'];
-
+        // Captura de datos.       
+        $texto             = $postData['texto'];
+        $usuarios_id       = $postData['usuarios_id'];
 
         $publicacion = new Publicacion();
         $exito = $publicacion->crear([
@@ -98,11 +101,15 @@ class PublicacionesController extends Controller
         ]);
 
         if ($exito) {
-            $_SESSION['error'] = 'Ocurrieron errores de validación';
-            //  App::redirect('/productos');
+            echo json_encode([
+                'success' => true,
+                'msg' => 'Publicación creada exitosamente.',
+            ]);
         } else {
-            $_SESSION['error'] = 'Ocurrió un error al grabar la publicación.';
-            //   App::redirect('/productos/nuevo');
+            echo json_encode([
+                'success' => false,
+                'msg' => 'Ocurrieron errores de validación.',
+            ]);
         }
     }
     /*
