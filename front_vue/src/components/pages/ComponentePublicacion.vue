@@ -1,10 +1,17 @@
 <template>
   <div class="container-fluid">
+    <BaseNotification
+      v-if="notification.text !== null"
+      :text="notification.text"
+      :type="notification.type"
+    />
+
     <div class="card mb-4 publicaciones">
       <div class="card-body">
-        <form action="#" id="publicar">
+        <form action="#" @submit.prevent="crearPublicacion">
+          <input type="hidden" id="usuarios_id" :value="user.id" />
           <div class="form-row">
-            <div class="form-group col-1" id="img-publish">
+            <div class="form-group col-1">
               <img
                 :src="imageUrl(user.imagen)"
                 class="img-fluid size-publish"
@@ -12,24 +19,29 @@
               />
             </div>
             <div class="form-group col-11">
-              <label
-                for="exampleFormControlTextarea1"
-                class="form-label"
-              ></label>
+              <label for="texto" class="form-label"></label>
               <textarea
                 class="form-control"
-                id="exampleFormControlTextarea1"
+                id="texto"
                 rows="1"
                 placeholder="¿Qué estás pensando?"
+                v-model="publicacion.texto"
+                :aria-describedby="
+                  errors.texto !== null ? 'errors-texto' : null
+                "
               ></textarea>
+              <div
+                v-if="errors.texto !== null"
+                id="errors-texto"
+                class="text-danger"
+              >
+                {{ errors.texto }}
+              </div>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-11 offset-1">
-              <label
-                for="exampleFormControlFile1"
-                style="color: #361973; cursor: pointer;"
-              >
+              <label for="imagen" style="color: #361973; cursor: pointer;">
                 <img
                   src="./../../assets/img/image_violeta.png"
                   class="img-fluid icono mr-2"
@@ -37,11 +49,7 @@
                 />
                 Agregar imagen
               </label>
-              <input
-                type="file"
-                class="form-control-file d-none"
-                id="exampleFormControlFile1"
-              />
+              <input type="file" class="form-control-file d-none" id="imagen" />
             </div>
           </div>
           <div class="text-center">
@@ -140,31 +148,36 @@
 <script>
 import { apiFetch } from "../../functions/fetch.js";
 import { API_IMGS_FOLDER } from "../../constants/api.js";
+import BaseNotification from "../../components/BaseNotification.vue";
 
 export default {
   name: "Publicacion",
+  components: { BaseNotification },
   props: ['user'],
   data: function () {
     return {
       publicaciones: [],
       usuario: [],
+
+      // nueva publicación:
+      publicacion: {
+        texto: null,
+        imagen: null,
+      },
+      errors: {
+        texto: null,
+      },
+      notification: {
+        text: null,
+        type: 'success',
+      },
     }
   },
   methods: {
     imageUrl (image) {
       return `${API_IMGS_FOLDER}/${image}`;
     },
-    /*
-    loadUser (id) {
-      // this.loading = true;
-      apiFetch('mvc/public/usuarios/' + id)
-        .then(usuario => {
-          // this.loading = false;
-          // Asignamos el usuario al state del componente.
-          this.usuario = usuario;
-        });
-    },
-    */
+
     loadPublications () {
       // this.loading = true;
 
@@ -175,6 +188,66 @@ export default {
           this.publicaciones = publicaciones;
         });
     },
+
+    crearPublicacion () {
+      // Si la petición ya está en ejecución, entonces no repetimos el proceso.
+      // if(this.loading) return;
+
+      // Si no pasa la validación, no realizamos la petición.
+      if (!this.validates()) return;
+      // this.loading = true;
+      this.notification = {
+        text: null,
+      };
+      apiFetch('mvc/public/publicaciones/nuevo', {
+        method: 'POST',
+        body: JSON.stringify(this.publicacion),
+        headers: {
+          // Si bien a esta altura no nos es estrictamente necesario, siempre deberíamos ser
+          // prolijos y aclarar el tipo de dato de lo que estamos enviando desde la petición
+          // al servidor.
+          'Content-Type': 'application/json',
+        }
+      })
+        .then(rta => {
+          // this.loading = false;
+          console.log(rta);
+          if (rta.success) {
+            this.notification = {
+              text: 'La publicación se creó con éxito.',
+              type: 'success',
+            };
+            // Luego de grabar exitosamente, vaciamos el form.
+            this.publicacion = {
+              texto: null,
+              imagen: null,
+            };
+            console.log("La publicación se creó con éxito.");
+          } else {
+            this.notification = {
+              text: 'Ocurrió un error inesperado en el servidor y la publicación no pudo ser creada.',
+              type: 'danger',
+            };
+            console.log("Ocurrió un error inesperado y la publicación no pudo ser creada.");
+          }
+        });
+    },
+
+    /**
+    * Valida el form.
+    *
+    * @returns boolean
+    */
+    validates () {
+      let hasErrors = false;
+
+      if (this.publicacion.texto == null || this.publicacion.texto === '') {
+        this.errors.texto = 'Tenés que escribir el texto de la publicación.';
+        hasErrors = true;
+      }
+
+      return !hasErrors;
+    }
   },
   mounted () {
     //  this.loadUser(this.user);
@@ -214,9 +287,9 @@ export default {
   /* width: 45%; */
   border-radius: 50%;
 }
-#img-publish {
-  /* margin-right: -4em; */
-}
+/* #img-publish {
+   margin-right: -4em; 
+} */
 
 .icon-edit {
   width: 45%;

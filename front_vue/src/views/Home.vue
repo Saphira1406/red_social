@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import SeccionPublicaciones from '../components/pages/SeccionPublicaciones.vue'
+import SeccionPublicaciones from '../components/SeccionPublicaciones.vue'
 // @ is an alias to /src
 
 export default {
@@ -74,6 +74,7 @@ main > div:first-child {
   color: white;
   margin-top: 1em;
   width: 35%;
+  min-width: 180px;
 }
 
 .boton:visited {
@@ -84,6 +85,7 @@ main > div:first-child {
   border: 1px solid #361973 !important;
   color: #361973 !important;
   width: 35%;
+  min-width: 180px;
 }
 
 .botonLogin:hover {

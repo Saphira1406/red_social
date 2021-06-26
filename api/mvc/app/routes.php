@@ -35,7 +35,7 @@ Route::add('POST', '/cerrar-sesion', 'AuthController@logout');
 // Registramos una ruta para el listado de publicaciones.
 Route::add('GET', '/publicaciones', 'PublicacionesController@listado');
 
-Route::add('GET', '/publicaciones/nuevo', 'PublicacionesController@nuevoForm');
+// Route::add('GET', '/publicaciones/nuevo', 'PublicacionesController@nuevoForm');
 
 // Hacemos la ruta para grabar.
 // Cuando usamos URLs amigables, es frecuente que usemos la misma exacta URL que el form que
@@ -52,7 +52,7 @@ Route::add('GET', '/publicaciones/{id}', 'PublicacionesController@ver');
 
 // Hacemos el eliminar.
 // Nota: Si esto fuera una API REST, entonces el verbo sería DELETE.
-Route::add('POST', '/publicaciones/{id}/eliminar', 'PublicacionesController@eliminar');
+Route::add('DELETE', '/publicaciones/{id}/eliminar', 'PublicacionesController@eliminar');
 
 /*
  |--------------------------------------------------------------------------
@@ -65,4 +65,4 @@ Route::add('GET', '/usuarios/{id}', 'UsuariosController@ver');
 
 // Hacemos el eliminar.
 // Nota: Si esto fuera una API REST, entonces el verbo sería DELETE.
-Route::add('POST', '/usuarios/{id}/eliminar', 'UsuariosController@eliminar');
+Route::add('DELETE', '/usuarios/{id}/eliminar', 'UsuariosController@eliminar');
