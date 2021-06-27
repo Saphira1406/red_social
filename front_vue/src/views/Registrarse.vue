@@ -70,7 +70,7 @@ export default {
   methods: {
     crearUsuario () {
       // apiFetch('/registro.php', {
-      apiFetch('mvc/public/usuarios/nuevo', {
+      apiFetch('/usuarios/nuevo', {
         method: 'post',
         body: JSON.stringify(this.usuario),
       })

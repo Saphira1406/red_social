@@ -51,13 +51,9 @@ class UsuariosController extends Controller
 
         if ($validator->passes()) {
             $password = password_hash($postData['password'], PASSWORD_DEFAULT);
+            $data['password'] = $password;
             $usuario_obj = new Usuario();
-            $exito = $usuario_obj->crear([
-                "nombre"  => $nombre,
-                "apellido"  => $apellido,
-                'email' => $email,
-                'password' => $password,
-            ]);
+            $exito = $usuario_obj->crear($data);
 
             if ($exito) {
                 echo json_encode([

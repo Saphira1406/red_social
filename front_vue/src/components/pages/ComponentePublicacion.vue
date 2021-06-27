@@ -44,12 +44,28 @@
                 <img
                   src="./../../assets/img/image_violeta.png"
                   class="img-fluid icono mr-2"
-                  alt="icono de imagen"
+                  alt="Ícono de imagen"
                 />
                 Agregar imagen
               </label>
-              <input type="file" class="form-control-file d-none" id="imagen" />
+              <input
+                ref="image"
+                type="file"
+                accept="image/x-png,image/jpeg"
+                class="form-control-file d-none"
+                id="imagen"
+                @change="loadImage"
+              />
             </div>
+          </div>
+          <div v-if="publicacion.imagen !== null" class="form-group">
+            <p>Previsualización de la imagen seleccionada</p>
+            <!-- !! IMPORTANTE !!
+                 Este es uno de los casos _muy_ específicos donde el alt de la imagen tiene sentido
+                 que quede vacío. Pero es una caso de _excepción_, no una regla.
+                 El líneas generales, SIEMPRE tienen que poner un alt descriptivo para la imagen.
+                 -->
+            <img :src="publicacion.imagen" alt="" />
           </div>
           <div class="text-center">
             <button type="submit" class="btn boton boton-publicar">
@@ -181,12 +197,26 @@ export default {
     loadPublications () {
       // this.loading = true;
 
-      apiFetch('mvc/public/publicaciones')
+      apiFetch('/publicaciones')
         .then(publicaciones => {
           // this.loading = false;
           // Asignamos las publicaciones al state del componente.
           this.publicaciones = publicaciones;
         });
+    },
+
+    /**
+ * Lee el archivo de la imagen y lo transforma a base64 para su posterior envío con Ajax.
+ */
+    loadImage () {
+      console.log("El campo de la imagen es: ", this.$refs.image);
+      const reader = new FileReader();
+
+      reader.addEventListener('load', () => {
+        this.publicacion.imagen = reader.result;
+      });
+
+      reader.readAsDataURL(this.$refs.image.files[0]);
     },
 
     crearPublicacion () {
@@ -199,30 +229,25 @@ export default {
       this.notification = {
         text: null,
       };
-      apiFetch('mvc/public/publicaciones/nuevo', {
+      apiFetch('/publicaciones/nuevo', {
         method: 'POST',
         body: JSON.stringify(this.publicacion),
       })
         .then(rta => {
           // this.loading = false;
-          console.log(rta);
+          this.notification.text = rta.msg;
           if (rta.success) {
-            this.notification = {
-              text: 'La publicación se creó con éxito.',
-              type: 'success',
-            };
+            this.notification.type = 'success';
+            this.loadPublications();
             // Luego de grabar exitosamente, vaciamos el form.
             this.publicacion = {
               texto: null,
               imagen: null,
+              usuarios_id: null,
             };
-            console.log("La publicación se creó con éxito.");
           } else {
-            this.notification = {
-              text: 'Ocurrió un error inesperado en el servidor y la publicación no pudo ser creada.',
-              type: 'danger',
-            };
-            console.log("Ocurrió un error inesperado y la publicación no pudo ser creada.");
+            this.notification.type = 'danger';
+            console.log(rta);
           }
         });
     },
