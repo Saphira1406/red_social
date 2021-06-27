@@ -32,14 +32,14 @@
             </button>
           </div>
           <div class="modal-body">
-            <form>
+            <form action="#" @submit.prevent="editUsuario">
               <div class="form-group text-center">
                 <label
                   for="imagen"
                   style="color: #361973; cursor: pointer;"
                 >
                   <img
-                    :src="imageUrl(user.imagen)"
+                    :src="imageUrl(usuario.imagen)"
                     class="img-profile"
                     alt="Cambiar imagen de perfil"
                   />
@@ -57,7 +57,7 @@
                     type="text"
                     class="form-control"
                     id="usuario"
-                    :value="`${user.usuario}`"
+                    :value="`${usuario.usuario}`"
                 />
               </div>
               <div class="form-group">
@@ -66,7 +66,7 @@
                   type="text"
                   class="form-control"
                   id="nombre"
-                  :value="`${user.nombre}`"
+                  :value="`${usuario.nombre}`"
                 />
               </div>
               <div class="form-group">
@@ -75,7 +75,7 @@
                   type="text"
                   class="form-control"
                   id="apellido"
-                  :value="`${user.apellido}`"
+                  :value="`${usuario.apellido}`"
                 />
               </div>
               <div class="form-group">
@@ -84,7 +84,7 @@
                   type="email"
                   class="form-control"
                   id="email"
-                  :value="`${user.email}`"
+                  :value="`${usuario.email}`"
                 />
               </div>
               <div class="d-flex justify-content-center">
@@ -114,6 +114,7 @@
 </template>
 
 <script>
+import { apiFetch } from "../functions/fetch.js";
 import {API_IMGS_FOLDER} from "../constants/api";
 
 export default {
@@ -122,14 +123,73 @@ export default {
   data: function() {
     return {
       usuario: [],
+
+      //Editar usuario:
+      usuarioEditar: {
+        id: this.user.id,
+        nombre: null,
+        apellido: null,
+        email: null,
+        usuario: null,
+        imagen: null,
+      },
+      errors: {
+        texto: null
+      },
+      notification: {
+        text: null,
+        type: 'success',
+      },
     }
   },
   methods: {
     imageUrl (image) {
       return `${API_IMGS_FOLDER}/${image}`;
     },
-  },
 
+    loadUsuario() {
+      apiFetch('/usuarios/' + this.user.id )
+          .then(sesion => {
+            this.usuario = sesion;
+          });
+    },
+
+    editUsuario() {
+      if(!this.validates()) return;
+
+      this.notification = {
+        text: null,
+      };
+      apiFetch('/usuarios/' + this.user.id + '/editar', {
+        method: 'PUT',
+        body: JSON.stringify(this.usuario),
+      })
+        .then(rta => {
+          this.notification.text = rta.msg;
+          if(rta.success) {
+            this.notification.type = 'success';
+            this.loadUsuario();
+            console.log(rta);
+          } else {
+            this.notification.type = 'danger';
+            console.log(rta);
+          }
+        });
+    },
+
+    validates() {
+      let hasErrors = false;
+
+      if (this.usuario.texto == null || this.usuario.texto === '') {
+        this.errors.texto = "Los campos no pueden quedar vacíos";
+        hasErrors = true;
+      }
+      return !hasErrors;
+    },
+  },
+  mounted() {
+    this.loadUsuario();
+  }
 }
 </script>
 

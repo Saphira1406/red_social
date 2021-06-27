@@ -74,6 +74,62 @@ class UsuariosController extends Controller
         }
     }
 
+    public function editarUsuario() {
+        $this->requiresAuth();
+
+        $inputData = file_get_contents('php//input');
+        $postData = json_decode($inputData, true);
+
+        $id = urlParam('id');
+        $usuario = $postData['usuario'];
+        $nombre = $postData['nombre'];
+        $apellido = $postData['apellido'];
+        $email = $postData['email'];
+
+        $data = [
+          "usuario" => $usuario,
+          "nombre" => $nombre,
+          "apellido" => $apellido,
+          "email" => $email,
+        ];
+
+        $rules = [
+            "usuario" => ['required'],
+            "nombre" => ['required'],
+            "apellido" => ['required'],
+            "email" => ['required'],
+        ];
+
+        $validator = new Validator($data, $rules);
+
+        if ($validator->passes()) {
+            $user = new Usuario();
+            $exito = $user->editar($id, $data);
+
+            if ($exito) {
+                echo json_encode([
+                    'success' => true,
+                    'msg' => 'Los cambios se guardaron con éxito.',
+                ]);
+            } else {
+                echo json_encode([
+                    'success' => false,
+                    'msg' => 'Ocurrió un error al guardar los cambios',
+                ]);
+            }
+        } else {
+            $errores =  $validator->getErrores();
+            $texto = '';
+            foreach ($errores as $error => $val) {
+                $texto .= "$val[0] ";
+            };
+            echo json_encode([
+                "success" => false,
+                "msg" => $texto
+            ]);
+        }
+    }
+
     /*
     public function eliminar()
     {
