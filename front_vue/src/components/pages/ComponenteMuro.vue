@@ -23,7 +23,7 @@
                 class="form-control"
                 id="texto"
                 rows="1"
-                placeholder="¿Qué estás pensando?"
+                :placeholder="`¿Qué estás pensando, ${user.nombre}?`"
                 v-model="publicacion.texto"
                 :aria-describedby="
                   errors.texto !== null ? 'errors-texto' : null
@@ -108,7 +108,7 @@
                 <img
                   src="./../../assets/img/editar.png"
                   class="icon-edit"
-                  alt="icono de editar"
+                  alt="Ícono de editar"
                 />
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -128,6 +128,65 @@
           <p class="card-text">
             {{ publicacion.texto }}
           </p>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-toggle="collapse"
+            :data-target="`#commentForm${publicacion.id}`"
+            aria-expanded="false"
+            :aria-controls="`commentForm${publicacion.id}`"
+          >
+            Comentar
+          </button>
+
+          <div class="collapse" :id="`commentForm${publicacion.id}`">
+            <div class="card card-body mt-2">
+              <form action="#" @submit.prevent="crearComentario">
+                <input
+                  type="hidden"
+                  id="publicacionId"
+                  v-model="comentario.publicaciones_id"
+                />
+                <div class="form-row">
+                  <div class="form-group col-1">
+                    <img
+                      :src="imageUrl(user.imagen)"
+                      class="img-fluid size-publish"
+                      :alt="`Foto de perfil de ${user.nombre} ${user.apellido}`"
+                    />
+                  </div>
+                  <div class="form-group col-11">
+                    <label for="texto" class="form-label"></label>
+                    <textarea
+                      class="form-control"
+                      :id="`comentario${publicacion.id}`"
+                      rows="1"
+                      placeholder="Escribe un comentario..."
+                      v-model="comentario.texto"
+                      :aria-describedby="
+                        errorsComment.texto !== null
+                          ? 'errorsComment-texto'
+                          : null
+                      "
+                    ></textarea>
+                    <div
+                      v-if="errorsComment.texto !== null"
+                      id="errorsComment-texto"
+                      class="text-danger"
+                    >
+                      {{ errorsComment.texto }}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="text-center">
+                  <button type="submit" class="btn boton boton-publicar">
+                    Publicar
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
         <div
           class="card-footer"
@@ -163,10 +222,10 @@
 <script>
 import { apiFetch } from "../../functions/fetch.js";
 import { API_IMGS_FOLDER } from "../../constants/api.js";
-import BaseNotification from "../../components/BaseNotification.vue";
+import BaseNotification from "../BaseNotification.vue";
 
 export default {
-  name: "Publicacion",
+  name: "Muro",
   components: { BaseNotification },
   props: ['user'],
   data: function () {
@@ -186,6 +245,16 @@ export default {
       notification: {
         text: null,
         type: 'success',
+      },
+
+      // nuevo comentario:
+      comentario: {
+        texto: null,
+        publicaciones_id: null,
+        usuarios_id: this.user.id,
+      },
+      errorsComment: {
+        texto: null,
       },
     }
   },
@@ -224,7 +293,7 @@ export default {
       // if(this.loading) return;
 
       // Si no pasa la validación, no realizamos la petición.
-      if (!this.validates()) return;
+      if (!this.validatesPublication()) return;
       // this.loading = true;
       this.notification = {
         text: null,
@@ -243,7 +312,38 @@ export default {
             this.publicacion = {
               texto: null,
               imagen: null,
-              usuarios_id: null,
+            };
+          } else {
+            this.notification.type = 'danger';
+            console.log(rta);
+          }
+        });
+    },
+
+    crearComentario () {
+      // Si la petición ya está en ejecución, entonces no repetimos el proceso.
+      // if(this.loading) return;
+
+      // Si no pasa la validación, no realizamos la petición.
+      if (!this.validatesComment()) return;
+      // this.loading = true;
+      this.notification = {
+        text: null,
+      };
+      apiFetch('/comentarios/nuevo', {
+        method: 'POST',
+        body: JSON.stringify(this.comentario),
+      })
+        .then(rta => {
+          // this.loading = false;
+          this.notification.text = rta.msg;
+          if (rta.success) {
+            this.notification.type = 'success';
+            this.loadPublications();
+            // Luego de grabar exitosamente, vaciamos el form.
+            this.comentario = {
+              texto: null,
+              publicaciones_id: null,
             };
           } else {
             this.notification.type = 'danger';
@@ -253,23 +353,38 @@ export default {
     },
 
     /**
-    * Valida el form.
+    * Valida el form Publicación.
     *
     * @returns boolean
     */
-    validates () {
-      let hasErrors = false;
+    validatesPublication () {
+      let publicationHasErrors = false;
 
       if (this.publicacion.texto == null || this.publicacion.texto === '') {
         this.errors.texto = 'Tenés que escribir el texto de la publicación.';
-        hasErrors = true;
+        publicationHasErrors = true;
       }
 
-      return !hasErrors;
+      return !publicationHasErrors;
+    },
+
+    /**
+    * Valida el form Comentario.
+    *
+    * @returns boolean
+    */
+    validatesComment () {
+      let commentHasErrors = false;
+
+      if (this.comentario.texto == null || this.comentario.texto === '') {
+        this.errors.texto = 'Tenés que escribir el texto del comentario.';
+        commentHasErrors = true;
+      }
+
+      return !commentHasErrors;
     }
   },
   mounted () {
-    //  this.loadUser(this.user);
     this.loadPublications();
   }
 }
