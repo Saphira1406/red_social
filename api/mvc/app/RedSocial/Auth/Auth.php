@@ -25,7 +25,7 @@ class Auth
         if ($user !== null) {
             // Comparamos los passwords.
             if (password_verify($password, $user->getPassword())) {
-                $this->setAsAuthenticated($user);
+                // $this->setAsAuthenticated($user);
                 return true;
             }
         }
@@ -39,7 +39,7 @@ class Auth
      */
     public function setAsAuthenticated(Usuario $user): void
     {
-        $_SESSION['id'] = $user->getId();
+        // $_SESSION['id'] = $user->getId();
     }
 
     /**
@@ -47,7 +47,7 @@ class Auth
      */
     public function logout(): void
     {
-        unset($_SESSION['id']);
+        // unset($_SESSION['id']);
     }
 
     /**
@@ -57,7 +57,22 @@ class Auth
      */
     public function isAuthenticated(): bool
     {
-        return isset($_SESSION['id']);
+        // return isset($_SESSION['id']);
+
+        // El token lo seteamos previamente en una cookie, así que de una cookie lo vamos a leer.
+
+        $token = $_COOKIE['token'] ?? null;
+        if ($token || !parseAndVerifyToken($token)) {
+            /*
+            echo json_encode([
+                'success' => false,
+                'msg' => 'Se requiere iniciar sesión para realizar esta acción.'
+            ]);
+            exit;
+            */
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -72,7 +87,7 @@ class Auth
             return null;
         }
 
-        $usuario = new Usuario;
-        return $usuario->getByPk($_SESSION['id']);
+        // $usuario = new Usuario;
+        // return $usuario->getByPk($_SESSION['id']);
     }
 }

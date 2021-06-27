@@ -8,22 +8,12 @@ use RedSocial\Core\Route;
 use RedSocial\Core\View;
 use RedSocial\Models\Publicacion;
 use RedSocial\Validation\Validator;
+use RedSocial\Storage\FileUpload;
 
 class PublicacionesController extends Controller
 {
     public function listado()
     {
-        // El token lo seteamos previamente en una cookie, así que de una cookie lo vamos a leer.
-        /*
-        $token = $_COOKIE['token'] ?? null;
-        if (!$token || !parseAndVerifyToken($token)) {
-            echo json_encode([
-                'success' => false,
-                'msg' => 'Se requiere iniciar sesión para realizar esta acción.'
-            ]);
-            exit;
-        }
-*/
         $this->requiresAuth();
         $publicaciones = (new Publicacion())->traerTodo();
 
@@ -62,47 +52,95 @@ class PublicacionesController extends Controller
     }
 
 */
+    /*
     public function nuevoForm()
     {
         $this->requiresAuth();
 
         // View::render('productos/nuevo-form');
     }
-
+*/
     public function nuevoGuardar()
     {
         $this->requiresAuth();
 
-        // Validamos usando la clase Validator, que más adelante haremos desde 0 en clase.
-        $validator = new Validator($_POST, [
-            'texto'        => ['required', 'min:3'],
-        ]);
+        $inputData = file_get_contents('php://input');
+        $postData = json_decode($inputData, true);
 
-        if (!$validator->passes()) {
-            $_SESSION['error'] = 'Ocurrieron errores de validación';
-            //            header('Location: ./../producto-nuevo.php');
-            // App::redirect('/productos/nuevo');
-            exit;
+        // Captura de datos:       
+        $texto             = $postData['texto'];
+        $usuarios_id       = $postData['usuarios_id'];
+        $imagen            = $postData['imagen'] ?? null;
+
+        // Upload de la imagen
+        /*
+        if (!empty($imagen)) {
+            // Hacemos un explode del string de la imagen para obtener la parte que nos interesa.
+            $imagenParts = explode(',', $postData['imagen']);
+
+            // Teniendo separado el base64, vamos a decodificarlo a su archivo original (imagen, en este caso),
+            // con ayuda de la función base64_decode de php.
+            $imagenDecoded = base64_decode($imagenParts[1]);
+
+            // Ahí tenemos la imagen ya decodificada en _memoria_.
+            // El paso final sería grabar en disco la imagen.
+            $nombreImagen = time() . ".jpg";
+            file_put_contents('./img/' . $nombreImagen, $imagenDecoded);
+        } else {
+            $nombreImagen = '';
+        }
+*/
+
+        if (!empty($imagen)) {
+            $upload = new FileUpload($imagen);
+            // getPublicPath nos retorna la ruta absoluta a la carpeta "public".
+            $ruta = App::getPublicPath() . '/img';
+            $nombreImagen = date('Ymd_His_') . ".jpg";
+            $upload->save($ruta . '/' . $nombreImagen);
+        } else {
+            $nombreImagen = '';
         }
 
-        // Captura de datos.
-        $texto             = $_POST['texto'];
-        $usuarios_id       = $_POST['usuarios_id'];
+        $data = [
+            "texto"  => $texto,
+            "usuarios_id"  => $usuarios_id,
+            "imagen"  => $nombreImagen,
+        ];
 
+        $rules = [
+            "texto" => ["required", 'min:3'],
+        ];
 
-        $publicacion = new Publicacion();
-        $exito = $publicacion->crear([
-            'texto' => $texto,
-            'usuarios_id' => $usuarios_id,
+        $validator = new Validator($data, $rules);
 
-        ]);
+        if ($validator->passes()) {
+            $publicacion = new Publicacion();
+            $exito = $publicacion->crear($data);
 
-        if ($exito) {
-            $_SESSION['error'] = 'Ocurrieron errores de validación';
-            //  App::redirect('/productos');
+            if ($exito) {
+                echo json_encode([
+                    'success' => true,
+                    'msg' => 'La publicación se creó con éxito.',
+                ]);
+            } else {
+                echo json_encode([
+                    'success' => false,
+                    'msg' => 'Ocurrió un error inesperado y la publicación no pudo ser creada.',
+                ]);
+            }
         } else {
-            $_SESSION['error'] = 'Ocurrió un error al grabar la publicación.';
-            //   App::redirect('/productos/nuevo');
+            // $_SESSION['error'] = 'Ocurrieron errores de validación';
+            //            header('Location: ./../producto-nuevo.php');
+            // App::redirect('/productos/nuevo');
+            $errores =  $validator->getErrores();
+            $texto = '';
+            foreach ($errores as $error => $val) {
+                $texto .= "$val[0] ";
+            };
+            echo json_encode([
+                "success" => false,
+                "msg" => $texto
+            ]);
         }
     }
     /*

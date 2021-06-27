@@ -17,9 +17,9 @@
         <p class="h5">Información</p>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item font-weight-bold">Nombre: {{usuario.nombre}}</li>
-        <li class="list-group-item font-weight-bold">Apellido {{usuario.apellido}}:</li>
-        <li class="list-group-item font-weight-bold">Email: {{usuario.email}}</li>
+        <li class="list-group-item font-weight-bold">Nombre: </li>
+        <li class="list-group-item font-weight-bold">Apellido:</li>
+        <li class="list-group-item font-weight-bold">Email: </li>
       </ul>
     </div>
   </section>
@@ -37,12 +37,12 @@ export default {
     }
   },
   methods: {
-    loadUsario() {
+    /*loadUsario() {
       apiFetch('mvc/public/usuarios/{id}')
       .then(usuarios => {
         this.usuario = usuarios;
       });
-    }
+    }*/
   },
   mounted() {
     this.loadUsario()
