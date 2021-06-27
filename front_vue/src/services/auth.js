@@ -28,7 +28,7 @@ const authService = {
      */
     login(email, password) {
         // return apiFetch('/login.php', {
-        return apiFetch('mvc/public/iniciar-sesion', {
+        return apiFetch('/iniciar-sesion', {
                 method: 'POST',
                 body: JSON.stringify({
                     email,
@@ -65,7 +65,7 @@ const authService = {
      *
      */
     logout() {
-        return apiFetch('mvc/public/cerrar-sesion', {
+        return apiFetch('/cerrar-sesion', {
             method: 'post',
         }).then(res => {
             console.log(res);

@@ -62,7 +62,7 @@ class Publicacion extends Modelo implements JsonSerializable
         $db = DBConnection::getConnection();
 
         $query = "SELECT p.*, u.email, u.nombre, u.apellido, u.imagen as img_perfil FROM publicaciones p
-                  INNER JOIN usuarios u ON p.usuarios_id = u.id";
+                  INNER JOIN usuarios u ON p.usuarios_id = u.id ORDER BY p.id DESC";
         $stmt = $db->prepare($query);
         $stmt->execute();
 
@@ -183,7 +183,7 @@ class Publicacion extends Modelo implements JsonSerializable
 
         $publicacion = new self();
         $publicacion->setId($fila['id']);
-        $publicacion->setIdUsuario($fila['usuarios_id']);
+        $publicacion->setUsuariosId($fila['usuarios_id']);
         $publicacion->setTexto($fila['texto']);
         $publicacion->setImagen($fila['imagen']);
         return $publicacion;
@@ -198,8 +198,8 @@ class Publicacion extends Modelo implements JsonSerializable
     public function crear(array $data): bool
     {
         $db = DBConnection::getConnection();
-        $query = "INSERT INTO publicaciones (usuarios_id, texto) 
-                  VALUES (:usuarios_id, :texto)";
+        $query = "INSERT INTO publicaciones (usuarios_id, texto, imagen) 
+                  VALUES (:usuarios_id, :texto, :imagen)";
         $stmt = $db->prepare($query);
 
         //        return $stmt->execute($data);
