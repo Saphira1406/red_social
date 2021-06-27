@@ -196,7 +196,6 @@ export default {
 
     loadPublications () {
       // this.loading = true;
-
       apiFetch('/publicaciones')
         .then(publicaciones => {
           // this.loading = false;

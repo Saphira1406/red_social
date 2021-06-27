@@ -1,52 +1,43 @@
 <template>
   <section class="profile text-center">
     <img
-      src="./../assets/img/persona_2.jpg"
+        :src="imageUrl(user.imagen)"
       class="img-profile"
-      alt="foto de perfil"
+      :alt="`Foto de perfil de ${user.nombre} ${user.apellido}`"
     />
-    <p class="font-weight-bold">Nombre de Perfil</p>
+    <p class="font-weight-bold">{{user.nombre}} {{user.apellido}}</p>
   </section>
 
-  <section
+<section
     class="info d-flex justify-content-center align-items-center flex-column"
   >
-    <router-view></router-view>
+    <router-view :user="user"></router-view>
     <div class="card mt-3 mb-3 card-info" style="width: 35rem;">
       <div class="card-header">
         <p class="h5">Información</p>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item font-weight-bold">Nombre: </li>
-        <li class="list-group-item font-weight-bold">Apellido:</li>
-        <li class="list-group-item font-weight-bold">Email: </li>
+        <li class="list-group-item font-weight-bold">Usuario: <span class="texto">{{user.usuario}}</span></li>
+        <li class="list-group-item font-weight-bold">Nombre: <span class="texto">{{user.nombre}}</span></li>
+        <li class="list-group-item font-weight-bold">Apellido: <span class="texto">{{user.apellido}}</span></li>
+        <li class="list-group-item font-weight-bold">Email: <span class="texto">{{user.email}}</span></li>
       </ul>
     </div>
   </section>
 </template>
 
 <script>
-import { apiFetch } from "../functions/fetch.js";
+
+import {API_IMGS_FOLDER} from "../constants/api";
 
 export default {
   name: "Perfil",
   props: ['user'],
-  data: function () {
-    return {
-      usuario: [],
-    }
-  },
   methods: {
-    /*loadUsario() {
-      apiFetch('mvc/public/usuarios/{id}')
-      .then(usuarios => {
-        this.usuario = usuarios;
-      });
-    }*/
+    imageUrl (image) {
+      return `${API_IMGS_FOLDER}/${image}`;
+    },
   },
-  mounted() {
-    this.loadUsario()
-  }
 }
 </script>
 
@@ -94,5 +85,9 @@ export default {
   width: 170px;
   border-radius: 50%;
   margin-top: 1.5em;
+}
+.texto {
+  font-weight: normal;
+  margin-left: 1em;
 }
 </style>

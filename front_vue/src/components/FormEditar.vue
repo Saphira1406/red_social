@@ -35,11 +35,11 @@
             <form>
               <div class="form-group text-center">
                 <label
-                  for="exampleFormControlFile1"
+                  for="imagen"
                   style="color: #361973; cursor: pointer;"
                 >
                   <img
-                    src="./../assets/img/persona_2.jpg"
+                    :src="imageUrl(user.imagen)"
                     class="img-profile"
                     alt="Cambiar imagen de perfil"
                   />
@@ -47,7 +47,17 @@
                 <input
                   type="file"
                   class="form-control-file d-none"
-                  id="exampleFormControlFile1"
+                  id="imagen"
+                />
+                <small>Haz click en la imagen para cambiarla</small>
+              </div>
+              <div class="form-group">
+                <label for="usuario">Usuario</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="usuario"
+                    :value="`${user.usuario}`"
                 />
               </div>
               <div class="form-group">
@@ -56,7 +66,7 @@
                   type="text"
                   class="form-control"
                   id="nombre"
-                  placeholder="Nombre"
+                  :value="`${user.nombre}`"
                 />
               </div>
               <div class="form-group">
@@ -65,7 +75,7 @@
                   type="text"
                   class="form-control"
                   id="apellido"
-                  placeholder="Apellido"
+                  :value="`${user.apellido}`"
                 />
               </div>
               <div class="form-group">
@@ -74,7 +84,7 @@
                   type="email"
                   class="form-control"
                   id="email"
-                  placeholder="ejemplo@mail.com"
+                  :value="`${user.email}`"
                 />
               </div>
               <div class="d-flex justify-content-center">
@@ -104,8 +114,22 @@
 </template>
 
 <script>
+import {API_IMGS_FOLDER} from "../constants/api";
+
 export default {
-  name: "Editar"
+  name: "Editar",
+  props: ['user'],
+  data: function() {
+    return {
+      usuario: [],
+    }
+  },
+  methods: {
+    imageUrl (image) {
+      return `${API_IMGS_FOLDER}/${image}`;
+    },
+  },
+
 }
 </script>
 
