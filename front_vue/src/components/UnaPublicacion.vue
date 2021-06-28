@@ -193,6 +193,7 @@ export default {
             this.comentario = {
               texto: null,
             };
+            // this.showNewComment();
           } else {
             this.notification.type = 'danger';
             console.log(rta);
@@ -214,7 +215,8 @@ export default {
       }
 
       return !commentHasErrors;
-    }
+    },
+
   },
   mounted () {
 
