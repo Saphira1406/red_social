@@ -66,6 +66,9 @@ Route::add('POST', '/usuarios/nuevo', 'UsuariosController@nuevoGuardar');
 // Registramos una ruta para el detalle de cada usuario.
 Route::add('GET', '/usuarios/{id}', 'UsuariosController@ver');
 
+//Ruta para editar el usuario.
+Route::add('PUT', '/usuarios/{id}/editar', 'UsuariosController@editarUsuario');
+
 // Hacemos el eliminar.
 // Nota: Si esto fuera una API REST, entonces el verbo sería DELETE.
 Route::add('DELETE', '/usuarios/{id}/eliminar', 'UsuariosController@eliminar');

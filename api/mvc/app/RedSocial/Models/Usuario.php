@@ -55,6 +55,47 @@ class Usuario extends Modelo implements JsonSerializable
         return true;
     }
 
+    public function editar(int $id, array $data): bool
+    {
+        $db = DBConnection::getConnection();
+
+        $query = "SELECT * FROM usuarios WHERE id = ?";
+        $stmt = $db->prepare($query);
+        $stmt->execute([$id]);
+
+        if (!$fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            return false;
+        }
+
+        $queryEditar = "UPDATE usuarios SET
+                usuario = :usuario,
+                nombre = :nombre,
+                apellido = :apellido,
+                email = :email";
+
+        $queryEditar .= "WHERE id = :id";
+
+        $stmt2 = $db->prepare($queryEditar);
+        $stmt2->execute($data);
+
+        if (!$stmt2->execute($data)) {
+            return false;
+        }
+        return true;
+    }
+
+    public function eliminar($id): bool
+    {
+        $db = DBConnection::getConnection();
+        $query = " DELETE FROM usuarios
+                WHERE id = ?";
+        $stmt = $db->prepare($query);
+       if(!$stmt->execute([$id])) {
+           return false;
+       }
+       return true;
+    }
+
     /**
      * Retorna el usuario al que pertenece el $email.
      * Si no existe, retorna null.
@@ -243,6 +284,7 @@ class Usuario extends Modelo implements JsonSerializable
     {
         return [
             'id'            => $this->getId(),
+            'usuario'       => $this->getUsuario(),
             'email'         => $this->getEmail(),
             'nombre'        => $this->getNombre(),
             'apellido'      => $this->getApellido(),

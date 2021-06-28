@@ -1,13 +1,13 @@
 <template>
   <div v-if="user.id">
     <section class="profile text-center">
-      <img
-        :src="imageUrl(user.imagen)"
-        class="img-profile"
-        :alt="`Foto de perfil de ${user.nombre} ${user.apellido}`"
-      />
-      <p class="font-weight-bold">{{ user.nombre }} {{ user.apellido }}</p>
-    </section>
+    <img
+        :src="imageUrl(usuario.imagen)"
+      class="img-profile"
+      :alt="`Foto de perfil de ${usuario.nombre} ${usuario.apellido}`"
+    />
+    <p class="font-weight-bold">{{usuario.nombre}} {{usuario.apellido}}</p>
+  </section>
 
     <section
       class="info d-flex justify-content-center align-items-center flex-column"
@@ -32,22 +32,44 @@
           </li>
         </ul>
       </div>
-    </section>
-  </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item font-weight-bold">Usuario: <span class="texto">{{usuario.usuario}}</span></li>
+        <li class="list-group-item font-weight-bold">Nombre: <span class="texto">{{usuario.nombre}}</span></li>
+        <li class="list-group-item font-weight-bold">Apellido: <span class="texto">{{usuario.apellido}}</span></li>
+        <li class="list-group-item font-weight-bold">Email: <span class="texto">{{usuario.email}}</span></li>
+      </ul>
+    </div>
+  </section>
 </template>
 
 <script>
-
+import { apiFetch } from "../functions/fetch.js";
 import { API_IMGS_FOLDER } from "../constants/api";
 
 export default {
   name: "Perfil",
   props: ['user'],
+  emits: ['logged'],
+  data: function () {
+    return {
+      usuario: [],
+    }
+  },
   methods: {
     imageUrl (image) {
       return `${API_IMGS_FOLDER}/${image}`;
     },
+
+    loadUsuario () {
+      apiFetch('/usuarios/' + this.user.id)
+        .then(sesion => {
+          this.usuario = sesion;
+        });
+    },
   },
+  mounted () {
+    this.loadUsuario();
+  }
 }
 </script>
 
