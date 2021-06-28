@@ -1,34 +1,44 @@
 <template>
-  <section class="profile text-center">
-    <img
+  <div v-if="user.id">
+    <section class="profile text-center">
+      <img
         :src="imageUrl(user.imagen)"
-      class="img-profile"
-      :alt="`Foto de perfil de ${user.nombre} ${user.apellido}`"
-    />
-    <p class="font-weight-bold">{{user.nombre}} {{user.apellido}}</p>
-  </section>
+        class="img-profile"
+        :alt="`Foto de perfil de ${user.nombre} ${user.apellido}`"
+      />
+      <p class="font-weight-bold">{{ user.nombre }} {{ user.apellido }}</p>
+    </section>
 
-<section
-    class="info d-flex justify-content-center align-items-center flex-column"
-  >
-    <router-view :user="user"></router-view>
-    <div class="card mt-3 mb-3 card-info" style="width: 35rem;">
-      <div class="card-header">
-        <p class="h5">Información</p>
+    <section
+      class="info d-flex justify-content-center align-items-center flex-column"
+    >
+      <router-view :user="user"></router-view>
+      <div class="card mt-3 mb-3 card-info" style="width: 35rem;">
+        <div class="card-header">
+          <p class="h5">Información</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item font-weight-bold">
+            Usuario: <span class="texto">{{ user.usuario }}</span>
+          </li>
+          <li class="list-group-item font-weight-bold">
+            Nombre: <span class="texto">{{ user.nombre }}</span>
+          </li>
+          <li class="list-group-item font-weight-bold">
+            Apellido: <span class="texto">{{ user.apellido }}</span>
+          </li>
+          <li class="list-group-item font-weight-bold">
+            Email: <span class="texto">{{ user.email }}</span>
+          </li>
+        </ul>
       </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item font-weight-bold">Usuario: <span class="texto">{{user.usuario}}</span></li>
-        <li class="list-group-item font-weight-bold">Nombre: <span class="texto">{{user.nombre}}</span></li>
-        <li class="list-group-item font-weight-bold">Apellido: <span class="texto">{{user.apellido}}</span></li>
-        <li class="list-group-item font-weight-bold">Email: <span class="texto">{{user.email}}</span></li>
-      </ul>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script>
 
-import {API_IMGS_FOLDER} from "../constants/api";
+import { API_IMGS_FOLDER } from "../constants/api";
 
 export default {
   name: "Perfil",

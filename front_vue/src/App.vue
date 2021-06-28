@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="d-flex flex-column outer">
     <header>
       <nav
         class="navbar navbar-expand-md navbar-light"
@@ -27,7 +27,7 @@
             <li class="nav-item">
               <router-link class="nav-link" to="/">Home</router-link>
             </li>
--->
+            -->
             <li class="nav-item">
               <router-link class="nav-link px-3" to="/perfil">
                 <img
@@ -131,6 +131,7 @@ export default {
         nombre: null,
         apellido: null,
       }
+      this.$router.push("/");
     }
   },
   mounted () {
@@ -151,6 +152,10 @@ export default {
 @font-face {
   font-family: "SourceSansPro";
   src: url("./assets/tipografia/SourceSansPro-Regular.ttf");
+}
+
+.outer {
+  min-height: 100vh;
 }
 
 main {
@@ -180,6 +185,7 @@ body footer {
   align-items: center;
   background-color: rgba(242, 137, 114);
   color: #000;
+  margin-top: auto;
 }
 body footer p {
   margin: 0;
