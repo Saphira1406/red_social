@@ -6,7 +6,7 @@
         class="img-profile"
         :alt="`Foto de perfil de ${user.nombre} ${user.apellido}`"
       />
-      <p class="font-weight-bold">{{ user.nombre }} {{ user.apellido }}</p>
+      <p class="font-weight-bold mt-3">{{ user.nombre }} {{ user.apellido }}</p>
     </section>
 
     <section

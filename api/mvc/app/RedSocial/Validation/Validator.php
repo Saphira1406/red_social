@@ -214,7 +214,7 @@ class Validator
     {
         // Realizamos la validación, y si falla, guardamos un mensaje de error.
         if (empty($this->campos[$campo])) {
-            $this->registrarError($campo, 'El ' . $campo . ' debe completarse.');
+            $this->registrarError($campo, "El campo '" . $campo . "' debe completarse.");
         }
     }
 
@@ -226,7 +226,7 @@ class Validator
     protected function _numeric($campo)
     {
         if (!is_numeric($this->campos[$campo])) {
-            $this->registrarError($campo, 'El ' . $campo . ' debe ser un número.');
+            $this->registrarError($campo, "El campo '" . $campo . "' debe ser un número.");
         }
     }
 

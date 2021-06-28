@@ -10,7 +10,7 @@
             `Foto de perfil de ${publicacion.usuario.nombre} ${publicacion.usuario.apellido}`
           "
         />
-        <p class="bold ml-3 mb-0">
+        <p class="font-weight-bold ml-3 mb-0">
           {{ publicacion.usuario.nombre + " " + publicacion.usuario.apellido }}
         </p>
         <div
@@ -123,7 +123,7 @@
               `Foto de perfil de ${comentario.usuario.nombre} ${comentario.usuario.apellido}`
             "
           />
-          <p class="bold ml-3 mb-0">
+          <p class="font-weight-bold ml-3 mb-0">
             {{ comentario.usuario.nombre + " " + comentario.usuario.apellido }}
           </p>
         </div>

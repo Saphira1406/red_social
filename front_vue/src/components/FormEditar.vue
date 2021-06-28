@@ -186,35 +186,28 @@ export default {
     deleteUsuario () {
       let id = this.user.id;
       console.log('/usuarios/' + id + '/eliminar');
-
       apiFetch('/usuarios/' + id + '/eliminar', {
         method: 'DELETE',
-        headers: {
-          // Si bien a esta altura no nos es estrictamente necesario, siempre deberíamos ser
-          // prolijos y aclarar el tipo de dato de lo que estamos enviando desde la petición
-          // al servidor.
-          'Content-Type': 'application/json',
-        }
       })
         .then(rta => {
-          this.usuario = {
-            nombre: null,
-            apellido: null,
-            email: null,
-            usuario: null,
-            imagen: null,
-          }
-          authService.logout();
           if (rta.success) {
             console.log(rta);
             this.notification = {
               text: 'El usuario fue eliminado exitosamente.',
               type: 'success',
             };
+            this.usuario = {
+              nombre: null,
+              apellido: null,
+              email: null,
+              usuario: null,
+              imagen: null,
+            }
+            authService.logout();
           } else {
             console.log(rta);
             this.notification = {
-              text: 'Ocurrió un error al tratar de eliminar el producto.',
+              text: 'Ocurrió un error al tratar de eliminar el usuario.',
               type: 'danger',
             }
           }

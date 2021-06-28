@@ -43,7 +43,9 @@ class UsuariosController extends Controller
         ];
 
         $rules = [
-            "email" => ["required"],
+            "nombre" => ["required"],
+            "apellido" => ["required"],
+            "email" => ["required", "min:3"],
             "password" => ["required", "min:3"],
         ];
 

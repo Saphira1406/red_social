@@ -7,6 +7,10 @@
         <h2 class="card-title">Registrate</h2>
       </div>
       <div class="card-body">
+        <span class="text-white form-text h6 mb-3"
+          >(Todos los campos son requeridos)</span
+        >
+
         <form action="#" class="row g-3" @submit.prevent="crearUsuario">
           <div class="col-md-6">
             <label for="nombre" class="form-label">Nombre</label>
@@ -48,6 +52,12 @@
             <button type="submit" class="btn boton mx-auto">Registrarse</button>
           </div>
         </form>
+        <p class="text-center mt-3">
+          ¿Ya estás registrado?
+          <router-link to="login" class="btn btn-link text-white" type="button"
+            >Iniciar Sesión</router-link
+          >
+        </p>
       </div>
     </div>
   </section>
@@ -69,7 +79,6 @@ export default {
   },
   methods: {
     crearUsuario () {
-      // apiFetch('/registro.php', {
       apiFetch('/usuarios/nuevo', {
         method: 'post',
         body: JSON.stringify(this.usuario),
