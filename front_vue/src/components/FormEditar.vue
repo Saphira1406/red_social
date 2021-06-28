@@ -32,7 +32,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form action="#" @submit.prevent="editUsuario">
+            <form action="#" @submit.prevent="editUsuario(usuario.id)">
               <div class="form-group text-center">
                 <label
                   for="imagen"
@@ -57,7 +57,7 @@
                     type="text"
                     class="form-control"
                     id="usuario"
-                    :value="`${usuario.usuario}`"
+                    v-model="usuarios.usuario"
                 />
               </div>
               <div class="form-group">
@@ -66,7 +66,7 @@
                   type="text"
                   class="form-control"
                   id="nombre"
-                  :value="`${usuario.nombre}`"
+                  v-model="usuarios.nombre"
                 />
               </div>
               <div class="form-group">
@@ -75,7 +75,7 @@
                   type="text"
                   class="form-control"
                   id="apellido"
-                  :value="`${usuario.apellido}`"
+                  v-model="usuarios.apellido"
                 />
               </div>
               <div class="form-group">
@@ -84,7 +84,7 @@
                   type="email"
                   class="form-control"
                   id="email"
-                  :value="`${usuario.email}`"
+                  v-model="usuarios.email"
                 />
               </div>
               <div class="d-flex justify-content-center">
@@ -100,7 +100,8 @@
                   publicaciones.
                 </p>
                 <div class="d-flex justify-content-center">
-                  <button type="button" class="btn btn-danger w-50">
+                  <button type="button" class="btn btn-danger w-50"
+                  @click="confirmDelete(usuario.id)">
                     Eliminar
                   </button>
                 </div>
@@ -116,22 +117,24 @@
 <script>
 import { apiFetch } from "../functions/fetch.js";
 import {API_IMGS_FOLDER} from "../constants/api";
+import authService from "../services/auth.js";
 
 export default {
   name: "Editar",
   props: ['user'],
+  emits: ['logged'],
   data: function() {
     return {
       usuario: [],
 
       //Editar usuario:
-      usuarioEditar: {
+      usuarios: {
         id: this.user.id,
-        nombre: null,
-        apellido: null,
-        email: null,
-        usuario: null,
-        imagen: null,
+        nombre: this.user.nombre,
+        apellido: this.user.apellido,
+        email: this.user.email,
+        usuario: this.user.usuario,
+        imagen: this.user.imagen,
       },
       errors: {
         texto: null
@@ -154,15 +157,16 @@ export default {
           });
     },
 
-    editUsuario() {
+    editUsuario(id) {
+      console.log('/usuarios/' + id + '/editar');
       if(!this.validates()) return;
 
       this.notification = {
         text: null,
       };
-      apiFetch('/usuarios/' + this.user.id + '/editar', {
+      apiFetch('/usuarios/' + this.usuario.id + '/editar', {
         method: 'PUT',
-        body: JSON.stringify(this.usuario),
+        body: JSON.stringify(this.usuarios),
       })
         .then(rta => {
           this.notification.text = rta.msg;
@@ -175,6 +179,43 @@ export default {
             console.log(rta);
           }
         });
+    },
+
+    deleteUsuario(id) {
+      apiFetch('/usuarios/' + id + '/eliminar', {
+        method: 'DELETE',
+      })
+        .then(rta => {
+          this.usuarios = {
+            nombre: null,
+            apellido: null,
+            email: null,
+            usuario: null,
+            imagen: null,
+          }
+         authService.logout();
+          if(rta.success) {
+            console.log(rta);
+            this.notification = {
+              text: 'El usuario fue eliminado exitosamente.',
+              type: 'success',
+            };
+          } else {
+            console.log(rta);
+            this.notification = {
+              text: 'Ocurrió un error al tratar de eliminar el producto.',
+              type: 'danger',
+            }
+          }
+        });
+    },
+
+    confirmDelete(id) {
+      let confirmacion = confirm('¿Estás seguro de eliminar tu cuenta? Esta acción no puede deshacerse.');
+
+      if (confirmacion) {
+        this.deleteUsuario(id);
+      }
     },
 
     validates() {

@@ -84,6 +84,18 @@ class Usuario extends Modelo implements JsonSerializable
         return true;
     }
 
+    public function eliminar($id): bool
+    {
+        $db = DBConnection::getConnection();
+        $query = " DELETE FROM usuarios
+                WHERE id = ?";
+        $stmt = $db->prepare($query);
+       if(!$stmt->execute([$id])) {
+           return false;
+       }
+       return true;
+    }
+
     /**
      * Retorna el usuario al que pertenece el $email.
      * Si no existe, retorna null.
@@ -272,6 +284,7 @@ class Usuario extends Modelo implements JsonSerializable
     {
         return [
             'id'            => $this->getId(),
+            'usuario'       => $this->getUsuario(),
             'email'         => $this->getEmail(),
             'nombre'        => $this->getNombre(),
             'apellido'      => $this->getApellido(),

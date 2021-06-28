@@ -33,6 +33,7 @@ import {API_IMGS_FOLDER} from "../constants/api";
 export default {
   name: "Perfil",
   props: ['user'],
+  emits: ['logged'],
   data: function() {
     return {
       usuario: [],

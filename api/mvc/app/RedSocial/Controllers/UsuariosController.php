@@ -130,6 +130,44 @@ class UsuariosController extends Controller
         }
     }
 
+    public function eliminar()
+    {
+        $this->requiresAuth();
+
+        $id= urlParam('id');
+        $user = new Usuario();
+        if (!$user->eliminar($id)) {
+            $errores =  $validator->getErrores();
+            $texto = '';
+            foreach ($errores as $error => $val) {
+                $texto .= "$val[0] ";
+            };
+            echo json_encode([
+                "success" => false,
+                "msg" => $texto
+            ]);
+        }
+        if (!$user->eliminar($id)) {
+            $errores =  $validator->getErrores();
+            $texto = '';
+            foreach ($errores as $error => $val) {
+                $texto .= "$val[0] ";
+            };
+            echo json_encode([
+                "success" => false,
+                "msg" => $texto
+            ]);
+        } else {
+                echo json_encode([
+                    'success' => true,
+                    'msg' => 'El usuario ha sido eliminado',
+                ]);
+        }
+
+
+        //  App::redirect('/usuarios');
+    }
+
     /*
     public function eliminar()
     {
