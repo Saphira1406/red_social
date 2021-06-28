@@ -143,52 +143,9 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@font-face {
-  font-family: "NewYork";
-  src: url("./assets/tipografia/NewYork.otf");
-}
+<style>
+@import "assets/styles/main.css";
+</style>
 
-@font-face {
-  font-family: "SourceSansPro";
-  src: url("./assets/tipografia/SourceSansPro-Regular.ttf");
-}
-
-.outer {
-  min-height: 100vh;
-}
-
-main {
-  min-height: calc(100vh - 74px - 50px);
-  background: rgba(242, 137, 114, 0.1);
-}
-
-h1 .navbar-brand {
-  font-family: "NewYork", serif;
-  font-weight: bold;
-  font-size: 2.5rem;
-}
-
-.avatar {
-  width: 30px;
-  border-radius: 50%;
-}
-
-.nav-link {
-  /* line-height: 30px; */
-}
-
-body footer {
-  display: flex;
-  height: 50px;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(242, 137, 114);
-  color: #000;
-  margin-top: auto;
-}
-body footer p {
-  margin: 0;
-  text-align: center;
-}
+<style>
 </style>
