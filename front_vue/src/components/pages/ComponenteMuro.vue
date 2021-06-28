@@ -152,9 +152,8 @@ export default {
       // Si no pasa la validación, no realizamos la petición.
       if (!this.validatesPublication()) return;
       // this.loading = true;
-      this.notification = {
-        text: null,
-      };
+      this.notification.text = null;
+
       apiFetch('/publicaciones/nuevo', {
         method: 'POST',
         body: JSON.stringify(this.publicacion),
@@ -165,11 +164,12 @@ export default {
           if (rta.success) {
             this.notification.type = 'success';
             this.loadPublications();
-            // Luego de grabar exitosamente, vaciamos el form.
+            // Luego de grabar exitosamente, vaciamos el form y el mensaje de error:
             this.publicacion = {
               texto: null,
               imagen: null,
             };
+            this.errors.texto = null;
           } else {
             this.notification.type = 'danger';
             console.log(rta);
