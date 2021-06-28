@@ -62,11 +62,13 @@
       <div class="collapse" :id="`commentForm${publicacion.id}`">
         <div class="card card-body mt-2">
           <form action="#" @submit.prevent="crearComentario">
+            <!--
             <input
               type="hidden"
               id="publicacionId"
               v-model="comentario.publicaciones_id"
             />
+            -->
             <div class="form-row">
               <div class="form-group col-auto">
                 <img
@@ -136,6 +138,7 @@
 <script>
 import { apiFetch } from "./../functions/fetch.js";
 import { API_IMGS_FOLDER } from "./../constants/api.js";
+import $ from 'jquery';
 
 export default {
   name: "UnaPublicacion",
@@ -149,7 +152,7 @@ export default {
       // nuevo comentario:
       comentario: {
         texto: null,
-        publicaciones_id: null,
+        publicaciones_id: this.publicacion.id,
         usuarios_id: this.user.id,
       },
       errorsComment: {
@@ -185,11 +188,10 @@ export default {
           this.notification.text = rta.msg;
           if (rta.success) {
             this.notification.type = 'success';
-            this.loadPublications();
-            // Luego de grabar exitosamente, vaciamos el form.
+            // Luego de grabar exitosamente, ocultamos y vaciamos el form.
+            $(`#commentForm${this.comentario.publicaciones_id}`).collapse('hide');
             this.comentario = {
               texto: null,
-              publicaciones_id: null,
             };
           } else {
             this.notification.type = 'danger';

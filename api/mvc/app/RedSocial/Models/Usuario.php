@@ -84,16 +84,25 @@ class Usuario extends Modelo implements JsonSerializable
         return true;
     }
 
+
+    /**
+     * Elimina un usuario por su $id.
+     * Retorna true en caso de éxito, false de lo contrario.
+     *
+     * @param $id
+     * @return bool
+     */
     public function eliminar($id): bool
     {
         $db = DBConnection::getConnection();
         $query = " DELETE FROM usuarios
                 WHERE id = ?";
         $stmt = $db->prepare($query);
-       if(!$stmt->execute([$id])) {
-           return false;
-       }
-       return true;
+        if (!$stmt->execute([$id])) {
+            //            throw new \Exception("No se pudo eliminar el producto #" . $id);
+            return false;
+        }
+        return true;
     }
 
     /**

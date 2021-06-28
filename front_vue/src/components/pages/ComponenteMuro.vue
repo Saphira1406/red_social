@@ -114,16 +114,6 @@ export default {
         text: null,
         type: 'success',
       },
-
-      // nuevo comentario:
-      comentario: {
-        texto: null,
-        publicaciones_id: null,
-        usuarios_id: this.user.id,
-      },
-      errorsComment: {
-        texto: null,
-      },
     }
   },
   methods: {
