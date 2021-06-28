@@ -1,11 +1,11 @@
 <template>
   <section class="profile text-center">
     <img
-        :src="imageUrl(user.imagen)"
+        :src="imageUrl(usuario.imagen)"
       class="img-profile"
-      :alt="`Foto de perfil de ${user.nombre} ${user.apellido}`"
+      :alt="`Foto de perfil de ${usuario.nombre} ${usuario.apellido}`"
     />
-    <p class="font-weight-bold">{{user.nombre}} {{user.apellido}}</p>
+    <p class="font-weight-bold">{{usuario.nombre}} {{usuario.apellido}}</p>
   </section>
 
 <section
@@ -17,27 +17,43 @@
         <p class="h5">Información</p>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item font-weight-bold">Usuario: <span class="texto">{{user.usuario}}</span></li>
-        <li class="list-group-item font-weight-bold">Nombre: <span class="texto">{{user.nombre}}</span></li>
-        <li class="list-group-item font-weight-bold">Apellido: <span class="texto">{{user.apellido}}</span></li>
-        <li class="list-group-item font-weight-bold">Email: <span class="texto">{{user.email}}</span></li>
+        <li class="list-group-item font-weight-bold">Usuario: <span class="texto">{{usuario.usuario}}</span></li>
+        <li class="list-group-item font-weight-bold">Nombre: <span class="texto">{{usuario.nombre}}</span></li>
+        <li class="list-group-item font-weight-bold">Apellido: <span class="texto">{{usuario.apellido}}</span></li>
+        <li class="list-group-item font-weight-bold">Email: <span class="texto">{{usuario.email}}</span></li>
       </ul>
     </div>
   </section>
 </template>
 
 <script>
-
+import { apiFetch } from "../functions/fetch.js";
 import {API_IMGS_FOLDER} from "../constants/api";
 
 export default {
   name: "Perfil",
   props: ['user'],
+  emits: ['logged'],
+  data: function() {
+    return {
+      usuario: [],
+    }
+  },
   methods: {
     imageUrl (image) {
       return `${API_IMGS_FOLDER}/${image}`;
     },
+
+    loadUsuario() {
+      apiFetch('/usuarios/' + this.user.id )
+      .then(sesion => {
+        this.usuario = sesion;
+      });
+    },
   },
+  mounted() {
+    this.loadUsuario();
+  }
 }
 </script>
 
