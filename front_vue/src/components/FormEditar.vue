@@ -239,14 +239,8 @@ export default {
     },
   },
 
-<<<<<<< HEAD
   mounted() {
     //this.loadUsuario();
-=======
-  mounted () {
-    // this.loadUsuario();
->>>>>>> main
-
   }
 }
 </script>
