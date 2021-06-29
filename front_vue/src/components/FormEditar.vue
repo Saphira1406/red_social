@@ -32,22 +32,28 @@
             </button>
           </div>
           <div class="modal-body">
-            <form action="#" @submit.prevent="editUsuario(user.id)">
-              <div class="form-group text-center">
-                <label for="imagen" style="color: #361973; cursor: pointer;">
-                  <img
-                    :src="imageUrl(user.imagen)"
-                    class="img-profile"
-                    alt="Cambiar imagen de perfil"
-                  />
-                </label>
-                <input
-                  type="file"
-                  class="form-control-file d-none"
-                  id="imagen"
-                />
-                <small>Haz click en la imagen para cambiarla</small>
-              </div>
+
+            <form action="#" @submit.prevent="editUsuario(usuarios.id)">
+              <!-- <input type="hidden" name="pk" id="pk" v-model="usuarios.id">
+               <div class="form-group text-center">
+                 <label
+                   for="imagen"
+                   style="color: #361973; cursor: pointer;"
+                 >
+                   <img
+                     :src="imageUrl(usuario.imagen)"
+                     class="img-profile"
+                     alt="Cambiar imagen de perfil"
+                   />
+                 </label>
+                 <input
+                   type="file"
+                   class="form-control-file d-none"
+                   id="imagen"
+                 />
+                 <small>Haz click en la imagen para cambiarla</small>
+               </div>-->
+
               <div class="form-group">
                 <label for="usuario">Usuario</label>
                 <input
@@ -136,7 +142,7 @@ export default {
         apellido: this.user.apellido,
         email: this.user.email,
         usuario: this.user.usuario,
-        imagen: this.user.imagen,
+        //imagen: this.user.imagen,
       },
       errors: {
         texto: null
@@ -161,12 +167,10 @@ export default {
 
     editUsuario (id) {
       console.log('/usuarios/' + id + '/editar');
-      if (!this.validates()) return;
-      console.log('/usuarios/' + id + '/editar');
-      this.notification = {
-        text: null,
-      };
-      apiFetch('/usuarios/' + this.user.id + '/editar', {
+      console.log(this.usuarios);
+
+      apiFetch('/usuarios/' + id + '/editar', {
+
         method: 'PUT',
         body: JSON.stringify(this.usuario),
       })
@@ -174,7 +178,8 @@ export default {
           this.notification.text = rta.msg;
           if (rta.success) {
             this.notification.type = 'success';
-            this.loadUsuario();
+            this.$router.push("pu");
+            //this.loadUsuario();
             console.log(rta);
           } else {
             this.notification.type = 'danger';
@@ -232,8 +237,10 @@ export default {
       return !hasErrors;
     },
   },
+
   mounted () {
     // this.loadUsuario();
+
   }
 }
 </script>
