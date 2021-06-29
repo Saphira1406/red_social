@@ -41,7 +41,7 @@
                    style="color: #361973; cursor: pointer;"
                  >
                    <img
-                     :src="imageUrl(usuario.imagen)"
+                     :src="imageUrl(usuarios.imagen)"
                      class="img-profile"
                      alt="Cambiar imagen de perfil"
                    />
@@ -60,7 +60,7 @@
                   type="text"
                   class="form-control"
                   id="usuario"
-                  v-model="usuario.usuario"
+                  v-model="usuarios.usuario"
                 />
               </div>
               <div class="form-group">
@@ -69,7 +69,7 @@
                   type="text"
                   class="form-control"
                   id="nombre"
-                  v-model="usuario.nombre"
+                  v-model="usuarios.nombre"
                 />
               </div>
               <div class="form-group">
@@ -78,7 +78,7 @@
                   type="text"
                   class="form-control"
                   id="apellido"
-                  v-model="usuario.apellido"
+                  v-model="usuarios.apellido"
                 />
               </div>
               <div class="form-group">
@@ -87,7 +87,7 @@
                   type="email"
                   class="form-control"
                   id="email"
-                  v-model="usuario.email"
+                  v-model="usuarios.email"
                 />
               </div>
               <div class="d-flex justify-content-center">
@@ -130,13 +130,13 @@ import authService from "../services/auth.js";
 export default {
   name: "Editar",
   props: ['user'],
-  // emits: ['logged'],
+  emits: ['logged'],
   data: function () {
     return {
-      // usuario: [],
+      usuario: [],
 
       //Editar usuario:
-      usuario: {
+      usuarios: {
         id: this.user.id,
         nombre: this.user.nombre,
         apellido: this.user.apellido,
@@ -167,12 +167,13 @@ export default {
 
     editUsuario (id) {
       console.log('/usuarios/' + id + '/editar');
+
       console.log(this.usuarios);
 
       apiFetch('/usuarios/' + id + '/editar', {
 
         method: 'PUT',
-        body: JSON.stringify(this.usuario),
+        body: JSON.stringify(this.usuarios),
       })
         .then(rta => {
           this.notification.text = rta.msg;
@@ -238,8 +239,13 @@ export default {
     },
   },
 
+<<<<<<< HEAD
+  mounted() {
+    //this.loadUsuario();
+=======
   mounted () {
     // this.loadUsuario();
+>>>>>>> main
 
   }
 }
