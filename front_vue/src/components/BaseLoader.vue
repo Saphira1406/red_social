@@ -1,6 +1,11 @@
 <template>
-  <span class="outer-loader">
-    <i class="loader"></i>
+  <span
+    class="loader"
+    :class="{
+      'loader-small': size === 'small'
+    }"
+  >
+    <i></i>
   </span>
 </template>
 

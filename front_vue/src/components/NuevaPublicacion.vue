@@ -30,6 +30,7 @@
                     :aria-describedby="
                       errors.texto !== null ? 'errors-texto' : null
                     "
+                    :disabled="loading"
                   ></textarea>
                   <div
                     v-if="errors.texto !== null"
@@ -57,6 +58,7 @@
                     class="form-control-file d-none"
                     id="imagen"
                     @change="loadImage"
+                    :disabled="loading"
                   />
                 </div>
               </div>
@@ -72,9 +74,14 @@
             <img :src="publicacion.imagen" alt="" />
           </div>
           <div class="text-center">
-            <button type="submit" class="btn boton boton-publicar">
+            <button
+              type="submit"
+              class="btn boton boton-publicar"
+              :disabled="loading"
+            >
               Publicar
             </button>
+            <BaseLoader v-if="loading" class="ml-3" size="small" />
           </div>
         </form>
       </div>
@@ -85,14 +92,13 @@
 <script>
 import { apiFetch } from "../functions/fetch.js";
 import { API_IMGS_FOLDER } from "../constants/api.js";
-// import BaseLoader from "BaseLoader.vue";
+import BaseLoader from "./BaseLoader.vue";
 import BaseNotification from "./BaseNotification.vue";
-// import $ from 'jquery';
 
 export default {
   name: "NuevaPublicacion",
   components: {
-    // BaseLoader,
+    BaseLoader,
     BaseNotification,
   },
   props: ['user'],
@@ -111,6 +117,7 @@ export default {
         text: null,
         type: 'success',
       },
+      loading: false,
     }
   },
   methods: {
@@ -134,11 +141,11 @@ export default {
 
     crearPublicacion () {
       // Si la petición ya está en ejecución, entonces no repetimos el proceso.
-      // if(this.loading) return;
+      if (this.loading) return;
 
       // Si no pasa la validación, no realizamos la petición.
       if (!this.validatesPublication()) return;
-      // this.loading = true;
+      this.loading = true;
       this.notification.text = null;
 
       apiFetch('/publicaciones/nuevo', {
@@ -146,7 +153,7 @@ export default {
         body: JSON.stringify(this.publicacion),
       })
         .then(rta => {
-          // this.loading = false;
+          this.loading = false;
           this.notification.text = rta.msg;
           if (rta.success) {
             this.notification.type = 'success';

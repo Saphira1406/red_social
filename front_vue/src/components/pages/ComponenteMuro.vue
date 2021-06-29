@@ -1,12 +1,5 @@
 <template>
   <div class="container">
-    <!--
-    <BaseNotification
-      v-if="notification.text !== null"
-      :text="notification.text"
-      :type="notification.type"
-    />
--->
     <nueva-publicacion :user="user" @newPublication="loadPublications" />
 
     <!-- Listado de publicaciones: -->
@@ -27,7 +20,6 @@
 import { apiFetch } from "../../functions/fetch.js";
 import { API_IMGS_FOLDER } from "../../constants/api.js";
 import BaseLoader from "../BaseLoader.vue";
-// import BaseNotification from "../BaseNotification.vue";
 import NuevaPublicacion from "../NuevaPublicacion.vue";
 import UnaPublicacion from "../UnaPublicacion.vue";
 
@@ -35,7 +27,6 @@ export default {
   name: "Muro",
   components: {
     BaseLoader,
-    //     BaseNotification,
     NuevaPublicacion,
     UnaPublicacion
   },

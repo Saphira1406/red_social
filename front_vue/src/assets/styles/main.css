@@ -97,14 +97,20 @@ body textarea {
  |--------------------------------------------------------------------------
  */
 
-.outer-loader {
+.loader {
     width: 40px;
     height: 40px;
     position: relative;
-    display: block;
+    display: inline-block;
+    vertical-align: bottom;
 }
 
-.loader {
+.loader-small {
+    width: 30px;
+    height: 30px;
+}
+
+.loader i {
     --size-square: 20px;
     display: block;
     position: absolute;
@@ -114,7 +120,11 @@ body textarea {
     height: 100%;
 }
 
-.loader::before, .loader::after {
+.loader-small i {
+    --size-square-small: 15px;
+}
+
+.loader i::before, .loader i::after {
     content: '';
     box-sizing: border-box;
     position: absolute;
@@ -123,13 +133,23 @@ body textarea {
     background-color: rgb(135, 40, 175);
 }
 
-.loader::before {
+.loader-small i::before, .loader-small i::after {
+    width: var(--size-square-small);
+    height: var(--size-square-small);
+}
+
+.loader i::before {
     top: calc(50% - var(--size-square));
     left: calc(50% - var(--size-square));
     animation: loader-prev 2.4s cubic-bezier(0, 0, 0.24, 1.21) infinite;
 }
 
-.loader::after {
+.loader-small i::before {
+    top: calc(50% - var(--size-square-small));
+    left: calc(50% - var(--size-square-small));
+}
+
+.loader i::after {
     top: 50%;
     left: 50%;
     animation: loader 2.4s cubic-bezier(0, 0, 0.24, 1.21) infinite;
