@@ -78,7 +78,7 @@ class UsuariosController extends Controller
 
     public function editarUsuario()
     {
-        $this->requiresAuth();
+       // $this->requiresAuth();
 
         $inputData = file_get_contents('php://input');
         $postData = json_decode($inputData, true);
