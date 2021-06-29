@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="container">
     <BaseNotification
       v-if="notification.text !== null"
       :text="notification.text"
@@ -81,6 +81,9 @@
     </div>
 
     <!-- Listado de publicaciones: -->
+    <div class="loader-container">
+      <BaseLoader v-if="loading" />
+    </div>
     <div v-for="publicacion in publicaciones" :key="publicacion.id">
       <una-publicacion
         :publicacion="publicacion"
@@ -94,15 +97,21 @@
 <script>
 import { apiFetch } from "../../functions/fetch.js";
 import { API_IMGS_FOLDER } from "../../constants/api.js";
+import BaseLoader from "../BaseLoader.vue";
 import BaseNotification from "../BaseNotification.vue";
 import UnaPublicacion from "../UnaPublicacion.vue";
 
 export default {
   name: "Muro",
-  components: { BaseNotification, UnaPublicacion },
+  components: {
+    BaseLoader,
+    BaseNotification,
+    UnaPublicacion
+  },
   props: ['user'],
   data: function () {
     return {
+      loading: false,
       publicaciones: [],
       usuario: [],
 
@@ -127,10 +136,10 @@ export default {
     },
 
     loadPublications () {
-      // this.loading = true;
+      this.loading = true;
       apiFetch('/publicaciones')
         .then(publicaciones => {
-          // this.loading = false;
+          this.loading = false;
           // Asignamos las publicaciones al state del componente.
           this.publicaciones = publicaciones;
         });
@@ -182,38 +191,6 @@ export default {
         });
     },
 
-    crearComentario () {
-      // Si la petición ya está en ejecución, entonces no repetimos el proceso.
-      // if(this.loading) return;
-
-      // Si no pasa la validación, no realizamos la petición.
-      if (!this.validatesComment()) return;
-      // this.loading = true;
-      this.notification = {
-        text: null,
-      };
-      apiFetch('/comentarios/nuevo', {
-        method: 'POST',
-        body: JSON.stringify(this.comentario),
-      })
-        .then(rta => {
-          // this.loading = false;
-          this.notification.text = rta.msg;
-          if (rta.success) {
-            this.notification.type = 'success';
-            this.loadPublications();
-            // Luego de grabar exitosamente, vaciamos el form.
-            this.comentario = {
-              texto: null,
-              publicaciones_id: null,
-            };
-          } else {
-            this.notification.type = 'danger';
-            console.log(rta);
-          }
-        });
-    },
-
     /**
     * Valida el form Publicación.
     *
@@ -255,5 +232,10 @@ export default {
 <style>
 .icono {
   width: 40px;
+}
+
+.loader-container {
+  max-width: 50rem;
+  margin: 1rem auto;
 }
 </style>

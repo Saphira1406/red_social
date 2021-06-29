@@ -81,3 +81,77 @@ body textarea {
         min-height: auto;
     }
 }
+
+/*
+ |--------------------------------------------------------------------------
+ | Loader
+ |--------------------------------------------------------------------------
+ */
+
+.outer-loader {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    display: block;
+}
+
+.loader {
+    --size-square: 20px;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.loader::before, .loader::after {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    width: var(--size-square);
+    height: var(--size-square);
+    background-color: rgb(135, 40, 175);
+}
+
+.loader::before {
+    top: calc(50% - var(--size-square));
+    left: calc(50% - var(--size-square));
+    animation: loader-prev 2.4s cubic-bezier(0, 0, 0.24, 1.21) infinite;
+}
+
+.loader::after {
+    top: 50%;
+    left: 50%;
+    animation: loader 2.4s cubic-bezier(0, 0, 0.24, 1.21) infinite;
+}
+
+@keyframes loader-prev {
+    0%, 100% {
+        transform: none;
+    }
+    25% {
+        transform: translateX(100%);
+    }
+    50% {
+        transform: translateX(100%) translateY(100%);
+    }
+    75% {
+        transform: translateY(100%);
+    }
+}
+
+@keyframes loader {
+    0%, 100% {
+        transform: none;
+    }
+    25% {
+        transform: translateX(-100%);
+    }
+    50% {
+        transform: translateX(-100%) translateY(-100%);
+    }
+    75% {
+        transform: translateY(-100%);
+    }
+}

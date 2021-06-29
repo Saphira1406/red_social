@@ -38,6 +38,7 @@ export default {
 <style>
 main > div:first-child {
   background: rgba(242, 137, 114, 0.1);
+  min-height: calc(100vh - 74px - 50px);
 }
 
 .bg-home {
