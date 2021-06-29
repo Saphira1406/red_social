@@ -32,8 +32,17 @@ nav .avatar {
     width: 30px;
 }
 
-.nav-link {
-    /* line-height: 30px; */
+.btn-gradient {
+    color: white;
+    background: rgb(54, 25, 115);
+    background: linear-gradient( 351deg, rgba(54, 25, 115, 1) 37%, rgba(172, 92, 207, 1) 87%);
+    border: none;
+}
+
+.btn-gradient:hover {
+    color: white;
+    background: rgb(172, 92, 207);
+    background: linear-gradient( 351deg, rgba(172, 92, 207, 1) 37%, rgba(54, 25, 115, 1) 87%);
 }
 
 p .btn {

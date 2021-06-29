@@ -50,7 +50,7 @@
       </p>
       <button
         type="button"
-        class="btn btn-secondary"
+        class="btn btn-gradient"
         data-toggle="collapse"
         :data-target="`#commentForm${publicacion.id}`"
         aria-expanded="false"
@@ -217,7 +217,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .icon-edit {
   width: 30px;
 }
