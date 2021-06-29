@@ -1,5 +1,5 @@
 <template>
-  <div class="card mb-4 publicaciones">
+  <article class="card mb-4 publicaciones">
     <div class="card-header">
       <div class="mt-1 mb-1 d-flex align-items-center">
         <img
@@ -62,13 +62,6 @@
       <div class="collapse" :id="`commentForm${publicacion.id}`">
         <div class="card card-body mt-2">
           <form action="#" @submit.prevent="crearComentario">
-            <!--
-            <input
-              type="hidden"
-              id="publicacionId"
-              v-model="comentario.publicaciones_id"
-            />
-            -->
             <div class="form-row">
               <div class="form-group col-auto">
                 <img
@@ -132,7 +125,7 @@
         </p>
       </div>
     </div>
-  </div>
+  </article>
 </template>
 
 <script>
@@ -144,10 +137,10 @@ export default {
   name: "UnaPublicacion",
 
   props: ['user', 'publicacion'],
-
+  emits: ['newComment'],
   data: function () {
     return {
-      usuario: [],
+      // usuario: [],
 
       // nuevo comentario:
       comentario: {
@@ -193,7 +186,7 @@ export default {
             this.comentario = {
               texto: null,
             };
-            // this.showNewComment();
+            this.$emit('newComment', this.publicacion);
           } else {
             this.notification.type = 'danger';
             console.log(rta);

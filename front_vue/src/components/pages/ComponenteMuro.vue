@@ -80,8 +80,13 @@
       </div>
     </div>
 
+    <!-- Listado de publicaciones: -->
     <div v-for="publicacion in publicaciones" :key="publicacion.id">
-      <una-publicacion :publicacion="publicacion" :user="user" />
+      <una-publicacion
+        :publicacion="publicacion"
+        :user="user"
+        @newComment="loadPublications"
+      />
     </div>
   </div>
 </template>
