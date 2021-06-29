@@ -43,7 +43,11 @@
               </div>
               <div class="form-row">
                 <div class="col-12">
-                  <label for="imagen" style="color: #361973; cursor: pointer;">
+                  <label
+                    for="imagen"
+                    class="mb-0"
+                    style="color: #361973; cursor: pointer;"
+                  >
                     <img
                       src="./../assets/img/image_violeta.png"
                       class="img-fluid icono mr-2"
@@ -51,6 +55,7 @@
                     />
                     Agregar imagen
                   </label>
+                  <BaseLoader v-if="loadingImg" class="ml-3" size="small" />
                   <input
                     ref="image"
                     type="file"
@@ -64,14 +69,15 @@
               </div>
             </div>
           </div>
-          <div v-if="publicacion.imagen !== null" class="form-group">
-            <p>Previsualización de la imagen seleccionada</p>
+
+          <div v-if="publicacion.imagen !== null" class="form-group mt-4">
+            <p>Previsualización de la imagen seleccionada:</p>
             <!-- !! IMPORTANTE !!
                  Este es uno de los casos _muy_ específicos donde el alt de la imagen tiene sentido
                  que quede vacío. Pero es una caso de _excepción_, no una regla.
                  El líneas generales, SIEMPRE tienen que poner un alt descriptivo para la imagen.
                  -->
-            <img :src="publicacion.imagen" alt="" />
+            <img :src="publicacion.imagen" alt="" class="d-block mx-auto" />
           </div>
           <div class="text-center">
             <button
@@ -118,6 +124,7 @@ export default {
         type: 'success',
       },
       loading: false,
+      loadingImg: false,
     }
   },
   methods: {
@@ -129,14 +136,14 @@ export default {
     * Lee el archivo de la imagen y lo transforma a base64 para su posterior envío con Ajax.
     */
     loadImage () {
-      console.log("El campo de la imagen es: ", this.$refs.image);
+      this.loadingImg = true;
       const reader = new FileReader();
-
       reader.addEventListener('load', () => {
         this.publicacion.imagen = reader.result;
+        this.loadingImg = false;
       });
-
       reader.readAsDataURL(this.$refs.image.files[0]);
+
     },
 
     crearPublicacion () {
