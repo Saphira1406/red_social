@@ -238,7 +238,9 @@ export default {
   },
 
   mounted() {
+
     this.loadUsuario();
+
 
   }
 }
