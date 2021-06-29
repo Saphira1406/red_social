@@ -77,8 +77,9 @@ class UsuariosController extends Controller
     public function editarUsuario() {
         $this->requiresAuth();
 
-        $inputData = file_get_contents('php//input');
+        $inputData = file_get_contents('php://input');
         $postData = json_decode($inputData, true);
+
 
         $id = urlParam('id');
         $usuario = $postData['usuario'];
@@ -87,6 +88,7 @@ class UsuariosController extends Controller
         $email = $postData['email'];
 
         $data = [
+          "id" => $id,
           "usuario" => $usuario,
           "nombre" => $nombre,
           "apellido" => $apellido,
@@ -103,29 +105,24 @@ class UsuariosController extends Controller
         $validator = new Validator($data, $rules);
 
         if ($validator->passes()) {
-            $user = new Usuario();
-            $exito = $user->editar($id, $data);
+            $usuario_obj = new Usuario();
+            $exito = $usuario_obj->editar($id, $data);
 
             if ($exito) {
                 echo json_encode([
-                    'success' => true,
-                    'msg' => 'Los cambios se guardaron con éxito.',
+                    "success" => true,
+                    "msg" => 'El usuario se modificó con éxito. Redireccionando...',
                 ]);
             } else {
                 echo json_encode([
-                    'success' => false,
-                    'msg' => 'Ocurrió un error al guardar los cambios',
+                    "success" => false,
+                    "msg" => 'Ocurrió un error al tratar de modificar el usuario.',
                 ]);
             }
         } else {
-            $errores =  $validator->getErrores();
-            $texto = '';
-            foreach ($errores as $error => $val) {
-                $texto .= "$val[0] ";
-            };
             echo json_encode([
                 "success" => false,
-                "msg" => $texto
+                "msg" => $validator->getErrores()
             ]);
         }
     }

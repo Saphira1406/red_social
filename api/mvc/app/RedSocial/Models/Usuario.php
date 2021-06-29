@@ -68,12 +68,12 @@ class Usuario extends Modelo implements JsonSerializable
         }
 
         $queryEditar = "UPDATE usuarios SET
-                usuario = :usuario,
                 nombre = :nombre,
                 apellido = :apellido,
-                email = :email";
+                email = :email,
+                usuario = :usuario";
 
-        $queryEditar .= "WHERE id = :id";
+        $queryEditar .= " WHERE id = :id";
 
         $stmt2 = $db->prepare($queryEditar);
         $stmt2->execute($data);
