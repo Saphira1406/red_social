@@ -127,6 +127,27 @@ class Comentario extends Modelo implements JsonSerializable
     }
 
     /**
+     * Crea un nuevo comentario en la base de datos.
+     *
+     * @param array $data
+     * @return bool
+     */
+    public function crear(array $data): bool
+    {
+        $db = DBConnection::getConnection();
+        $query = "INSERT INTO comentarios (usuarios_id, texto, publicaciones_id) 
+                  VALUES (:usuarios_id, :texto, :publicaciones_id)";
+        $stmt = $db->prepare($query);
+
+        //        return $stmt->execute($data);
+
+        if (!$stmt->execute($data)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * @return int
      */
     public function getId(): int

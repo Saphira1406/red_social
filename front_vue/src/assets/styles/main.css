@@ -1,0 +1,83 @@
+@font-face {
+    font-family: "NewYork";
+    src: url("fonts/NewYork.otf");
+}
+
+@font-face {
+    font-family: "SourceSansPro";
+    src: url("fonts/SourceSansPro-Regular.ttf");
+}
+
+.outer {
+    min-height: 100vh;
+}
+
+main {
+    min-height: calc(100vh - 74px - 50px);
+    background: rgba(242, 137, 114, 0.1);
+}
+
+h1 .navbar-brand {
+    font-family: "NewYork", serif;
+    font-weight: bold;
+    font-size: 2.5rem;
+}
+
+.avatar {
+    width: 40px;
+    border-radius: 50%;
+}
+
+nav .avatar {
+    width: 30px;
+}
+
+.nav-link {
+    /* line-height: 30px; */
+}
+
+p .btn {
+    vertical-align: unset;
+    text-decoration: underline;
+}
+
+.card.publicaciones {
+    background-color: rgba(242, 166, 73, 0.5);
+    font-family: "SourceSansPro", sans-serif;
+    max-width: 50rem;
+    margin: auto;
+}
+
+.btn.boton-publicar {
+    color: white;
+    width: 60%;
+    border-radius: 20px;
+    /* margin-top: -1em; */
+}
+
+body footer {
+    display: flex;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(242, 137, 114);
+    color: #000;
+    margin-top: auto;
+}
+
+body footer p {
+    margin: 0;
+    text-align: center;
+}
+
+body textarea {
+    border-radius: 10px;
+    margin-top: -1.5em;
+    min-height: 64px;
+}
+
+@media screen and (min-width: 576px) {
+    body textarea {
+        min-height: auto;
+    }
+}

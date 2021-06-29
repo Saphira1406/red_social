@@ -2,7 +2,6 @@
 
 namespace RedSocial\Controllers;
 
-
 use RedSocial\Auth\Auth;
 use RedSocial\Core\App;
 
@@ -25,7 +24,6 @@ class Controller
         if (!$this->auth->isAuthenticated()) {
             // $_SESSION['status_error'] = 'Tenés que iniciar sesión para poder realizar esta acción.';
             // App::redirect('iniciar-sesion');
-
 
             echo json_encode([
                 'success' => false,
