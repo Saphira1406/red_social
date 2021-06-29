@@ -36,6 +36,15 @@
             </button>
           </div>
         </form>
+        <p class="text-center mt-3">
+          ¿Aún no estás registrado?
+          <router-link
+            to="registrarse"
+            class="btn btn-link text-white"
+            type="button"
+            >Registrate</router-link
+          >
+        </p>
       </div>
     </div>
   </section>

@@ -66,7 +66,7 @@ const authService = {
      */
     logout() {
         return apiFetch('/cerrar-sesion', {
-            method: 'post',
+            method: 'POST',
         }).then(res => {
             console.log(res);
             userData = {

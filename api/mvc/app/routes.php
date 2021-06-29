@@ -72,3 +72,12 @@ Route::add('PUT', '/usuarios/{id}/editar', 'UsuariosController@editarUsuario');
 // Hacemos el eliminar.
 // Nota: Si esto fuera una API REST, entonces el verbo sería DELETE.
 Route::add('DELETE', '/usuarios/{id}/eliminar', 'UsuariosController@eliminar');
+
+/*
+ |--------------------------------------------------------------------------
+ | Comentarios
+ |--------------------------------------------------------------------------
+ */
+
+// Hacemos la ruta para grabar.
+Route::add('POST', '/comentarios/nuevo', 'ComentariosController@nuevoGuardar');

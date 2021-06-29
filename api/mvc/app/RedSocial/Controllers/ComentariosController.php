@@ -7,34 +7,18 @@ use RedSocial\Core\App;
 use RedSocial\Core\Route;
 use RedSocial\Core\View;
 use RedSocial\Models\Publicacion;
+use RedSocial\Models\Comentario;
 use RedSocial\Validation\Validator;
 use RedSocial\Storage\FileUpload;
 
-class PublicacionesController extends Controller
+class ComentariosController extends Controller
 {
     public function listado()
     {
         $this->requiresAuth();
-        $publicaciones = (new Publicacion())->traerTodo();
-
-        // Para pasarle datos a una vista, usamos el segundo parámetro de la función render().
-        // Recibe un array asociativo, donde las claves son los nombres de las variables que se van
-        // a crear en la vista, y el valor es el contenido de esas variables.
-        //        View::render('productos/index', [
-        //            // Pedimos que cree en la vista una variable "productos", que contenga lo que tiene la
-        //            // variable local de $productos.
-        //            'productos' => $productos
-        //        ]);
-
-        // Lo anterior, particularmente la parte del array con los datos para la vista, puede llegar
-        // a simplificarse un poco, si estamos seguros de que queremos usar para el nombre de la
-        // variable de la vista, el mismo nombre que la variable local.
-        // La función compact de php genera un array asociativo a partir de los nombres y valores
-        // de variables del entorno/ámbito local.
-        //        View::render('productos/index', compact('productos'));
-
+        $comentarios = (new Publicacion())->traerTodo();
         // Si quisiéramos la salida como JSON...
-        View::renderJson($publicaciones);
+        View::renderJson($comentarios);
     }
     /*
     public function ver()
@@ -52,14 +36,6 @@ class PublicacionesController extends Controller
     }
 
 */
-    /*
-    public function nuevoForm()
-    {
-        $this->requiresAuth();
-
-        // View::render('productos/nuevo-form');
-    }
-*/
     public function nuevoGuardar()
     {
         $this->requiresAuth();
@@ -68,35 +44,25 @@ class PublicacionesController extends Controller
         $postData = json_decode($inputData, true);
 
         // Captura de datos:       
-        $texto             = $postData['texto'];
-        $usuarios_id       = $postData['usuarios_id'];
-        $imagen            = $postData['imagen'] ?? null;
-
-        if (!empty($imagen)) {
-            $upload = new FileUpload($imagen);
-            // getPublicPath nos retorna la ruta absoluta a la carpeta "public".
-            $ruta = App::getPublicPath() . '/img';
-            $nombreImagen = date('Ymd_His_') . ".jpg";
-            $upload->save($ruta . '/' . $nombreImagen);
-        } else {
-            $nombreImagen = '';
-        }
+        $texto              = $postData['texto'];
+        $usuarios_id        = $postData['usuarios_id'];
+        $publicaciones_id   = $postData['publicaciones_id'];
 
         $data = [
             "texto"  => $texto,
             "usuarios_id"  => $usuarios_id,
-            "imagen"  => $nombreImagen,
+            "publicaciones_id"  => $publicaciones_id,
         ];
 
         $rules = [
-            "texto" => ["required", 'min:3'],
+            "texto" => ["required"],
         ];
 
         $validator = new Validator($data, $rules);
 
         if ($validator->passes()) {
-            $publicacion = new Publicacion();
-            $exito = $publicacion->crear($data);
+            $comentario = new Comentario();
+            $exito = $comentario->crear($data);
 
             if ($exito) {
                 echo json_encode([

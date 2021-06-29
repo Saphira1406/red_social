@@ -20,16 +20,16 @@
         </div>
       </section>
     </div>
-    <seccion-publicaciones v-else :user="user" />
+    <seccion-principal v-else :user="user" />
   </main>
 </template>
 
 <script>
-import SeccionPublicaciones from '../components/SeccionPublicaciones.vue'
+import SeccionPrincipal from '../components/SeccionPrincipal.vue'
 // @ is an alias to /src
 
 export default {
-  components: { SeccionPublicaciones },
+  components: { SeccionPrincipal },
   name: 'Home',
   props: ['user'],
 }

@@ -43,7 +43,9 @@ class UsuariosController extends Controller
         ];
 
         $rules = [
-            "email" => ["required"],
+            "nombre" => ["required"],
+            "apellido" => ["required"],
+            "email" => ["required", "min:3"],
             "password" => ["required", "min:3"],
         ];
 
@@ -74,7 +76,8 @@ class UsuariosController extends Controller
         }
     }
 
-    public function editarUsuario() {
+    public function editarUsuario()
+    {
         $this->requiresAuth();
 
         $inputData = file_get_contents('php//input');
@@ -87,10 +90,10 @@ class UsuariosController extends Controller
         $email = $postData['email'];
 
         $data = [
-          "usuario" => $usuario,
-          "nombre" => $nombre,
-          "apellido" => $apellido,
-          "email" => $email,
+            "usuario" => $usuario,
+            "nombre" => $nombre,
+            "apellido" => $apellido,
+            "email" => $email,
         ];
 
         $rules = [
@@ -134,34 +137,40 @@ class UsuariosController extends Controller
     {
         $this->requiresAuth();
 
-        $id= urlParam('id');
+        $id = urlParam('id');
         $user = new Usuario();
+        /*
         if (!$user->eliminar($id)) {
-            $errores =  $validator->getErrores();
+            
+             $errores =  $validator->getErrores();
             $texto = '';
             foreach ($errores as $error => $val) {
                 $texto .= "$val[0] ";
             };
+            
             echo json_encode([
                 "success" => false,
                 "msg" => $texto
             ]);
         }
+        */
         if (!$user->eliminar($id)) {
-            $errores =  $validator->getErrores();
+            /*
+             $errores =  $validator->getErrores();
             $texto = '';
             foreach ($errores as $error => $val) {
                 $texto .= "$val[0] ";
             };
+            */
             echo json_encode([
                 "success" => false,
-                "msg" => $texto
+                "msg" => 'Ocurrió un error al tratar de eliminar el usuario.',
             ]);
         } else {
-                echo json_encode([
-                    'success' => true,
-                    'msg' => 'El usuario ha sido eliminado',
-                ]);
+            echo json_encode([
+                'success' => true,
+                'msg' => 'El usuario ha sido eliminado',
+            ]);
         }
 
 

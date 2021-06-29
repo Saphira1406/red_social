@@ -32,14 +32,11 @@
             </button>
           </div>
           <div class="modal-body">
-            <form action="#" @submit.prevent="editUsuario(usuario.id)">
+            <form action="#" @submit.prevent="editUsuario(user.id)">
               <div class="form-group text-center">
-                <label
-                  for="imagen"
-                  style="color: #361973; cursor: pointer;"
-                >
+                <label for="imagen" style="color: #361973; cursor: pointer;">
                   <img
-                    :src="imageUrl(usuario.imagen)"
+                    :src="imageUrl(user.imagen)"
                     class="img-profile"
                     alt="Cambiar imagen de perfil"
                   />
@@ -54,10 +51,10 @@
               <div class="form-group">
                 <label for="usuario">Usuario</label>
                 <input
-                    type="text"
-                    class="form-control"
-                    id="usuario"
-                    v-model="usuarios.usuario"
+                  type="text"
+                  class="form-control"
+                  id="usuario"
+                  v-model="usuario.usuario"
                 />
               </div>
               <div class="form-group">
@@ -66,7 +63,7 @@
                   type="text"
                   class="form-control"
                   id="nombre"
-                  v-model="usuarios.nombre"
+                  v-model="usuario.nombre"
                 />
               </div>
               <div class="form-group">
@@ -75,7 +72,7 @@
                   type="text"
                   class="form-control"
                   id="apellido"
-                  v-model="usuarios.apellido"
+                  v-model="usuario.apellido"
                 />
               </div>
               <div class="form-group">
@@ -84,11 +81,13 @@
                   type="email"
                   class="form-control"
                   id="email"
-                  v-model="usuarios.email"
+                  v-model="usuario.email"
                 />
               </div>
               <div class="d-flex justify-content-center">
-                <button type="submit" class="boton w-50 boton-guardar">Guardar</button>
+                <button type="submit" class="boton w-50 boton-guardar">
+                  Guardar
+                </button>
               </div>
             </form>
 
@@ -100,8 +99,11 @@
                   publicaciones.
                 </p>
                 <div class="d-flex justify-content-center">
-                  <button type="button" class="btn btn-danger w-50"
-                  @click="confirmDelete(usuario.id)">
+                  <button
+                    type="button"
+                    class="btn btn-danger w-50"
+                    @click="confirmDelete()"
+                  >
                     Eliminar
                   </button>
                 </div>
@@ -116,19 +118,19 @@
 
 <script>
 import { apiFetch } from "../functions/fetch.js";
-import {API_IMGS_FOLDER} from "../constants/api";
+import { API_IMGS_FOLDER } from "../constants/api";
 import authService from "../services/auth.js";
 
 export default {
   name: "Editar",
   props: ['user'],
-  emits: ['logged'],
-  data: function() {
+  // emits: ['logged'],
+  data: function () {
     return {
-      usuario: [],
+      // usuario: [],
 
       //Editar usuario:
-      usuarios: {
+      usuario: {
         id: this.user.id,
         nombre: this.user.nombre,
         apellido: this.user.apellido,
@@ -150,27 +152,27 @@ export default {
       return `${API_IMGS_FOLDER}/${image}`;
     },
 
-    loadUsuario() {
-      apiFetch('/usuarios/' + this.user.id )
-          .then(sesion => {
-            this.usuario = sesion;
-          });
+    loadUsuario () {
+      apiFetch('/usuarios/' + this.user.id)
+        .then(sesion => {
+          this.usuario = sesion;
+        });
     },
 
-    editUsuario(id) {
+    editUsuario (id) {
       console.log('/usuarios/' + id + '/editar');
-      if(!this.validates()) return;
-
+      if (!this.validates()) return;
+      console.log('/usuarios/' + id + '/editar');
       this.notification = {
         text: null,
       };
-      apiFetch('/usuarios/' + this.usuario.id + '/editar', {
+      apiFetch('/usuarios/' + this.user.id + '/editar', {
         method: 'PUT',
-        body: JSON.stringify(this.usuarios),
+        body: JSON.stringify(this.usuario),
       })
         .then(rta => {
           this.notification.text = rta.msg;
-          if(rta.success) {
+          if (rta.success) {
             this.notification.type = 'success';
             this.loadUsuario();
             console.log(rta);
@@ -181,55 +183,57 @@ export default {
         });
     },
 
-    deleteUsuario(id) {
+    deleteUsuario () {
+      let id = this.user.id;
+      console.log('/usuarios/' + id + '/eliminar');
       apiFetch('/usuarios/' + id + '/eliminar', {
         method: 'DELETE',
       })
         .then(rta => {
-          this.usuarios = {
-            nombre: null,
-            apellido: null,
-            email: null,
-            usuario: null,
-            imagen: null,
-          }
-         authService.logout();
-          if(rta.success) {
+          if (rta.success) {
             console.log(rta);
             this.notification = {
               text: 'El usuario fue eliminado exitosamente.',
               type: 'success',
             };
+            this.usuario = {
+              nombre: null,
+              apellido: null,
+              email: null,
+              usuario: null,
+              imagen: null,
+            }
+            authService.logout();
           } else {
             console.log(rta);
             this.notification = {
-              text: 'Ocurrió un error al tratar de eliminar el producto.',
+              text: 'Ocurrió un error al tratar de eliminar el usuario.',
               type: 'danger',
             }
           }
         });
     },
 
-    confirmDelete(id) {
+    confirmDelete () {
       let confirmacion = confirm('¿Estás seguro de eliminar tu cuenta? Esta acción no puede deshacerse.');
 
       if (confirmacion) {
-        this.deleteUsuario(id);
+        this.deleteUsuario();
       }
     },
 
-    validates() {
+    validates () {
       let hasErrors = false;
 
-      if (this.usuario.texto == null || this.usuario.texto === '') {
-        this.errors.texto = "Los campos no pueden quedar vacíos";
+      if (this.user.email == null || this.user.email === '') {
+        this.errors.email = "Los campos no pueden quedar vacíos";
         hasErrors = true;
       }
       return !hasErrors;
     },
   },
-  mounted() {
-    this.loadUsuario();
+  mounted () {
+    // this.loadUsuario();
   }
 }
 </script>
@@ -242,7 +246,7 @@ export default {
 }
 .boton-guardar {
   border: 1px solid #361973;
-  padding: .5em;
+  padding: 0.5em;
 }
 .img-profile {
   width: 35%;
@@ -251,7 +255,8 @@ export default {
 .img-profile:hover {
   opacity: 0.5;
 }
-.modal-content, .fondo{
+.modal-content,
+.fondo {
   background: rgba(54, 25, 115, 0.9);
   color: white;
 }
