@@ -130,11 +130,9 @@ import authService from "../services/auth.js";
 export default {
   name: "Editar",
   props: ['user'],
-  emits: ['logged'],
+  emits: ['logged', 'changed', 'deleted'],
   data: function () {
     return {
-      usuario: [],
-
       //Editar usuario:
       usuarios: {
         id: this.user.id,
@@ -161,17 +159,15 @@ export default {
     loadUsuario () {
       apiFetch('/usuarios/' + this.user.id)
         .then(sesion => {
-          this.usuario = sesion;
+          this.usuarios = sesion;
         });
     },
 
     editUsuario (id) {
       console.log('/usuarios/' + id + '/editar');
-
       console.log(this.usuarios);
 
       apiFetch('/usuarios/' + id + '/editar', {
-
         method: 'PUT',
         body: JSON.stringify(this.usuarios),
       })
@@ -179,8 +175,8 @@ export default {
           this.notification.text = rta.msg;
           if (rta.success) {
             this.notification.type = 'success';
-            this.$router.push("pu");
-            //this.loadUsuario();
+            this.$emit('changed', true);
+            this.loadUsuario();
             console.log(rta);
           } else {
             this.notification.type = 'danger';
@@ -202,7 +198,7 @@ export default {
               text: 'El usuario fue eliminado exitosamente.',
               type: 'success',
             };
-            this.usuario = {
+            this.usuarios = {
               nombre: null,
               apellido: null,
               email: null,
@@ -210,6 +206,8 @@ export default {
               imagen: null,
             }
             authService.logout();
+            //this.$emit('deleted', true);
+            //this.$router.push("/");
           } else {
             console.log(rta);
             this.notification = {
@@ -239,13 +237,8 @@ export default {
     },
   },
 
-<<<<<<< HEAD
   mounted() {
-    //this.loadUsuario();
-=======
-  mounted () {
-    // this.loadUsuario();
->>>>>>> main
+    this.loadUsuario();
 
   }
 }
