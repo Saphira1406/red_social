@@ -16,24 +16,6 @@ class PublicacionesController extends Controller
     {
         $this->requiresAuth();
         $publicaciones = (new Publicacion())->traerTodo();
-
-        // Para pasarle datos a una vista, usamos el segundo parámetro de la función render().
-        // Recibe un array asociativo, donde las claves son los nombres de las variables que se van
-        // a crear en la vista, y el valor es el contenido de esas variables.
-        //        View::render('productos/index', [
-        //            // Pedimos que cree en la vista una variable "productos", que contenga lo que tiene la
-        //            // variable local de $productos.
-        //            'productos' => $productos
-        //        ]);
-
-        // Lo anterior, particularmente la parte del array con los datos para la vista, puede llegar
-        // a simplificarse un poco, si estamos seguros de que queremos usar para el nombre de la
-        // variable de la vista, el mismo nombre que la variable local.
-        // La función compact de php genera un array asociativo a partir de los nombres y valores
-        // de variables del entorno/ámbito local.
-        //        View::render('productos/index', compact('productos'));
-
-        // Si quisiéramos la salida como JSON...
         View::renderJson($publicaciones);
     }
     /*
@@ -51,14 +33,6 @@ class PublicacionesController extends Controller
 //        View::renderJson($producto);
     }
 
-*/
-    /*
-    public function nuevoForm()
-    {
-        $this->requiresAuth();
-
-        // View::render('productos/nuevo-form');
-    }
 */
     public function nuevoGuardar()
     {
@@ -110,9 +84,6 @@ class PublicacionesController extends Controller
                 ]);
             }
         } else {
-            // $_SESSION['error'] = 'Ocurrieron errores de validación';
-            //            header('Location: ./../producto-nuevo.php');
-            // App::redirect('/productos/nuevo');
             $errores =  $validator->getErrores();
             $texto = '';
             foreach ($errores as $error => $val) {

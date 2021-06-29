@@ -197,9 +197,7 @@ export default {
     },
 
   },
-  mounted () {
 
-  }
 }
 </script>
 
