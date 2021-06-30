@@ -6,6 +6,7 @@
         class="img-profile"
         :alt="`Foto de perfil de ${usuario.nombre} ${usuario.apellido}`"
       />
+
       <p class="font-weight-bold mt-3">
         {{ usuario.nombre }} {{ usuario.apellido }}
       </p>
@@ -14,10 +15,7 @@
     <section
       class="info d-flex justify-content-center align-items-center flex-column"
     >
-      <!--
-      <router-view :user="user" @changed="loadUsuario"></router-view>
-      -->
-      <form-editar :user="user" @changed="loadUsuario" />
+      <form-editar :user="user" @changed="updateUser" />
 
       <div class="card mt-3 mb-3 card-info" style="width: 35rem;">
         <div class="card-header">
@@ -69,6 +67,11 @@ export default {
           this.usuario = sesion;
         });
     },
+
+    updateUser () {
+      this.loadUsuario();
+      this.$emit('updatedUser', this.usuario);
+    }
 
   },
   mounted () {

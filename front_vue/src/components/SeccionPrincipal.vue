@@ -20,7 +20,7 @@
     <section
       class="d-flex justify-content-center align-items-center flex-column pt-3"
     >
-      <router-view :user="user"></router-view>
+      <router-view :user="user" />
     </section>
   </div>
 </template>

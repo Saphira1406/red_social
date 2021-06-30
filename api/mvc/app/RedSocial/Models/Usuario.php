@@ -158,6 +158,7 @@ class Usuario extends Modelo implements JsonSerializable
 
         // Si no podemos obtener la fila, retornamos null.
         if (!$fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            //            throw new \Exception('No existe un usuario con este id.');
             return null;
         }
 

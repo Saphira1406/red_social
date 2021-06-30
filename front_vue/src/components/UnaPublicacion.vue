@@ -10,6 +10,7 @@
             `Foto de perfil de ${publicacion.usuario.nombre} ${publicacion.usuario.apellido}`
           "
         />
+
         <p class="font-weight-bold ml-3 mb-0">
           {{ publicacion.usuario.nombre + " " + publicacion.usuario.apellido }}
         </p>
@@ -40,12 +41,14 @@
         </div>
       </div>
     </div>
+
     <img
       v-if="publicacion.imagen !== null"
       :src="imageUrl(publicacion.imagen)"
       class="img-fluid"
       alt=""
     />
+
     <div class="card-body">
       <p class="card-text">
         {{ publicacion.texto }}

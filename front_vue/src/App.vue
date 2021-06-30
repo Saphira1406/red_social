@@ -85,7 +85,11 @@
       </nav>
     </header>
 
-    <router-view @logged="logUser" :user="auth.user"></router-view>
+    <router-view
+      @logged="logUser"
+      :user="auth.user"
+      @updatedUser="onUpdateUser"
+    />
 
     <footer>
       <p>Da Vinci &copy; 2021 | Florencia Mellone | Erica Torrico</p>
@@ -95,6 +99,7 @@
 
 <script>
 import authService from "./services/auth.js";
+import { apiFetch } from "./functions/fetch.js";
 import { API_IMGS_FOLDER } from "./constants/api.js";
 
 export default {
@@ -132,6 +137,13 @@ export default {
         apellido: null,
       }
       this.$router.push("/");
+    },
+    onUpdateUser () {
+      apiFetch('/usuarios/' + this.auth.user.id)
+        .then(sesion => {
+          this.auth.user = sesion;
+        });
+
     }
   },
   mounted () {
