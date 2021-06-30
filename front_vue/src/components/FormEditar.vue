@@ -32,29 +32,35 @@
             </button>
           </div>
           <div class="modal-body">
-            <form action="#" @submit.prevent="editUsuario(user.id)">
-              <div class="form-group text-center">
-                <label for="imagen" style="color: #361973; cursor: pointer;">
-                  <img
-                    :src="imageUrl(user.imagen)"
-                    class="img-profile"
-                    alt="Cambiar imagen de perfil"
-                  />
-                </label>
-                <input
-                  type="file"
-                  class="form-control-file d-none"
-                  id="imagen"
-                />
-                <small>Haz click en la imagen para cambiarla</small>
-              </div>
+
+            <form action="#" @submit.prevent="editUsuario(usuarios.id)">
+              <!-- <input type="hidden" name="pk" id="pk" v-model="usuarios.id">
+               <div class="form-group text-center">
+                 <label
+                   for="imagen"
+                   style="color: #361973; cursor: pointer;"
+                 >
+                   <img
+                     :src="imageUrl(usuarios.imagen)"
+                     class="img-profile"
+                     alt="Cambiar imagen de perfil"
+                   />
+                 </label>
+                 <input
+                   type="file"
+                   class="form-control-file d-none"
+                   id="imagen"
+                 />
+                 <small>Haz click en la imagen para cambiarla</small>
+               </div>-->
+
               <div class="form-group">
                 <label for="usuario">Usuario</label>
                 <input
                   type="text"
                   class="form-control"
                   id="usuario"
-                  v-model="usuario.usuario"
+                  v-model="usuarios.usuario"
                 />
               </div>
               <div class="form-group">
@@ -63,7 +69,7 @@
                   type="text"
                   class="form-control"
                   id="nombre"
-                  v-model="usuario.nombre"
+                  v-model="usuarios.nombre"
                 />
               </div>
               <div class="form-group">
@@ -72,7 +78,7 @@
                   type="text"
                   class="form-control"
                   id="apellido"
-                  v-model="usuario.apellido"
+                  v-model="usuarios.apellido"
                 />
               </div>
               <div class="form-group">
@@ -81,7 +87,7 @@
                   type="email"
                   class="form-control"
                   id="email"
-                  v-model="usuario.email"
+                  v-model="usuarios.email"
                 />
               </div>
               <div class="d-flex justify-content-center">
@@ -124,19 +130,17 @@ import authService from "../services/auth.js";
 export default {
   name: "Editar",
   props: ['user'],
-  // emits: ['logged'],
+  emits: ['logged', 'changed', 'deleted'],
   data: function () {
     return {
-      // usuario: [],
-
       //Editar usuario:
-      usuario: {
+      usuarios: {
         id: this.user.id,
         nombre: this.user.nombre,
         apellido: this.user.apellido,
         email: this.user.email,
         usuario: this.user.usuario,
-        imagen: this.user.imagen,
+        //imagen: this.user.imagen,
       },
       errors: {
         texto: null
@@ -155,25 +159,23 @@ export default {
     loadUsuario () {
       apiFetch('/usuarios/' + this.user.id)
         .then(sesion => {
-          this.usuario = sesion;
+          this.usuarios = sesion;
         });
     },
 
     editUsuario (id) {
       console.log('/usuarios/' + id + '/editar');
-      if (!this.validates()) return;
-      console.log('/usuarios/' + id + '/editar');
-      this.notification = {
-        text: null,
-      };
-      apiFetch('/usuarios/' + this.user.id + '/editar', {
+      console.log(this.usuarios);
+
+      apiFetch('/usuarios/' + id + '/editar', {
         method: 'PUT',
-        body: JSON.stringify(this.usuario),
+        body: JSON.stringify(this.usuarios),
       })
         .then(rta => {
           this.notification.text = rta.msg;
           if (rta.success) {
             this.notification.type = 'success';
+            this.$emit('changed', true);
             this.loadUsuario();
             console.log(rta);
           } else {
@@ -196,7 +198,7 @@ export default {
               text: 'El usuario fue eliminado exitosamente.',
               type: 'success',
             };
-            this.usuario = {
+            this.usuarios = {
               nombre: null,
               apellido: null,
               email: null,
@@ -204,6 +206,8 @@ export default {
               imagen: null,
             }
             authService.logout();
+            //this.$emit('deleted', true);
+            //this.$router.push("/");
           } else {
             console.log(rta);
             this.notification = {
@@ -232,8 +236,12 @@ export default {
       return !hasErrors;
     },
   },
-  mounted () {
-    // this.loadUsuario();
+
+  mounted() {
+
+    this.loadUsuario();
+
+
   }
 }
 </script>

@@ -12,23 +12,23 @@
     <section
       class="info d-flex justify-content-center align-items-center flex-column"
     >
-      <router-view :user="user"></router-view>
+      <router-view :user="user" @changed="loadUsuario"></router-view>
       <div class="card mt-3 mb-3 card-info" style="width: 35rem;">
         <div class="card-header">
           <p class="h5">Información</p>
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item font-weight-bold">
-            Usuario: <span class="texto">{{ user.usuario }}</span>
+            Usuario: <span class="texto">{{ usuario.usuario }}</span>
           </li>
           <li class="list-group-item font-weight-bold">
-            Nombre: <span class="texto">{{ user.nombre }}</span>
+            Nombre: <span class="texto">{{ usuario.nombre }}</span>
           </li>
           <li class="list-group-item font-weight-bold">
-            Apellido: <span class="texto">{{ user.apellido }}</span>
+            Apellido: <span class="texto">{{ usuario.apellido }}</span>
           </li>
           <li class="list-group-item font-weight-bold">
-            Email: <span class="texto">{{ user.email }}</span>
+            Email: <span class="texto">{{ usuario.email }}</span>
           </li>
         </ul>
       </div>
@@ -39,6 +39,7 @@
 <script>
 import { apiFetch } from "../functions/fetch.js";
 import { API_IMGS_FOLDER } from "../constants/api";
+
 export default {
   name: "Perfil",
   props: ['user'],
@@ -59,9 +60,10 @@ export default {
           this.usuario = sesion;
         });
     },
+
   },
   mounted () {
-    //this.loadUsuario();
+    this.loadUsuario();
   }
 }
 </script>
