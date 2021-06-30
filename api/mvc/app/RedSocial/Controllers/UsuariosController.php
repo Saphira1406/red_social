@@ -8,6 +8,7 @@ use RedSocial\Core\Route;
 use RedSocial\Core\View;
 use RedSocial\Models\Usuario;
 use RedSocial\Validation\Validator;
+use RedSocial\Storage\FileUpload;
 
 class UsuariosController extends Controller
 {
@@ -78,31 +79,42 @@ class UsuariosController extends Controller
 
     public function editarUsuario()
     {
-       // $this->requiresAuth();
+        $this->requiresAuth();
 
         $inputData = file_get_contents('php://input');
         $postData = json_decode($inputData, true);
-
 
         $id = urlParam('id');
         $usuario = $postData['usuario'];
         $nombre = $postData['nombre'];
         $apellido = $postData['apellido'];
         $email = $postData['email'];
+        $imagen = $postData['imagen'] ?? null;
+
+        if (!empty($imagen)) {
+            $upload = new FileUpload($imagen);
+            // getPublicPath nos retorna la ruta absoluta a la carpeta "public".
+            $ruta = App::getPublicPath() . '/img';
+            $nombreImagen = date('Ymd_His_') . ".jpg";
+            $upload->save($ruta . '/' . $nombreImagen);
+        } else {
+            $nombreImagen = '';
+        }
 
         $data = [
-          "id" => $id,
-          "usuario" => $usuario,
-          "nombre" => $nombre,
-          "apellido" => $apellido,
-          "email" => $email,
+            "id" => $id,
+            "usuario" => $usuario,
+            "nombre" => $nombre,
+            "apellido" => $apellido,
+            "email" => $email,
+            "imagen"  => $nombreImagen,
         ];
 
         $rules = [
             "usuario" => ['required'],
             "nombre" => ['required'],
-            "apellido" => ['required'],
-            "email" => ['required'],
+            "apellido" => ['required', 'min:3'],
+            "email" => ['required', 'min:3'],
         ];
 
         $validator = new Validator($data, $rules);
@@ -123,9 +135,14 @@ class UsuariosController extends Controller
                 ]);
             }
         } else {
+            $errores =  $validator->getErrores();
+            $texto = '';
+            foreach ($errores as $error => $val) {
+                $texto .= "$val[0] ";
+            };
             echo json_encode([
                 "success" => false,
-                "msg" => $validator->getErrores()
+                "msg" => $texto
             ]);
         }
     }

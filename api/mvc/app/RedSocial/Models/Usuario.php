@@ -71,6 +71,7 @@ class Usuario extends Modelo implements JsonSerializable
                 nombre = :nombre,
                 apellido = :apellido,
                 email = :email,
+                imagen = :imagen,
                 usuario = :usuario";
 
         $queryEditar .= " WHERE id = :id";
@@ -157,6 +158,7 @@ class Usuario extends Modelo implements JsonSerializable
 
         // Si no podemos obtener la fila, retornamos null.
         if (!$fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            //            throw new \Exception('No existe un usuario con este id.');
             return null;
         }
 

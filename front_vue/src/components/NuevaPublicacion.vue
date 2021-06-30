@@ -13,7 +13,7 @@
             <div class="col-auto">
               <img
                 :src="imageUrl(user.imagen)"
-                class="img-fluid avatar size-publish"
+                class="img-fluid avatar"
                 :alt="`Foto de perfil de ${user.nombre} ${user.apellido}`"
               />
             </div>

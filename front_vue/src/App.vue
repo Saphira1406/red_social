@@ -85,7 +85,12 @@
       </nav>
     </header>
 
-    <router-view @logged="logUser" :user="auth.user"></router-view>
+    <router-view
+      @logged="logUser"
+      :user="auth.user"
+      @updatedUser="onUpdateUser"
+      @deletedUser="onDeleteUser"
+    />
 
     <footer>
       <p>Da Vinci &copy; 2021 | Florencia Mellone | Erica Torrico</p>
@@ -95,6 +100,7 @@
 
 <script>
 import authService from "./services/auth.js";
+import { apiFetch } from "./functions/fetch.js";
 import { API_IMGS_FOLDER } from "./constants/api.js";
 
 export default {
@@ -132,7 +138,25 @@ export default {
         apellido: null,
       }
       this.$router.push("/");
+    },
+    onUpdateUser () {
+      apiFetch('/usuarios/' + this.auth.user.id)
+        .then(sesion => {
+          this.auth.user = sesion;
+        });
+    },
+    onDeleteUser () {
+      this.auth.user = {
+        id: null,
+        email: null,
+        usuario: null,
+        imagen: null,
+        nombre: null,
+        apellido: null,
+      }
+      localStorage.setItem('userData', JSON.stringify(this.auth.user));
     }
+
   },
   mounted () {
     // Apenas se monta la App, preguntamos si el usuario está autenticado, y lo marcamos como tal.
