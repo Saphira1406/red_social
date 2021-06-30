@@ -10,7 +10,7 @@ import ComponenteMuro from "../components/pages/ComponenteMuro";
 import ComponenteAmigos from "../components/pages/ComponenteAmigos";
 import ComponenteFavoritos from "../components/pages/ComponenteFavoritos";
 import Perfil from "../views/Perfil";
-import FormEditar from "../components/FormEditar";
+// import FormEditar from "../components/FormEditar";
 
 const routes = [{
     path: '/',
@@ -44,10 +44,12 @@ const routes = [{
   {
     path: '/perfil',
     component: Perfil,
+    /*
     children: [{
       path: '',
       component: FormEditar,
     }],
+    */
   },
 ]
 

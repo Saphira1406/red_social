@@ -2,17 +2,23 @@
   <div v-if="user.id">
     <section class="profile text-center">
       <img
-        :src="imageUrl(user.imagen)"
+        :src="imageUrl(usuario.imagen)"
         class="img-profile"
-        :alt="`Foto de perfil de ${user.nombre} ${user.apellido}`"
+        :alt="`Foto de perfil de ${usuario.nombre} ${usuario.apellido}`"
       />
-      <p class="font-weight-bold mt-3">{{ user.nombre }} {{ user.apellido }}</p>
+      <p class="font-weight-bold mt-3">
+        {{ usuario.nombre }} {{ usuario.apellido }}
+      </p>
     </section>
 
     <section
       class="info d-flex justify-content-center align-items-center flex-column"
     >
+      <!--
       <router-view :user="user" @changed="loadUsuario"></router-view>
+      -->
+      <form-editar :user="user" @changed="loadUsuario" />
+
       <div class="card mt-3 mb-3 card-info" style="width: 35rem;">
         <div class="card-header">
           <p class="h5">Información</p>
@@ -39,11 +45,14 @@
 <script>
 import { apiFetch } from "../functions/fetch.js";
 import { API_IMGS_FOLDER } from "../constants/api";
+import FormEditar from "./../components/FormEditar.vue";
 
 export default {
   name: "Perfil",
   props: ['user'],
-  // emits: ['logged'],
+  components: {
+    FormEditar
+  },
   data: function () {
     return {
       usuario: [],
@@ -102,11 +111,6 @@ export default {
 }
 .card-info ul li {
   background-color: rgba(242, 166, 73, 0.1);
-}
-.img-profile {
-  width: 170px;
-  border-radius: 50%;
-  margin-top: 1.5em;
 }
 .texto {
   font-weight: normal;

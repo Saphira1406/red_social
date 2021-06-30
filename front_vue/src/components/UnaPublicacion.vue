@@ -29,6 +29,8 @@
               src="./../assets/img/editar.png"
               class="icon-edit"
               alt="Ícono de editar"
+              title="Editar publicación"
+              aria-label="Editar publicación"
             />
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

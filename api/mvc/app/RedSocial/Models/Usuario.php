@@ -71,6 +71,7 @@ class Usuario extends Modelo implements JsonSerializable
                 nombre = :nombre,
                 apellido = :apellido,
                 email = :email,
+                imagen = :imagen,
                 usuario = :usuario";
 
         $queryEditar .= " WHERE id = :id";
