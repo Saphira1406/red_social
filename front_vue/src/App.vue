@@ -27,7 +27,7 @@
             <li class="nav-item">
               <router-link class="nav-link" to="/">Home</router-link>
             </li>
-            -->
+
             <li class="nav-item">
               <router-link class="nav-link px-3" to="/perfil">
                 <img
@@ -39,6 +39,22 @@
                 />
                 Perfil
               </router-link>
+            </li>-->
+            <li class="nav-item dropdown mr-4">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img
+                    :src="imageUrl(auth.user.imagen)"
+                    class="img-fluid avatar mr-2"
+                    :alt="
+                    `Foto de perfil de ${auth.user.nombre} ${auth.user.apellido}`
+                  "
+                />
+                {{auth.user.nombre}}
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: rgba(242,137,114, .8);">
+                <router-link to="/perfil" class="dropdown-item" href="#">Perfil</router-link>
+                <button class="dropdown-item" @click="logout">Cerrar Sesión</button>
+              </div>
             </li>
             <!--         
           <li v-if="auth.user.id === null" class="nav-item">
@@ -46,12 +62,12 @@
               >Iniciar Sesión</router-link
             >
           </li>
-          -->
+
             <li class="nav-item">
               <button class="btn nav-link px-3" @click="logout">
                 Cerrar Sesión
               </button>
-            </li>
+            </li>-->
           </ul>
 
           <!--
