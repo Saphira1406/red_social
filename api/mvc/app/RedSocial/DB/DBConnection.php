@@ -29,6 +29,7 @@
 
 namespace RedSocial\DB;
 
+use RedSocial\Core\App;
 use Exception;
 use PDO;
 
@@ -43,10 +44,12 @@ class DBConnection
     private static $db;
 
     // Constantes de conexión.
+    /*
     const DB_HOST = "localhost";
     const DB_USER = "root";
-    const DB_PASS = "";
+    const DB_PASS = "root";
     const DB_BASE = "red_social";
+    */
 
     /**
      * DBConnection constructor.
@@ -62,10 +65,25 @@ class DBConnection
      */
     protected static function openConnection()
     {
+        /*
         $dsn = "mysql:host=" . self::DB_HOST . ";dbname=" . self::DB_BASE . ";charset=utf8mb4";
 
         try {
             self::$db = new PDO($dsn, self::DB_USER, self::DB_PASS);
+        } catch (Exception $e) {
+            echo "Error al conectar con la base de datos :(";
+        }
+        */
+
+        // Leemos los datos de la conexión del entorno.
+        $host = App::getEnv('DATABASE_HOST');
+        $user = App::getEnv('DATABASE_USER');
+        $pass = App::getEnv('DATABASE_PASS');
+        $base = App::getEnv('DATABASE_NAME');
+        $dsn = "mysql:host=" . $host . ";dbname=" . $base . ";charset=utf8mb4";
+
+        try {
+            self::$db = new PDO($dsn, $user, $pass);
         } catch (Exception $e) {
             echo "Error al conectar con la base de datos :(";
         }
