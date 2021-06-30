@@ -31,6 +31,7 @@ class Route
         'PATCH'       => [],
         'PUT'       => [],
         'DELETE'    => [],
+        'OPTIONS'    => [],
     ];
 
     /** @var string  La acción del Controller a ejecutar. Ej: "PeliculaController@index" */

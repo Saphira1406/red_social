@@ -99,19 +99,10 @@ class UsuariosController extends Controller
             "email" => $email,
         ];
 
-        if (!empty($imagen)) {
-            $upload = new FileUpload($imagen);
-            // getPublicPath nos retorna la ruta absoluta a la carpeta "public".
-            $ruta = App::getPublicPath() . '/img';
-            $nombreImagen = date('Ymd_His_') . ".jpg";
-            $upload->save($ruta . '/' . $nombreImagen);
-            $data["imagen"]  = $nombreImagen;
-        }
-
         $rules = [
             "usuario" => ['required'],
             "nombre" => ['required'],
-            "apellido" => ['required', 'min:3'],
+            "apellido" => ['required'],
             "email" => ['required', 'min:3'],
         ];
 
@@ -119,6 +110,16 @@ class UsuariosController extends Controller
 
         if ($validator->passes()) {
             $usuario_obj = new Usuario();
+
+            if (!empty($imagen)) {
+                $upload = new FileUpload($imagen);
+                // getPublicPath nos retorna la ruta absoluta a la carpeta "public".
+                $ruta = App::getPublicPath() . '/img';
+                $nombreImagen = date('Ymd_His_') . ".jpg";
+                $upload->save($ruta . '/' . $nombreImagen);
+                $data["imagen"]  = $nombreImagen;
+            }
+
             $exito = $usuario_obj->editar($id, $data);
 
             if ($exito) {
@@ -150,7 +151,7 @@ class UsuariosController extends Controller
         $this->requiresAuth();
 
         $id = urlParam('id');
-        $user = new Usuario();
+        // $user = new Usuario();
         /*
         if (!$user->eliminar($id)) {
             
@@ -166,7 +167,11 @@ class UsuariosController extends Controller
             ]);
         }
         */
-        if (!$user->eliminar($id)) {
+
+        $usuario = (new Usuario())->getByPk($id);
+        $nombreImagen = $usuario->getImagen();
+
+        if (!$usuario->eliminar($id)) {
             /*
              $errores =  $validator->getErrores();
             $texto = '';
@@ -174,11 +179,21 @@ class UsuariosController extends Controller
                 $texto .= "$val[0] ";
             };
             */
+
             echo json_encode([
                 "success" => false,
                 "msg" => 'Ocurrió un error al tratar de eliminar el usuario.',
             ]);
         } else {
+
+            // borrar archivo físico:
+
+            $ruta = App::getPublicPath() . '/img';
+
+            if ($nombreImagen != 'default.jpg') :
+                unlink($ruta . '/' . $nombreImagen);
+            endif;
+
             echo json_encode([
                 'success' => true,
                 'msg' => 'El usuario ha sido eliminado',

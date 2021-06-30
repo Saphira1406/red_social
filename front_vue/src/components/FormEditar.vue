@@ -77,7 +77,17 @@
                   class="form-control"
                   id="usuario"
                   v-model="usuario.usuario"
+                  :aria-describedby="
+                    errors.usuario !== null ? 'errors-texto' : null
+                  "
                 />
+                <div
+                  v-if="errors.usuario !== null"
+                  id="errors-texto"
+                  class="text-danger"
+                >
+                  {{ errors.usuario }}
+                </div>
               </div>
               <div class="form-group">
                 <label for="nombre">Nombre</label>
@@ -86,7 +96,17 @@
                   class="form-control"
                   id="nombre"
                   v-model="usuario.nombre"
+                  :aria-describedby="
+                    errors.nombre !== null ? 'errors-texto' : null
+                  "
                 />
+                <div
+                  v-if="errors.nombre !== null"
+                  id="errors-texto"
+                  class="text-danger"
+                >
+                  {{ errors.nombre }}
+                </div>
               </div>
               <div class="form-group">
                 <label for="apellido">Apellido</label>
@@ -95,7 +115,17 @@
                   class="form-control"
                   id="apellido"
                   v-model="usuario.apellido"
+                  :aria-describedby="
+                    errors.apellido !== null ? 'errors-texto' : null
+                  "
                 />
+                <div
+                  v-if="errors.apellido !== null"
+                  id="errors-texto"
+                  class="text-danger"
+                >
+                  {{ errors.apellido }}
+                </div>
               </div>
               <div class="form-group">
                 <label for="email">Email</label>
@@ -104,7 +134,17 @@
                   class="form-control"
                   id="email"
                   v-model="usuario.email"
+                  :aria-describedby="
+                    errors.email !== null ? 'errors-texto' : null
+                  "
                 />
+                <div
+                  v-if="errors.email !== null"
+                  id="errors-texto"
+                  class="text-danger"
+                >
+                  {{ errors.email }}
+                </div>
               </div>
               <div class="d-flex justify-content-center">
                 <button type="submit" class="boton w-50 boton-guardar">
@@ -220,7 +260,10 @@ export default {
         imagen: this.user.imagen,
       },
       errors: {
-        texto: null
+        usuario: null,
+        nombre: null,
+        apellido: null,
+        email: null,
       },
       notification: {
         text: null,
@@ -240,6 +283,10 @@ export default {
           this.usuario = sesion;
           this.preview = false;
           this.notification.text = null;
+          this.errors.usuario = null;
+          this.errors.nombre = null;
+          this.errors.apellido = null;
+          this.errors.email = null;
         });
     },
 
@@ -266,10 +313,17 @@ export default {
         email: this.usuario.email,
         usuario: this.usuario.usuario,
       };
+
+      // Si no pasa la validación, no realizamos la petición.
+      if (!this.validates()) return;
+      //this.loading = true;
+      this.notification.text = null;
+
       // enviar la imagen sólo si se cambió:
       if (this.preview) {
         data.imagen = this.usuario.imagen;
       }
+
       apiFetch('/usuarios/' + this.usuario.id + '/editar', {
         method: 'PUT',
         body: JSON.stringify(data),
@@ -287,6 +341,38 @@ export default {
             console.log(rta);
           }
         });
+    },
+
+
+    /**
+    * Valida el form.
+    *
+    * @returns boolean
+    */
+    validates () {
+      let hasErrors = false;
+
+      if (this.usuario.usuario == null || this.usuario.usuario === '') {
+        this.errors.usuario = 'Tenés que completar el nombre de usuario.';
+        hasErrors = true;
+      }
+
+      if (this.usuario.nombre == null || this.usuario.nombre === '') {
+        this.errors.nombre = 'Tenés que completar el nombre.';
+        hasErrors = true;
+      }
+
+      if (this.usuario.apellido == null || this.usuario.apellido === '') {
+        this.errors.apellido = 'Tenés que completar el apellido.';
+        hasErrors = true;
+      }
+
+      if (this.usuario.email == null || this.usuario.email === '') {
+        this.errors.email = 'Tenés que completar el email.';
+        hasErrors = true;
+      }
+
+      return !hasErrors;
     },
 
     deleteUsuario () {
@@ -338,6 +424,8 @@ export default {
 .boton-guardar {
   border: 1px solid #361973;
   padding: 0.5em;
+  box-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+  border-radius: 0.25rem;
 }
 
 .img-profile:hover {
@@ -351,5 +439,14 @@ export default {
 
 #confirmModal {
   background: rgba(0, 0, 0, 0.9);
+}
+
+.close {
+  color: white;
+  opacity: 1;
+}
+
+.close:hover {
+  color: white;
 }
 </style>
