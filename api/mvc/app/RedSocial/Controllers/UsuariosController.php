@@ -91,24 +91,22 @@ class UsuariosController extends Controller
         $email = $postData['email'];
         $imagen = $postData['imagen'] ?? null;
 
-        if (!empty($imagen)) {
-            $upload = new FileUpload($imagen);
-            // getPublicPath nos retorna la ruta absoluta a la carpeta "public".
-            $ruta = App::getPublicPath() . '/img';
-            $nombreImagen = date('Ymd_His_') . ".jpg";
-            $upload->save($ruta . '/' . $nombreImagen);
-        } else {
-            $nombreImagen = '';
-        }
-
         $data = [
             "id" => $id,
             "usuario" => $usuario,
             "nombre" => $nombre,
             "apellido" => $apellido,
             "email" => $email,
-            "imagen"  => $nombreImagen,
         ];
+
+        if (!empty($imagen)) {
+            $upload = new FileUpload($imagen);
+            // getPublicPath nos retorna la ruta absoluta a la carpeta "public".
+            $ruta = App::getPublicPath() . '/img';
+            $nombreImagen = date('Ymd_His_') . ".jpg";
+            $upload->save($ruta . '/' . $nombreImagen);
+            $data["imagen"]  = $nombreImagen;
+        }
 
         $rules = [
             "usuario" => ['required'],
