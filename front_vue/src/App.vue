@@ -89,6 +89,7 @@
       @logged="logUser"
       :user="auth.user"
       @updatedUser="onUpdateUser"
+      @deletedUser="onDeleteUser"
     />
 
     <footer>
@@ -143,8 +144,19 @@ export default {
         .then(sesion => {
           this.auth.user = sesion;
         });
-
+    },
+    onDeleteUser () {
+      this.auth.user = {
+        id: null,
+        email: null,
+        usuario: null,
+        imagen: null,
+        nombre: null,
+        apellido: null,
+      }
+      localStorage.setItem('userData', JSON.stringify(this.auth.user));
     }
+
   },
   mounted () {
     // Apenas se monta la App, preguntamos si el usuario está autenticado, y lo marcamos como tal.

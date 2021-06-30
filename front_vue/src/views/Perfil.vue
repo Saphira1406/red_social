@@ -15,7 +15,7 @@
     <section
       class="info d-flex justify-content-center align-items-center flex-column"
     >
-      <form-editar :user="user" @changed="updateUser" />
+      <form-editar :user="user" @changed="updateUser" @deleted="deleteUser" />
 
       <div class="card mt-3 mb-3 card-info" style="width: 35rem;">
         <div class="card-header">
@@ -48,6 +48,7 @@ import FormEditar from "./../components/FormEditar.vue";
 export default {
   name: "Perfil",
   props: ['user'],
+  emits: ['updatedUser', 'deletedUser'],
   components: {
     FormEditar
   },
@@ -70,7 +71,12 @@ export default {
 
     updateUser () {
       this.loadUsuario();
-      this.$emit('updatedUser', this.usuario);
+      this.$emit('updatedUser', true);
+    },
+
+    deleteUser () {
+      this.$emit('deletedUser', true);
+
     }
 
   },

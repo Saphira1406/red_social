@@ -112,7 +112,7 @@
                 </button>
               </div>
             </form>
-            <!--
+
             <section class="card border-danger fondo mt-5 mb-3">
               <div class="card-body text-white">
                 <h5 class="card-title">Eliminar Cuenta</h5>
@@ -121,7 +121,6 @@
                   publicaciones.
                 </p>
                 <div class="d-flex justify-content-center">
-                  
                   <button
                     type="button"
                     class="btn btn-danger w-50"
@@ -131,7 +130,7 @@
                     Eliminar
                   </button>
                 </div>
-                
+
                 <div
                   class="modal fade"
                   id="confirmModal"
@@ -185,7 +184,6 @@
                 </div>
               </div>
             </section>
-            -->
           </div>
         </div>
       </div>
@@ -204,7 +202,10 @@ import $ from 'jquery';
 export default {
   name: "Editar",
   props: ['user'],
-  emits: ['logged', 'changed', 'deleted'],
+  emits: [
+    'changed',
+    'deleted'
+  ],
   components: {
     BaseNotification,
   },
@@ -277,47 +278,48 @@ export default {
           }
         });
     },
+
+    deleteUsuario () {
+      apiFetch('/usuarios/' + this.usuario.id + '/eliminar', {
+        method: 'DELETE',
+      })
+        .then(rta => {
+          if (rta.success) {
+            console.log(rta);
+
+            this.usuario = {
+              nombre: null,
+              apellido: null,
+              email: null,
+              usuario: null,
+              imagen: null,
+            }
+
+            // authService.logout();
+            this.$emit('deleted', true);
+            this.$router.push("/");
+            // Cerrar la modal:
+            $('#editForm').modal('hide');
+            $('.modal-backdrop').remove();
+
+          } else {
+            console.log(rta);
+            this.notification = {
+              text: 'Ocurrió un error al tratar de eliminar el usuario.',
+              type: 'danger',
+            }
+          }
+        });
+    },
     /*
-        deleteUsuario () {
-          apiFetch('/usuarios/' + this.usuario.id + '/eliminar', {
-            method: 'DELETE',
-          })
-            .then(rta => {
-              if (rta.success) {
-                console.log(rta);
+        confirmDelete () {
+          let confirmacion = confirm('¿Estás seguro de eliminar tu cuenta? Esta acción no puede deshacerse.');
     
-                this.usuario = {
-                  nombre: null,
-                  apellido: null,
-                  email: null,
-                  usuario: null,
-                  imagen: null,
-                }
-    
-                // authService.logout();
-                 this.$emit('deleted', this.usuario);
-                this.$router.push("/");
-                // Cerrar la modal:
-                // $('#editForm').modal('hide');
-    
-              } else {
-                console.log(rta);
-                this.notification = {
-                  text: 'Ocurrió un error al tratar de eliminar el usuario.',
-                  type: 'danger',
-                }
-              }
-            });
+          if (confirmacion) {
+            this.deleteUsuario();
+          }
         },
-        /*
-            confirmDelete () {
-              let confirmacion = confirm('¿Estás seguro de eliminar tu cuenta? Esta acción no puede deshacerse.');
-        
-              if (confirmacion) {
-                this.deleteUsuario();
-              }
-            },
-        */
+    */
   },
 
   mounted () {
