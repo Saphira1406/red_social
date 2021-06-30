@@ -99,6 +99,7 @@ class Usuario extends Modelo implements JsonSerializable
     public function eliminar($id): bool
     {
         $db = DBConnection::getConnection();
+
         $query = " DELETE FROM usuarios
                 WHERE id = ?";
         $stmt = $db->prepare($query);
@@ -106,6 +107,7 @@ class Usuario extends Modelo implements JsonSerializable
             //            throw new \Exception("No se pudo eliminar el producto #" . $id);
             return false;
         }
+
         return true;
     }
 

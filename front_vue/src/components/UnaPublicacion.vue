@@ -208,7 +208,7 @@ export default {
       let commentHasErrors = false;
 
       if (this.comentario.texto == null || this.comentario.texto === '') {
-        this.errors.texto = 'Tenés que escribir el texto del comentario.';
+        this.errorsComment.texto = 'Tenés que escribir el texto del comentario.';
         commentHasErrors = true;
       }
 
@@ -216,9 +216,6 @@ export default {
     },
 
   },
-  mounted () {
-
-  }
 }
 </script>
 

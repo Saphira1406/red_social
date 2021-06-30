@@ -103,4 +103,11 @@ class AuthController
             'success' => true,
         ]);
     }
+
+    public function options()
+    {
+        echo json_encode([
+            'success' => true,
+        ]);
+    }
 }
