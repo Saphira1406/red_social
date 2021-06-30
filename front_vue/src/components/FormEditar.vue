@@ -3,7 +3,7 @@
     <!-- Button trigger modal -->
     <button
       type="button"
-      class="btn boton-editar boton"
+      class="btn text-white boton-editar boton"
       data-toggle="modal"
       data-target="#editForm"
     >
@@ -259,16 +259,26 @@ export default {
     },
 
     editUsuario () {
+      let data = {
+        id: this.usuario.id,
+        nombre: this.usuario.nombre,
+        apellido: this.usuario.apellido,
+        email: this.usuario.email,
+        usuario: this.usuario.usuario,
+      };
+      // enviar la imagen sólo si se cambió:
+      if (this.preview) {
+        data.imagen = this.usuario.imagen;
+      }
       apiFetch('/usuarios/' + this.usuario.id + '/editar', {
         method: 'PUT',
-        body: JSON.stringify(this.usuario),
+        body: JSON.stringify(data),
       })
         .then(rta => {
           this.notification.text = rta.msg;
           if (rta.success) {
             this.notification.type = 'success';
             this.$emit('changed', true);
-            // this.loadUsuario();
             console.log(rta);
             // Cerrar la modal:
             $('#editForm').modal('hide');
@@ -295,7 +305,6 @@ export default {
               imagen: null,
             }
 
-            // authService.logout();
             this.$emit('deleted', true);
             this.$router.push("/");
             // Cerrar la modal:
@@ -311,22 +320,11 @@ export default {
           }
         });
     },
-    /*
-        confirmDelete () {
-          let confirmacion = confirm('¿Estás seguro de eliminar tu cuenta? Esta acción no puede deshacerse.');
-    
-          if (confirmacion) {
-            this.deleteUsuario();
-          }
-        },
-    */
   },
 
   mounted () {
-
     this.loadUsuario();
-    $(this.$refs.editModal).on("hide.bs.modal", this.loadUsuario)
-
+    $(this.$refs.editModal).on("hide.bs.modal", this.loadUsuario);
   }
 }
 </script>
