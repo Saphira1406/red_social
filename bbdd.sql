@@ -94,7 +94,7 @@ INSERT INTO usuarios
 SET email
 = 'uno@uno',
 nombre = 'Juan',
-apellido:
+apellido=
 'Pérez',
 password = "$2y$10$AeSRdA8WTWJpZ3ZFwkEQIeG6a5g20EVY8ig3slJI3CjA9yQqd7Xtq";
 
@@ -103,9 +103,9 @@ SET email
 = 'dos@dos',
 nombre
 = 'María',
-apellido:
+apellido=
 'López',
-imagen:
+imagen=
 'persona_2.jpg',
 password = "$2y$10$BWHWXmfmJrV9sVVQEAxIWu3yBxrFU.hdpKSNBGVDJCmmtU/xLQkLu";
 
@@ -114,9 +114,9 @@ SET email
 = 'tres@tres',
 nombre
 = 'Ana',
-apellido:
+apellido=
 'González',
-imagen:
+imagen=
 'persona_3.jpg',
 password = "$2y$10$FYRDwgiPDZ1A4I4CepGTQ.ZfbZblq2VjVhEKIwCmhCoW/3hokW4tq";
 

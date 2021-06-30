@@ -65,7 +65,7 @@
       </button>
 
       <div class="collapse" :id="`commentForm${publicacion.id}`">
-        <div class="card card-body mt-2">
+        <div class="card card-body mt-2 comentario">
           <form action="#" @submit.prevent="crearComentario">
             <div class="form-row">
               <div class="form-group col-auto">
