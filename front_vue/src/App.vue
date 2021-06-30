@@ -51,9 +51,9 @@
                 />
                 {{auth.user.nombre}}
               </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: rgba(242,137,114, .8);">
-                <router-link to="/perfil" class="dropdown-item" href="#">Perfil</router-link>
-                <button class="dropdown-item" @click="logout">Cerrar Sesión</button>
+              <div class="dropdown-menu" id="drop-perfil" aria-labelledby="navbarDropdown">
+                <router-link to="/perfil" class="dropdown-item drop-hover" href="#">Perfil</router-link>
+                <button class="dropdown-item drop-hover" @click="logout">Cerrar Sesión</button>
               </div>
             </li>
             <!--         
@@ -182,3 +182,11 @@ export default {
   }
 };
 </script>
+<style>
+#drop-perfil {
+  background-color: rgba(242,137,114, .8);
+}
+.drop-hover:hover {
+  background-color: rgba(242,137,114, .9) !important;
+}
+</style>
