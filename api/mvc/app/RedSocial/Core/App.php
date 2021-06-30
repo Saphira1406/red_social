@@ -19,6 +19,9 @@ class App
     /** @var Request La petición del usuario. */
     protected $request;
 
+    /** @var EnvLoader */
+    protected static $loader;
+
     /**
      * App constructor.
      * @param $rootPath
@@ -33,6 +36,9 @@ class App
         self::$urlPath = $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['SERVER_NAME'] .  $_SERVER['SCRIPT_NAME'];
 
         self::$urlPath = substr(self::$urlPath, 0, -9);
+
+        // Cargamos el loader.
+        $this->loadEnvData();
     }
 
     /**
@@ -150,5 +156,24 @@ class App
     public static function getUrlPath()
     {
         return self::$urlPath;
+    }
+
+    /**
+     * Carga el archivo de entorno.
+     */
+    protected function loadEnvData(): void
+    {
+        self::$loader = new EnvLoader(self::$rootPath);
+    }
+
+    /**
+     * Retorna el valor del env.
+     *
+     * @param string $key
+     * @return string
+     */
+    public static function getEnv(string $key): string
+    {
+        return self::$loader->getEnv($key);
     }
 }

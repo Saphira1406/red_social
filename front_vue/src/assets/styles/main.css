@@ -32,8 +32,17 @@ nav .avatar {
     width: 30px;
 }
 
-.nav-link {
-    /* line-height: 30px; */
+.btn-gradient {
+    color: white;
+    background: rgb(54, 25, 115);
+    background: linear-gradient( 351deg, rgba(54, 25, 115, 1) 37%, rgba(172, 92, 207, 1) 87%);
+    border: none;
+}
+
+.btn-gradient:hover {
+    color: white;
+    background: rgb(172, 92, 207);
+    background: linear-gradient( 351deg, rgba(172, 92, 207, 1) 37%, rgba(54, 25, 115, 1) 87%);
 }
 
 p .btn {
@@ -79,5 +88,99 @@ body textarea {
 @media screen and (min-width: 576px) {
     body textarea {
         min-height: auto;
+    }
+}
+
+/*
+ |--------------------------------------------------------------------------
+ | Loader
+ |--------------------------------------------------------------------------
+ */
+
+.loader {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.loader-small {
+    width: 30px;
+    height: 30px;
+}
+
+.loader i {
+    --size-square: 20px;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.loader-small i {
+    --size-square-small: 15px;
+}
+
+.loader i::before, .loader i::after {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    width: var(--size-square);
+    height: var(--size-square);
+    background-color: rgb(135, 40, 175);
+}
+
+.loader-small i::before, .loader-small i::after {
+    width: var(--size-square-small);
+    height: var(--size-square-small);
+}
+
+.loader i::before {
+    top: calc(50% - var(--size-square));
+    left: calc(50% - var(--size-square));
+    animation: loader-prev 2.4s cubic-bezier(0, 0, 0.24, 1.21) infinite;
+}
+
+.loader-small i::before {
+    top: calc(50% - var(--size-square-small));
+    left: calc(50% - var(--size-square-small));
+}
+
+.loader i::after {
+    top: 50%;
+    left: 50%;
+    animation: loader 2.4s cubic-bezier(0, 0, 0.24, 1.21) infinite;
+}
+
+@keyframes loader-prev {
+    0%, 100% {
+        transform: none;
+    }
+    25% {
+        transform: translateX(100%);
+    }
+    50% {
+        transform: translateX(100%) translateY(100%);
+    }
+    75% {
+        transform: translateY(100%);
+    }
+}
+
+@keyframes loader {
+    0%, 100% {
+        transform: none;
+    }
+    25% {
+        transform: translateX(-100%);
+    }
+    50% {
+        transform: translateX(-100%) translateY(-100%);
+    }
+    75% {
+        transform: translateY(-100%);
     }
 }

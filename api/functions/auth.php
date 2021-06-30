@@ -1,13 +1,16 @@
 <?php
+
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use RedSocial\Core\App;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 // TODO: Mover a un archivo externo...
-const SECRET_KEY = 'FVfFLlwGC+LGmta0/Ax74KfVnpVkOwJINAmJ+E5FiL0=';
+// const SECRET_KEY = 'FVfFLlwGC+LGmta0/Ax74KfVnpVkOwJINAmJ+E5FiL0=';
+
 
 /**
  * Crea un token de JWT.
@@ -15,10 +18,12 @@ const SECRET_KEY = 'FVfFLlwGC+LGmta0/Ax74KfVnpVkOwJINAmJ+E5FiL0=';
  * @param int $id
  * @return string
  */
-function createToken(int $id): string {
+function createToken(int $id): string
+{
+    $key = App::getEnv('SECRET_KEY');
     $config = Configuration::forSymmetricSigner(
         new Sha256(),
-        InMemory::base64Encoded(SECRET_KEY)
+        InMemory::base64Encoded($key)
     );
 
     $builder = $config->builder();
@@ -38,10 +43,12 @@ function createToken(int $id): string {
  * @param string $token
  * @return array|bool
  */
-function parseAndVerifyToken(string $token) {
+function parseAndVerifyToken(string $token)
+{
+    $key = App::getEnv('SECRET_KEY');
     $config = Configuration::forSymmetricSigner(
         new Sha256(),
-        InMemory::base64Encoded(SECRET_KEY)
+        InMemory::base64Encoded($key)
     );
 
     $parsedToken = $config->parser()->parse($token);
@@ -57,7 +64,7 @@ function parseAndVerifyToken(string $token) {
         return [
             'id' => $parsedToken->claims()->get('id')
         ];
-    } catch(\Exception $e) {
+    } catch (\Exception $e) {
         return false;
     }
 }

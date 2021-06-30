@@ -70,10 +70,8 @@ class AuthController
             $usuario = $usuario->getByEmail($email);
 
             if ($usuario) {
+                (new Auth)->setAsAuthenticated($usuario);
                 //     $_SESSION['id'] = $usuario->getId();
-                $token = createToken($usuario->getId());
-                setcookie('token', $token, 0, "", "", false, true);
-
                 echo json_encode([
                     'success' => true,
                     'data' => [
@@ -101,10 +99,6 @@ class AuthController
         (new Auth)->logout();
         // $_SESSION['status_success'] = 'Cerraste sesión con éxito. ¡Te esperamos pronto!';
         // App::redirect('iniciar-sesion');
-
-        // Borramos la cookie con el token.
-        setcookie('token', null, time() - 3600 * 24);
-
         echo json_encode([
             'success' => true,
         ]);

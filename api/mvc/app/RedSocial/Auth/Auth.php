@@ -40,6 +40,9 @@ class Auth
     public function setAsAuthenticated(Usuario $user): void
     {
         // $_SESSION['id'] = $user->getId();
+
+        $token = createToken($user->getId());
+        setcookie('token', $token, 0, "", "", false, true);
     }
 
     /**
@@ -48,6 +51,9 @@ class Auth
     public function logout(): void
     {
         // unset($_SESSION['id']);
+
+        // Borramos la cookie con el token.
+        setcookie('token', null, time() - 3600 * 24);
     }
 
     /**

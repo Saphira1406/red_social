@@ -81,3 +81,5 @@ Route::add('DELETE', '/usuarios/{id}/eliminar', 'UsuariosController@eliminar');
 
 // Hacemos la ruta para grabar.
 Route::add('POST', '/comentarios/nuevo', 'ComentariosController@nuevoGuardar');
+
+// Route::add('POST', '*', 'ComentariosController@nuevoGuardar');

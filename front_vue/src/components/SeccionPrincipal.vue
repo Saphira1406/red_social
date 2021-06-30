@@ -16,9 +16,6 @@
         </div>
       </div>
     </section>
-    <section
-      class="d-flex justify-content-center align-items-center publicaciones-seccion"
-    ></section>
 
     <section
       class="d-flex justify-content-center align-items-center flex-column pt-3"
