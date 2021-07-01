@@ -157,7 +157,7 @@
 
             <section class="card border-danger fondo mt-5 mb-3">
               <div class="card-body text-white">
-                <h5 class="card-title">Eliminar Cuenta</h5>
+                <h3 class="card-title h5">Eliminar Cuenta</h3>
                 <p class="card-text">
                   Si eliminas tu cuenta se borrarán todos tus datos y
                   publicaciones.
@@ -184,12 +184,12 @@
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5
-                          class="modal-title text-danger"
+                        <p
+                          class="modal-title text-danger h5"
                           id="confirmModalLabel"
                         >
                           Estás a punto de eliminar tu cuenta
-                        </h5>
+                        </p>
                         <button
                           type="button"
                           class="close"

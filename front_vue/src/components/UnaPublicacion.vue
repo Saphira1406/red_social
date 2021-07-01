@@ -21,7 +21,7 @@
           <button
             class="btn pr-0"
             type="button"
-            id="dropdownMenuButton"
+            :id="`dropdownPublicationMenuButton${publicacion.id}`"
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
@@ -34,7 +34,10 @@
               aria-label="Editar publicación"
             />
           </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <div
+            class="dropdown-menu"
+            :aria-labelledby="`dropdownPublicationMenuButton${publicacion.id}`"
+          >
             <a class="dropdown-item" href="#">Editar</a>
             <a class="dropdown-item" href="#">Eliminar</a>
           </div>
