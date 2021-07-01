@@ -188,9 +188,7 @@ export default {
             this.notification.type = 'success';
             // Luego de grabar exitosamente, ocultamos y vaciamos el form.
             $(`#commentForm${this.comentario.publicaciones_id}`).collapse('hide');
-            this.comentario = {
-              texto: null,
-            };
+            this.comentario.texto = null;
             this.$emit('newComment', this.publicacion);
           } else {
             this.notification.type = 'danger';
