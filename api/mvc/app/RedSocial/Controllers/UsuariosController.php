@@ -61,7 +61,7 @@ class UsuariosController extends Controller
             if ($exito) {
                 echo json_encode([
                     'success' => true,
-                    'msg' => 'El usuario se registró con éxito. Redireccionando...',
+                    'msg' => 'El usuario se registró con éxito.',
                 ]);
             } else {
                 echo json_encode([
@@ -70,9 +70,14 @@ class UsuariosController extends Controller
                 ]);
             }
         } else {
+            $errores =  $validator->getErrores();
+            $texto = '';
+            foreach ($errores as $error => $val) {
+                $texto .= "$val[0] ";
+            };
             echo json_encode([
                 "success" => false,
-                "msg" => $validator->getErrores()
+                "msg" => $texto
             ]);
         }
     }
@@ -125,7 +130,7 @@ class UsuariosController extends Controller
             if ($exito) {
                 echo json_encode([
                     "success" => true,
-                    "msg" => 'El usuario se modificó con éxito. Redireccionando...',
+                    "msg" => 'El usuario se modificó con éxito.',
                 ]);
             } else {
                 echo json_encode([
@@ -199,7 +204,6 @@ class UsuariosController extends Controller
                 'msg' => 'El usuario ha sido eliminado',
             ]);
         }
-
 
         //  App::redirect('/usuarios');
     }

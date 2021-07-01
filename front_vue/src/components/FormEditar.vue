@@ -78,17 +78,18 @@
                   id="usuario"
                   v-model="usuario.usuario"
                   :aria-describedby="
-                    errors.usuario !== null ? 'errors-texto' : null
+                    errors.usuario !== null ? 'errors-usuario' : null
                   "
                 />
                 <div
                   v-if="errors.usuario !== null"
-                  id="errors-texto"
+                  id="errors-usuario"
                   class="text-danger"
                 >
                   {{ errors.usuario }}
                 </div>
               </div>
+
               <div class="form-group">
                 <label for="nombre">Nombre</label>
                 <input
@@ -97,17 +98,18 @@
                   id="nombre"
                   v-model="usuario.nombre"
                   :aria-describedby="
-                    errors.nombre !== null ? 'errors-texto' : null
+                    errors.nombre !== null ? 'errors-nombre' : null
                   "
                 />
                 <div
                   v-if="errors.nombre !== null"
-                  id="errors-texto"
+                  id="errors-nombre"
                   class="text-danger"
                 >
                   {{ errors.nombre }}
                 </div>
               </div>
+
               <div class="form-group">
                 <label for="apellido">Apellido</label>
                 <input
@@ -116,12 +118,12 @@
                   id="apellido"
                   v-model="usuario.apellido"
                   :aria-describedby="
-                    errors.apellido !== null ? 'errors-texto' : null
+                    errors.apellido !== null ? 'errors-apellido' : null
                   "
                 />
                 <div
                   v-if="errors.apellido !== null"
-                  id="errors-texto"
+                  id="errors-apellido"
                   class="text-danger"
                 >
                   {{ errors.apellido }}
@@ -135,12 +137,12 @@
                   id="email"
                   v-model="usuario.email"
                   :aria-describedby="
-                    errors.email !== null ? 'errors-texto' : null
+                    errors.email !== null ? 'errors-email' : null
                   "
                 />
                 <div
                   v-if="errors.email !== null"
-                  id="errors-texto"
+                  id="errors-email"
                   class="text-danger"
                 >
                   {{ errors.email }}
@@ -342,7 +344,6 @@ export default {
           }
         });
     },
-
 
     /**
     * Valida el form.

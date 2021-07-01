@@ -88,7 +88,7 @@ class AuthController
         }
         echo json_encode([
             'success' => false,
-            'msg' => 'Ocurrió un error al tratar de loguearse.',
+            'msg' => 'Los datos ingresados no coinciden con nuestros registros.',
         ]);
     }
 

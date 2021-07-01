@@ -7,9 +7,15 @@
         <h2 class="card-title">Registrate</h2>
       </div>
       <div class="card-body">
-        <span class="text-white form-text h6 mb-3"
-          >(Todos los campos son requeridos)</span
-        >
+        <p class="text-white form-text h6 mb-3">
+          (Todos los campos son requeridos)
+        </p>
+
+        <BaseNotification
+          v-if="notification.text !== null"
+          :text="notification.text"
+          :type="notification.type"
+        />
 
         <form action="#" class="row g-3" @submit.prevent="crearUsuario">
           <div class="col-md-6">
@@ -19,7 +25,17 @@
               class="form-control"
               id="nombre"
               v-model="usuario.nombre"
+              :aria-describedby="
+                errors.nombre !== null ? 'errors-nombre' : null
+              "
             />
+            <div
+              v-if="errors.nombre !== null"
+              id="errors-nombre"
+              class="text-danger"
+            >
+              {{ errors.nombre }}
+            </div>
           </div>
           <div class="col-md-6">
             <label for="apellido" class="form-label">Apellido</label>
@@ -28,7 +44,17 @@
               class="form-control"
               id="apellido"
               v-model="usuario.apellido"
+              :aria-describedby="
+                errors.apellido !== null ? 'errors-apellido' : null
+              "
             />
+            <div
+              v-if="errors.apellido !== null"
+              id="errors-apellido"
+              class="text-danger"
+            >
+              {{ errors.apellido }}
+            </div>
           </div>
           <div class="col-12">
             <label for="email" class="form-label">Email</label>
@@ -37,7 +63,15 @@
               class="form-control"
               id="email"
               v-model="usuario.email"
+              :aria-describedby="errors.email !== null ? 'errors-email' : null"
             />
+            <div
+              v-if="errors.email !== null"
+              id="errors-email"
+              class="text-danger"
+            >
+              {{ errors.email }}
+            </div>
           </div>
           <div class="col-12">
             <label for="password" class="form-label">Contraseña</label>
@@ -46,7 +80,17 @@
               class="form-control"
               id="password"
               v-model="usuario.password"
+              :aria-describedby="
+                errors.password !== null ? 'errors-password' : null
+              "
             />
+            <div
+              v-if="errors.password !== null"
+              id="errors-password"
+              class="text-danger"
+            >
+              {{ errors.password }}
+            </div>
           </div>
           <div class="d-grid gap-2 w-100 d-flex justify-content-center mx-auto">
             <button type="submit" class="btn boton mx-auto">Registrarse</button>
@@ -65,8 +109,13 @@
 
 <script>
 import { apiFetch } from "../functions/fetch.js";
+import BaseNotification from "../components/BaseNotification.vue";
+
 export default {
   name: "Registrarse",
+  components: {
+    BaseNotification,
+  },
   data () {
     return {
       usuario: {
@@ -75,40 +124,76 @@ export default {
         email: null,
         password: null,
       },
+      errors: {
+        nombre: null,
+        apellido: null,
+        email: null,
+        password: null,
+      },
+      notification: {
+        text: null,
+        type: 'success',
+      },
     }
   },
   methods: {
     crearUsuario () {
+      // Si no pasa la validación, no realizamos la petición.
+      if (!this.validates()) return;
+      this.errors.nombre = null;
+      this.errors.apellido = null;
+      this.errors.email = null;
+      this.errors.password = null;
+
+      //this.loading = true;
+      this.notification.text = null;
+
       apiFetch('/usuarios/nuevo', {
         method: 'post',
         body: JSON.stringify(this.usuario),
       })
         .then(rta => {
-          //  estado.classList.remove('d-none', 'alert-danger', 'alert-success');
           console.log('respuesta del Post', rta);
 
           if (rta.success) {
             this.$router.push("login");
+          } else {
+            this.notification.text = rta.msg;
+            this.notification.type = 'danger';
           }
-
-          /*
-                          estado.classList.add('alert');
-                          if (responseData.success) {
-                              estado.classList.add('alert-success');
-          
-                              setTimeout(
-                                  function () {
-                                      location.href = 'login.php';
-                                  }, 2000
-                              );
-                          } else {
-                              estado.classList.add('alert-danger');
-          
-                          }
-                          mostrarMensaje(responseData);
-                          */
         });
-    }
+    },
+
+    /**
+    * Valida el form.
+    *
+    * @returns boolean
+    */
+    validates () {
+      let hasErrors = false;
+
+      if (this.usuario.nombre == null || this.usuario.nombre === '') {
+        this.errors.nombre = 'Tenés que completar el nombre.';
+        hasErrors = true;
+      }
+
+      if (this.usuario.apellido == null || this.usuario.apellido === '') {
+        this.errors.apellido = 'Tenés que completar el apellido.';
+        hasErrors = true;
+      }
+
+      if (this.usuario.email == null || this.usuario.email === '') {
+        this.errors.email = 'Tenés que completar el email.';
+        hasErrors = true;
+      }
+
+      if (this.usuario.password == null || this.usuario.password === '') {
+        this.errors.password = 'Tenés que completar la contraseña.';
+        hasErrors = true;
+      }
+
+      return !hasErrors;
+    },
   },
 }
 </script>
@@ -134,5 +219,9 @@ section {
     rgba(172, 92, 207, 1) 87%
   );
   color: white;
+}
+
+.text-danger {
+  text-shadow: 0 0 8px rgb(54, 25, 115);
 }
 </style>
