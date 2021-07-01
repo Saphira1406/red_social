@@ -6,11 +6,9 @@
     >
       <div class="card-body">
         <div class="btn-group" role="group" aria-label="Navegación interna">
-          <router-link to="/" type="button" class="btn tamaño-btn"
-            >Publicaciones</router-link
-          >
+          <router-link to="/" class="btn tamaño-btn">Publicaciones</router-link>
           <router-link to="/amigos" class="btn  tamaño-btn">Amigos</router-link>
-          <router-link to="/favoritos" type="button" class="btn tamaño-btn"
+          <router-link to="/favoritos" class="btn tamaño-btn"
             >Favoritos</router-link
           >
         </div>

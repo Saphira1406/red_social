@@ -43,14 +43,6 @@ class DBConnection
     /** @var PDO|null Variable estática para guardar la conexión de PDO. */
     private static $db;
 
-    // Constantes de conexión.
-    /*
-    const DB_HOST = "localhost";
-    const DB_USER = "root";
-    const DB_PASS = "root";
-    const DB_BASE = "red_social";
-    */
-
     /**
      * DBConnection constructor.
      * Este constructor lo tenemos solo para marcarlo como privado, y evitar que se pueda instanciar
@@ -65,16 +57,6 @@ class DBConnection
      */
     protected static function openConnection()
     {
-        /*
-        $dsn = "mysql:host=" . self::DB_HOST . ";dbname=" . self::DB_BASE . ";charset=utf8mb4";
-
-        try {
-            self::$db = new PDO($dsn, self::DB_USER, self::DB_PASS);
-        } catch (Exception $e) {
-            echo "Error al conectar con la base de datos :(";
-        }
-        */
-
         // Leemos los datos de la conexión del entorno.
         $host = App::getEnv('DATABASE_HOST');
         $user = App::getEnv('DATABASE_USER');
