@@ -8,9 +8,6 @@ use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use RedSocial\Core\App;
 
 require_once __DIR__ . '/../vendor/autoload.php';
-// TODO: Mover a un archivo externo...
-// const SECRET_KEY = 'FVfFLlwGC+LGmta0/Ax74KfVnpVkOwJINAmJ+E5FiL0=';
-
 
 /**
  * Crea un token de JWT.

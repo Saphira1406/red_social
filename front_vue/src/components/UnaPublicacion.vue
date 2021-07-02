@@ -220,19 +220,12 @@ export default {
             this.comentario.texto = null;
             this.$emit('newComment', this.publicacion);
 
-            // mostrar el comentario:
-            // this.showNewComment(rta.data);
           } else {
             this.notification.type = 'danger';
           }
         });
     },
-    /*
-        showNewComment (commentData) {
-          console.log(commentData)
-          // let div = document.getElementById('publicacion-' + this.publicacion.id + ' .card-footer');  2
-        },
-    */
+
     /**
     * Valida el form Comentario.
     *
