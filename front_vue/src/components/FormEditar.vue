@@ -66,6 +66,7 @@
                   ref="editImage"
                   accept="image/x-png,image/jpeg"
                   @change="loadEditImage"
+                  :disabled="loading"
                 />
                 <p><small>Haz click en la imagen para cambiarla</small></p>
               </div>
@@ -80,6 +81,7 @@
                   :aria-describedby="
                     errors.usuario !== null ? 'errors-usuario' : null
                   "
+                  :disabled="loading"
                 />
                 <div
                   v-if="errors.usuario !== null"
@@ -100,6 +102,7 @@
                   :aria-describedby="
                     errors.nombre !== null ? 'errors-nombre' : null
                   "
+                  :disabled="loading"
                 />
                 <div
                   v-if="errors.nombre !== null"
@@ -120,6 +123,7 @@
                   :aria-describedby="
                     errors.apellido !== null ? 'errors-apellido' : null
                   "
+                  :disabled="loading"
                 />
                 <div
                   v-if="errors.apellido !== null"
@@ -139,6 +143,7 @@
                   :aria-describedby="
                     errors.email !== null ? 'errors-email' : null
                   "
+                  :disabled="loading"
                 />
                 <div
                   v-if="errors.email !== null"
@@ -148,10 +153,15 @@
                   {{ errors.email }}
                 </div>
               </div>
-              <div class="d-flex justify-content-center">
-                <button type="submit" class="boton w-50 boton-guardar">
+              <div class="d-flex justify-content-center align-items-end">
+                <button
+                  type="submit"
+                  class="boton w-50 boton-guardar"
+                  :disabled="loading"
+                >
                   Guardar
                 </button>
+                <BaseLoader v-if="loading" class="ml-3" size="small" />
               </div>
             </form>
 
@@ -236,6 +246,7 @@
 <script>
 import { apiFetch } from "../functions/fetch.js";
 import { API_IMGS_FOLDER } from "../constants/api";
+import BaseLoader from "./BaseLoader.vue";
 import BaseNotification from "./BaseNotification.vue";
 
 import $ from 'jquery';
@@ -248,6 +259,7 @@ export default {
     'deleted'
   ],
   components: {
+    BaseLoader,
     BaseNotification,
   },
   data: function () {
@@ -270,7 +282,7 @@ export default {
         text: null,
         type: 'success',
       },
-      preview: false,
+      preview: false, loading: false,
     }
   },
   methods: {
@@ -301,10 +313,17 @@ export default {
         this.usuario.imagen = editReader.result;
       });
       editReader.readAsDataURL(this.$refs.editImage.files[0]);
-
     },
 
     editUsuario () {
+      // Si la petición ya está en ejecución, entonces no repetimos el proceso.
+      if (this.loading) return;
+
+      // Si no pasa la validación, no realizamos la petición.
+      if (!this.validates()) return;
+      this.loading = true;
+      this.notification.text = null;
+
       let data = {
         id: this.usuario.id,
         nombre: this.usuario.nombre,
@@ -312,10 +331,6 @@ export default {
         email: this.usuario.email,
         usuario: this.usuario.usuario,
       };
-
-      // Si no pasa la validación, no realizamos la petición.
-      if (!this.validates()) return;
-      this.notification.text = null;
 
       // Enviar la imagen sólo si se cambió:
       if (this.preview) {
@@ -327,6 +342,7 @@ export default {
         body: JSON.stringify(data),
       })
         .then(rta => {
+          this.loading = false;
           this.notification.text = rta.msg;
           if (rta.success) {
             this.notification.type = 'success';

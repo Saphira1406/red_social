@@ -1,5 +1,8 @@
 <template>
-  <article class="card mb-4 publicaciones">
+  <article
+    class="card mb-4 publicaciones"
+    :id="`publicacion-${publicacion.id}`"
+  >
     <div class="card-header">
       <div class="mt-1 mb-1 d-flex align-items-center">
         <img
@@ -100,6 +103,7 @@
                   :aria-describedby="
                     errorsComment.texto !== null ? 'errorsComment-texto' : null
                   "
+                  :disabled="loading"
                 ></textarea>
                 <div
                   v-if="errorsComment.texto !== null"
@@ -112,7 +116,11 @@
             </div>
 
             <div class="text-center">
-              <button type="submit" class="btn boton boton-publicar">
+              <button
+                type="submit"
+                class="btn boton boton-publicar"
+                :disabled="loading"
+              >
                 Publicar
               </button>
             </div>
@@ -122,26 +130,29 @@
     </div>
     <div
       class="card-footer"
-      v-for="comentario in publicacion.comentarios"
-      :key="comentario.id"
+      v-if="Object.keys(publicacion.comentarios).length !== 0"
     >
-      <div class="mt-1 mb-3 comentario">
-        <div class="d-flex align-items-center mx-3">
-          <img
-            :src="imageUrl(comentario.usuario.imagen)"
-            class="img-fluid
+      <div v-for="comentario in publicacion.comentarios" :key="comentario.id">
+        <div class="mt-1 mb-3 comentario">
+          <div class="d-flex align-items-center mx-3">
+            <img
+              :src="imageUrl(comentario.usuario.imagen)"
+              class="img-fluid
           avatar"
-            :alt="
-              `Foto de perfil de ${comentario.usuario.nombre} ${comentario.usuario.apellido}`
-            "
-          />
-          <p class="font-weight-bold ml-3 mb-0">
-            {{ comentario.usuario.nombre + " " + comentario.usuario.apellido }}
+              :alt="
+                `Foto de perfil de ${comentario.usuario.nombre} ${comentario.usuario.apellido}`
+              "
+            />
+            <p class="font-weight-bold ml-3 mb-0">
+              {{
+                comentario.usuario.nombre + " " + comentario.usuario.apellido
+              }}
+            </p>
+          </div>
+          <p class="mt-2 mx-3">
+            {{ comentario.texto }}
           </p>
         </div>
-        <p class="mt-2 mx-3">
-          {{ comentario.texto }}
-        </p>
       </div>
     </div>
   </article>
@@ -208,13 +219,20 @@ export default {
             $(`#commentForm${this.comentario.publicaciones_id}`).collapse('hide');
             this.comentario.texto = null;
             this.$emit('newComment', this.publicacion);
+
+            // mostrar el comentario:
+            // this.showNewComment(rta.data);
           } else {
             this.notification.type = 'danger';
-            console.log(rta);
           }
         });
     },
-
+    /*
+        showNewComment (commentData) {
+          console.log(commentData)
+          // let div = document.getElementById('publicacion-' + this.publicacion.id + ' .card-footer');  2
+        },
+    */
     /**
     * Valida el form Comentario.
     *
