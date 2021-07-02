@@ -1,5 +1,3 @@
-// Services es como solemos llamar a archivo que exportar alguna funcionalidad para que el resto del
-// sistema (ej: componentes) puedan utilizar.
 import {
     apiFetch
 } from "../functions/fetch.js";
@@ -27,7 +25,6 @@ const authService = {
      * @return {Promise<*>}
      */
     login(email, password) {
-        // return apiFetch('/login.php', {
         return apiFetch('/iniciar-sesion', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -68,17 +65,18 @@ const authService = {
         return apiFetch('/cerrar-sesion', {
             method: 'POST',
         }).then(res => {
-            console.log(res);
-            userData = {
-                id: null,
-                usuario: null,
-                email: null,
-                imagen: null,
-                nombre: null,
-                apellido: null,
-            };
-            localStorage.removeItem('userData');
-            return true;
+            if (res.success) {
+                userData = {
+                    id: null,
+                    usuario: null,
+                    email: null,
+                    imagen: null,
+                    nombre: null,
+                    apellido: null,
+                };
+                localStorage.removeItem('userData');
+                return true;
+            }
         });
     },
 

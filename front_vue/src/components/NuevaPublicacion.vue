@@ -72,11 +72,6 @@
 
           <div v-if="publicacion.imagen !== null" class="form-group mt-4">
             <p>Previsualización de la imagen seleccionada:</p>
-            <!-- !! IMPORTANTE !!
-                 Este es uno de los casos _muy_ específicos donde el alt de la imagen tiene sentido
-                 que quede vacío. Pero es una caso de _excepción_, no una regla.
-                 El líneas generales, SIEMPRE tienen que poner un alt descriptivo para la imagen.
-                 -->
             <img :src="publicacion.imagen" alt="" class="d-block mx-auto" />
           </div>
           <div class="text-center">
@@ -143,7 +138,6 @@ export default {
         this.loadingImg = false;
       });
       reader.readAsDataURL(this.$refs.image.files[0]);
-
     },
 
     crearPublicacion () {
@@ -175,7 +169,6 @@ export default {
             this.$emit('newPublication', this.publicacion);
           } else {
             this.notification.type = 'danger';
-            console.log(rta);
           }
         });
     },

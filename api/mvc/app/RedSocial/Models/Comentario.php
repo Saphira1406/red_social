@@ -22,7 +22,6 @@ class Comentario extends Modelo implements JsonSerializable
         'publicaciones_id',
     ];
 
-
     private $publicaciones_id;
     private $id;          // id del comentario
     private $usuarios_id;
@@ -36,17 +35,6 @@ class Comentario extends Modelo implements JsonSerializable
     /** @var Publicacion */
     private $publicacion;
 
-    /**
-     * @param array $data
-     */
-    /*
-    public function cargarDatosDeArray(array $data)
-    {
-        $this->setId($data['id']);
-        $this->setUsuariosId($data['usuarios_id']);
-        $this->setTexto($data['texto']);
-    }
-*/
     /**
      * Esta función debe retornar cómo se representa como JSON este objeto.
      *
@@ -91,7 +79,7 @@ class Comentario extends Modelo implements JsonSerializable
         // $ids = [1, 2, 3, 27]
         $holders = array_fill(0, count($ids), '?');
         $query =
-            "SELECT c.*, u.email, u.nombre, u.apellido, u.imagen AS img_perfil FROM comentarios c INNER JOIN usuarios u ON c.usuarios_id = u.id WHERE publicaciones_id IN (" . implode(',', $holders) . ")";
+            "SELECT c.*, u.email, u.nombre, u.apellido, u.imagen AS img_perfil FROM comentarios c INNER JOIN usuarios u ON c.usuarios_id = u.id WHERE publicaciones_id IN (" . implode(',', $holders) . ") ORDER BY c.id";
         $db = DBConnection::getConnection();
         $stmt = $db->prepare($query);
         $stmt->execute($ids);
@@ -99,11 +87,7 @@ class Comentario extends Modelo implements JsonSerializable
         $salida = [];
 
         while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            //            $salida[] = $fila;
-            // En cada vuelta, instanciamos un comentario para almacenar los datos del registro.
-
             $comentario = new self();
-
             $comentario->cargarDatosDeArray($fila);
 
             $usuario = new Usuario();
@@ -121,9 +105,6 @@ class Comentario extends Modelo implements JsonSerializable
         }
 
         return $salida;
-
-        // $stmt->setFetchMode(PDO::FETCH_CLASS, self::class);
-        // return $stmt->fetchAll();
     }
 
     /**
@@ -138,8 +119,6 @@ class Comentario extends Modelo implements JsonSerializable
         $query = "INSERT INTO comentarios (usuarios_id, texto, publicaciones_id) 
                   VALUES (:usuarios_id, :texto, :publicaciones_id)";
         $stmt = $db->prepare($query);
-
-        //        return $stmt->execute($data);
 
         if (!$stmt->execute($data)) {
             return false;

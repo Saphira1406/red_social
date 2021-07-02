@@ -1,5 +1,8 @@
 <template>
-  <article class="card mb-4 publicaciones">
+  <article
+    class="card mb-4 publicaciones"
+    :id="`publicacion-${publicacion.id}`"
+  >
     <div class="card-header">
       <div class="mt-1 mb-1 d-flex align-items-center">
         <img
@@ -14,6 +17,8 @@
         <p class="font-weight-bold ml-3 mb-0">
           {{ publicacion.usuario.nombre + " " + publicacion.usuario.apellido }}
         </p>
+
+        <!-- Editar y elminar publicación, todavía no agregado al backend:
         <div
           v-if="publicacion.usuarios_id == user.id"
           class="dropdown ml-auto align-self-center"
@@ -42,6 +47,7 @@
             <a class="dropdown-item" href="#">Eliminar</a>
           </div>
         </div>
+        -->
       </div>
     </div>
 
@@ -66,6 +72,14 @@
       >
         Comentar
       </button>
+      <BaseLoader v-if="loading" class="ml-3" size="small" />
+
+      <BaseNotification
+        v-if="notification.text !== null"
+        :text="notification.text"
+        :type="notification.type"
+        class="mt-2"
+      />
 
       <div class="collapse" :id="`commentForm${publicacion.id}`">
         <div class="card card-body mt-2 comentario">
@@ -89,6 +103,7 @@
                   :aria-describedby="
                     errorsComment.texto !== null ? 'errorsComment-texto' : null
                   "
+                  :disabled="loading"
                 ></textarea>
                 <div
                   v-if="errorsComment.texto !== null"
@@ -101,7 +116,11 @@
             </div>
 
             <div class="text-center">
-              <button type="submit" class="btn boton boton-publicar">
+              <button
+                type="submit"
+                class="btn boton boton-publicar"
+                :disabled="loading"
+              >
                 Publicar
               </button>
             </div>
@@ -111,26 +130,29 @@
     </div>
     <div
       class="card-footer"
-      v-for="comentario in publicacion.comentarios"
-      :key="comentario.id"
+      v-if="Object.keys(publicacion.comentarios).length !== 0"
     >
-      <div class="mt-1 mb-3 comentario">
-        <div class="d-flex align-items-center mx-3">
-          <img
-            :src="imageUrl(comentario.usuario.imagen)"
-            class="img-fluid
+      <div v-for="comentario in publicacion.comentarios" :key="comentario.id">
+        <div class="mt-1 mb-3 comentario">
+          <div class="d-flex align-items-center mx-3">
+            <img
+              :src="imageUrl(comentario.usuario.imagen)"
+              class="img-fluid
           avatar"
-            :alt="
-              `Foto de perfil de ${comentario.usuario.nombre} ${comentario.usuario.apellido}`
-            "
-          />
-          <p class="font-weight-bold ml-3 mb-0">
-            {{ comentario.usuario.nombre + " " + comentario.usuario.apellido }}
+              :alt="
+                `Foto de perfil de ${comentario.usuario.nombre} ${comentario.usuario.apellido}`
+              "
+            />
+            <p class="font-weight-bold ml-3 mb-0">
+              {{
+                comentario.usuario.nombre + " " + comentario.usuario.apellido
+              }}
+            </p>
+          </div>
+          <p class="mt-2 mx-3">
+            {{ comentario.texto }}
           </p>
         </div>
-        <p class="mt-2 mx-3">
-          {{ comentario.texto }}
-        </p>
       </div>
     </div>
   </article>
@@ -139,17 +161,20 @@
 <script>
 import { apiFetch } from "./../functions/fetch.js";
 import { API_IMGS_FOLDER } from "./../constants/api.js";
+import BaseLoader from "./BaseLoader.vue";
+import BaseNotification from "./BaseNotification.vue";
 import $ from 'jquery';
 
 export default {
   name: "UnaPublicacion",
-
+  components: {
+    BaseLoader,
+    BaseNotification,
+  },
   props: ['user', 'publicacion'],
   emits: ['newComment'],
   data: function () {
     return {
-      // usuario: [],
-
       // nuevo comentario:
       comentario: {
         texto: null,
@@ -163,6 +188,7 @@ export default {
         text: null,
         type: 'success',
       },
+      loading: false,
     }
   },
   methods: {
@@ -172,11 +198,11 @@ export default {
 
     crearComentario () {
       // Si la petición ya está en ejecución, entonces no repetimos el proceso.
-      // if(this.loading) return;
+      if (this.loading) return;
 
       // Si no pasa la validación, no realizamos la petición.
       if (!this.validatesComment()) return;
-      // this.loading = true;
+      this.loading = true;
       this.notification = {
         text: null,
       };
@@ -185,7 +211,7 @@ export default {
         body: JSON.stringify(this.comentario),
       })
         .then(rta => {
-          // this.loading = false;
+          this.loading = false;
           this.notification.text = rta.msg;
           if (rta.success) {
             this.notification.type = 'success';
@@ -193,9 +219,9 @@ export default {
             $(`#commentForm${this.comentario.publicaciones_id}`).collapse('hide');
             this.comentario.texto = null;
             this.$emit('newComment', this.publicacion);
+
           } else {
             this.notification.type = 'danger';
-            console.log(rta);
           }
         });
     },

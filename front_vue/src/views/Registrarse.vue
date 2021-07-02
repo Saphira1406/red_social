@@ -28,6 +28,7 @@
               :aria-describedby="
                 errors.nombre !== null ? 'errors-nombre' : null
               "
+              :disabled="loading"
             />
             <div
               v-if="errors.nombre !== null"
@@ -47,6 +48,7 @@
               :aria-describedby="
                 errors.apellido !== null ? 'errors-apellido' : null
               "
+              :disabled="loading"
             />
             <div
               v-if="errors.apellido !== null"
@@ -64,6 +66,7 @@
               id="email"
               v-model="usuario.email"
               :aria-describedby="errors.email !== null ? 'errors-email' : null"
+              :disabled="loading"
             />
             <div
               v-if="errors.email !== null"
@@ -83,6 +86,7 @@
               :aria-describedby="
                 errors.password !== null ? 'errors-password' : null
               "
+              :disabled="loading"
             />
             <div
               v-if="errors.password !== null"
@@ -92,8 +96,11 @@
               {{ errors.password }}
             </div>
           </div>
-          <div class="d-grid gap-2 w-100 d-flex justify-content-center mx-auto">
-            <button type="submit" class="btn boton mx-auto">Registrarse</button>
+          <div
+            class="w-100 d-flex justify-content-center align-items-end mx-auto"
+          >
+            <button type="submit" class="btn boton">Registrarse</button>
+            <BaseLoader v-if="loading" class="ml-3" size="small" />
           </div>
         </form>
         <p class="text-center mt-3">
@@ -110,11 +117,12 @@
 <script>
 import { apiFetch } from "../functions/fetch.js";
 import BaseNotification from "../components/BaseNotification.vue";
+import BaseLoader from "../components/BaseLoader.vue";
 
 export default {
   name: "Registrarse",
   components: {
-    BaseNotification,
+    BaseNotification, BaseLoader
   },
   data () {
     return {
@@ -134,10 +142,14 @@ export default {
         text: null,
         type: 'success',
       },
+      loading: false,
     }
   },
   methods: {
     crearUsuario () {
+      // Si la petición ya está en ejecución, entonces no repetimos el proceso.
+      if (this.loading) return;
+
       // Si no pasa la validación, no realizamos la petición.
       if (!this.validates()) return;
       this.errors.nombre = null;
@@ -145,7 +157,7 @@ export default {
       this.errors.email = null;
       this.errors.password = null;
 
-      //this.loading = true;
+      this.loading = true;
       this.notification.text = null;
 
       apiFetch('/usuarios/nuevo', {
@@ -153,7 +165,7 @@ export default {
         body: JSON.stringify(this.usuario),
       })
         .then(rta => {
-          console.log('respuesta del Post', rta);
+          this.loading = false;
 
           if (rta.success) {
             this.$router.push("login");
@@ -223,5 +235,9 @@ section {
 
 .text-danger {
   text-shadow: 0 0 8px rgb(54, 25, 115);
+}
+
+.loader {
+  background: rgba(255, 255, 255, 0.75);
 }
 </style>

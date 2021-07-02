@@ -69,9 +69,6 @@ class Publicacion extends Modelo implements JsonSerializable
         $salida = [];
 
         while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            //            $salida[] = $fila;
-            // En cada vuelta, instanciamos una publicación para almacenar los datos del registro.
-
             $publicacion = new self();
 
             $publicacion->cargarDatosDeArray($fila);
@@ -104,14 +101,6 @@ class Publicacion extends Modelo implements JsonSerializable
      */
     public function cargarComentariosEnLasPublicaciones(array $publicaciones): array
     {
-        // Acá queremos traer los comentarios de las publicaciones que nos hayan pasado en el
-        // parámetro $publicaciones, y solo los de esas publicaciones.
-        // Esto es importante porque yo puedo tener decenas de cientos de miles de publicaciones en la
-        // base, y que me estén pidiendo solo los comentarios de 20 publicaciones.
-        // Para lograr esto, necesitamos primero llevar un registro de cuáles son las publicaciones que nos
-        // pasaron (particularmente sus ids), para poder realizar la búsqueda en base a ellos.
-        // Vamos además a crear un array nuevo (como indicamos en la documentación) para las publicaciones,
-        // al cual vamos a inicialmente indexar por el id de la publicación.
         $salida = [];
         $ids = [];
 
@@ -125,9 +114,6 @@ class Publicacion extends Modelo implements JsonSerializable
         $comentariosTotales = (new Comentario())->traerPorListaDePublicaciones($ids);
 
         // Ahora, finalmente, asignamos cada comentario a la publicación que le corresponde.
-        // Para hacer esto fácil, vamos a recorrer los comentarios, encontrar la publicación a la que
-        // le corresponde gracias al id de la misma (que usamos como clave en el array de salida), y
-        // hacer la asignación.
         foreach ($comentariosTotales as $comentario) {
             $idPublicacion = $comentario->getPublicacionesId();
             $salida[$idPublicacion]->addComentario($comentario);
@@ -175,7 +161,6 @@ class Publicacion extends Modelo implements JsonSerializable
                 WHERE id = ?";
         $stmt = $db->prepare($query);
         if (!$stmt->execute([$id])) {
-            //            throw new \Exception('No existe una publicación con este id.');
             return null;
         }
 
@@ -202,8 +187,6 @@ class Publicacion extends Modelo implements JsonSerializable
                   VALUES (:usuarios_id, :texto, :imagen)";
         $stmt = $db->prepare($query);
 
-        //        return $stmt->execute($data);
-
         if (!$stmt->execute($data)) {
             return false;
         }
@@ -229,7 +212,6 @@ class Publicacion extends Modelo implements JsonSerializable
                 WHERE id = ?";
         $stmt = $db->prepare($query);
         if (!$stmt->execute([$id])) {
-            //            throw new \Exception("No se pudo eliminar el producto #" . $id);
             return false;
         }
         return true;

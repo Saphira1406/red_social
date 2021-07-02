@@ -23,6 +23,7 @@
               class="form-control"
               v-model="user.email"
               :aria-describedby="errors.email !== null ? 'errors-email' : null"
+              :disabled="loading"
             />
             <div
               v-if="errors.email !== null"
@@ -43,6 +44,7 @@
               :aria-describedby="
                 errors.password !== null ? 'errors-password' : null
               "
+              :disabled="loading"
             />
             <div
               v-if="errors.password !== null"
@@ -53,11 +55,12 @@
             </div>
           </div>
           <div
-            class="d-grid gap-2 w-100 d-flex justify-content-center mx-auto mt-2"
+            class="d-flex justify-content-center align-items-end mx-auto mt-2"
           >
-            <button type="submit" class="btn boton mx-auto">
+            <button type="submit" class="btn boton mx-auto" :disabled="loading">
               Iniciar Sesión
             </button>
+            <BaseLoader v-if="loading" class="ml-3" size="small" />
           </div>
         </form>
         <p class="text-center mt-3">
@@ -75,14 +78,14 @@
 </template>
 
 <script>
-// import { apiFetch } from "../functions/fetch.js";
 import BaseNotification from "../components/BaseNotification.vue";
+import BaseLoader from "../components/BaseLoader.vue";
 import authService from "../services/auth.js";
 
 export default {
   name: "Login",
   components: {
-    BaseNotification,
+    BaseNotification, BaseLoader
   },
   emits: ['logged'],
   data () {
@@ -104,18 +107,20 @@ export default {
   },
   methods: {
     login () {
+      // Si la petición ya está en ejecución, entonces no repetimos el proceso.
+      if (this.loading) return;
+
       // Si no pasa la validación, no realizamos la petición.
       if (!this.validates()) return;
       this.errors.email = null;
       this.errors.password = null;
 
-      //this.loading = true;
+      this.loading = true;
       this.notification.text = null;
 
       authService.login(this.user.email, this.user.password)
         .then(response => {
-          // this.loading = false;
-          console.log(response);
+          this.loading = false;
 
           if (response.success) {
             this.$emit('logged', response.data);
@@ -166,5 +171,9 @@ section {
 
 .boton {
   color: white;
+}
+
+.loader {
+  background: rgba(255, 255, 255, 0.75);
 }
 </style>

@@ -22,14 +22,17 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul v-if="auth.user.id !== null" class="navbar-nav ml-auto">
-            <!--
-            <li class="nav-item">
-              <router-link class="nav-link" to="/">Home</router-link>
-            </li>
-
-            <li class="nav-item">
-              <router-link class="nav-link px-3" to="/perfil">
+          <div v-if="auth.user.id !== null" class="navbar-nav ml-auto">
+            <div class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
                 <img
                   :src="imageUrl(auth.user.imagen)"
                   class="img-fluid avatar mr-2"
@@ -37,66 +40,29 @@
                     `Foto de perfil de ${auth.user.nombre} ${auth.user.apellido}`
                   "
                 />
-                Perfil
-              </router-link>
-            </li>-->
-            <li class="nav-item dropdown mr-4">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img
-                    :src="imageUrl(auth.user.imagen)"
-                    class="img-fluid avatar mr-2"
-                    :alt="
-                    `Foto de perfil de ${auth.user.nombre} ${auth.user.apellido}`
-                  "
-                />
-                {{auth.user.nombre}}
+                {{ auth.user.nombre }}
               </a>
-              <div class="dropdown-menu" id="drop-perfil" aria-labelledby="navbarDropdown">
-                <router-link to="/perfil" class="dropdown-item drop-hover" href="#">Perfil</router-link>
-                <button class="dropdown-item drop-hover" @click="logout">Cerrar Sesión</button>
-              </div>
-            </li>
-            <!--         
-          <li v-if="auth.user.id === null" class="nav-item">
-            <router-link class="nav-link" to="/login"
-              >Iniciar Sesión</router-link
-            >
-          </li>
-
-            <li class="nav-item">
-              <button class="btn nav-link px-3" @click="logout">
-                Cerrar Sesión
-              </button>
-            </li>-->
-          </ul>
-
-          <!--
-          <div class="dropdown" v-if="auth.user.id !== null">
-            <button
-              class="btn btn-secondary dropdown-toggle"
-              type="button"
-              id="dropdownMenuButton"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <img
-                :src="imageUrl(auth.user.imagen)"
-                class="img-fluid avatar"
-                :alt="
-                  `Foto de perfil de ${auth.user.nombre} ${auth.user.apellido}`
-                "
-              />
-              {{ auth.user.nombre }}
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <router-link class="nav-link" to="/perfil">Perfil</router-link>
-              <button class="btn nav-link" @click="logout">
-                Cerrar sesión
-              </button>
+              <ul
+                class="dropdown-menu"
+                id="drop-perfil"
+                aria-labelledby="navbarDropdown"
+              >
+                <li>
+                  <router-link
+                    to="/perfil"
+                    class="dropdown-item drop-hover"
+                    href="#"
+                    >Perfil</router-link
+                  >
+                </li>
+                <li>
+                  <button class="dropdown-item drop-hover" @click="logout">
+                    Cerrar Sesión
+                  </button>
+                </li>
+              </ul>
             </div>
           </div>
-          -->
         </div>
       </nav>
     </header>
@@ -142,8 +108,6 @@ export default {
       this.auth.user = authService.getUserData();
     },
     logout () {
-      // TODO: Hacer que el logout realmente elimine la cookie.
-      // TODO: Hacer que tanto front como back verifiquen que el usuario esté autenticado.
       authService.logout();
       this.auth.user = {
         id: null,
@@ -175,7 +139,6 @@ export default {
 
   },
   mounted () {
-    // Apenas se monta la App, preguntamos si el usuario está autenticado, y lo marcamos como tal.
     if (authService.isAuthenticated()) {
       this.auth.user = authService.getUserData();
     }
@@ -184,9 +147,14 @@ export default {
 </script>
 <style>
 #drop-perfil {
-  background-color: rgba(242,137,114, .8);
+  background-color: rgba(242, 137, 114, 0.8);
+  left: auto;
+  right: 0;
 }
 .drop-hover:hover {
-  background-color: rgba(242,137,114, .9) !important;
+  background-color: rgba(242, 137, 114, 0.9) !important;
+}
+.nav-item.dropdown .dropdown-toggle::after {
+  margin-left: 0.75em;
 }
 </style>

@@ -4,13 +4,11 @@ import {
 } from 'vue-router'
 import Home from '../views/Home.vue'
 import Registrarse from "../views/Registrarse";
-// import Publicaciones from "@/views/Publicaciones";
 import Login from "@/views/Login";
 import ComponenteMuro from "../components/pages/ComponenteMuro";
 import ComponenteAmigos from "../components/pages/ComponenteAmigos";
 import ComponenteFavoritos from "../components/pages/ComponenteFavoritos";
 import Perfil from "../views/Perfil";
-// import FormEditar from "../components/FormEditar";
 
 const routes = [{
     path: '/',
@@ -44,12 +42,6 @@ const routes = [{
   {
     path: '/perfil',
     component: Perfil,
-    /*
-    children: [{
-      path: '',
-      component: FormEditar,
-    }],
-    */
   },
 ]
 
