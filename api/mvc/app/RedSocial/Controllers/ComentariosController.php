@@ -2,14 +2,8 @@
 
 namespace RedSocial\Controllers;
 
-use RedSocial\Auth\Auth;
-use RedSocial\Core\App;
-use RedSocial\Core\Route;
-use RedSocial\Core\View;
-use RedSocial\Models\Publicacion;
 use RedSocial\Models\Comentario;
 use RedSocial\Validation\Validator;
-use RedSocial\Storage\FileUpload;
 
 class ComentariosController extends Controller
 {
@@ -45,8 +39,7 @@ class ComentariosController extends Controller
                 echo json_encode([
                     'success' => true,
                     'msg' => 'El comentario se creó con éxito.',
-                    // devolver el comentario para mostrarlo:
-                    'data' => $data,
+
                 ]);
             } else {
                 echo json_encode([

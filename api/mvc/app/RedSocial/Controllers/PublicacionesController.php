@@ -2,7 +2,6 @@
 
 namespace RedSocial\Controllers;
 
-use RedSocial\Auth\Auth;
 use RedSocial\Core\App;
 use RedSocial\Core\Route;
 use RedSocial\Core\View;
@@ -21,7 +20,6 @@ class PublicacionesController extends Controller
 
     public function ver()
     {
-        // Capturamos el parámetro de la URL que definimos en la ruta.
         $id = Route::getUrlParameters()['id'];
 
         $publicacion = (new Publicacion())->traerPorPK($id);
@@ -90,20 +88,4 @@ class PublicacionesController extends Controller
             ]);
         }
     }
-    /*
-    public function eliminar()
-    {
-        $this->requiresAuth();
-
-        $id = urlParam('id');
-        $producto = new Producto();
-        if(!$producto->eliminar($id)) {
-            $_SESSION['error'] = 'Ocurrió un error al tratar de guardar la información.';
-            App::redirect('/productos');
-            exit;
-        }
-        $_SESSION['exito'] = 'El producto fue eliminado exitosamente.';
-        App::redirect('/productos');
-    }
-    */
 }

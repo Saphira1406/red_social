@@ -87,11 +87,7 @@ class Comentario extends Modelo implements JsonSerializable
         $salida = [];
 
         while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            //            $salida[] = $fila;
-            // En cada vuelta, instanciamos un comentario para almacenar los datos del registro.
-
             $comentario = new self();
-
             $comentario->cargarDatosDeArray($fila);
 
             $usuario = new Usuario();
@@ -109,9 +105,6 @@ class Comentario extends Modelo implements JsonSerializable
         }
 
         return $salida;
-
-        // $stmt->setFetchMode(PDO::FETCH_CLASS, self::class);
-        // return $stmt->fetchAll();
     }
 
     /**
@@ -126,8 +119,6 @@ class Comentario extends Modelo implements JsonSerializable
         $query = "INSERT INTO comentarios (usuarios_id, texto, publicaciones_id) 
                   VALUES (:usuarios_id, :texto, :publicaciones_id)";
         $stmt = $db->prepare($query);
-
-        //        return $stmt->execute($data);
 
         if (!$stmt->execute($data)) {
             return false;

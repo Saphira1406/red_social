@@ -2,7 +2,6 @@
 
 namespace RedSocial\Controllers;
 
-use RedSocial\Auth\Auth;
 use RedSocial\Core\App;
 use RedSocial\Core\Route;
 use RedSocial\Core\View;
