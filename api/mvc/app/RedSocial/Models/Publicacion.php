@@ -229,7 +229,6 @@ class Publicacion extends Modelo implements JsonSerializable
                 WHERE id = ?";
         $stmt = $db->prepare($query);
         if (!$stmt->execute([$id])) {
-            //            throw new \Exception("No se pudo eliminar el producto #" . $id);
             return false;
         }
         return true;

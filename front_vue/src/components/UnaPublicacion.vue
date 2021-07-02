@@ -14,6 +14,8 @@
         <p class="font-weight-bold ml-3 mb-0">
           {{ publicacion.usuario.nombre + " " + publicacion.usuario.apellido }}
         </p>
+
+        <!-- Editar y elminar publicación, todavía no agregado al backend:
         <div
           v-if="publicacion.usuarios_id == user.id"
           class="dropdown ml-auto align-self-center"
@@ -42,6 +44,7 @@
             <a class="dropdown-item" href="#">Eliminar</a>
           </div>
         </div>
+        -->
       </div>
     </div>
 
@@ -66,6 +69,14 @@
       >
         Comentar
       </button>
+      <BaseLoader v-if="loading" class="ml-3" size="small" />
+
+      <BaseNotification
+        v-if="notification.text !== null"
+        :text="notification.text"
+        :type="notification.type"
+        class="mt-2"
+      />
 
       <div class="collapse" :id="`commentForm${publicacion.id}`">
         <div class="card card-body mt-2 comentario">
@@ -139,17 +150,20 @@
 <script>
 import { apiFetch } from "./../functions/fetch.js";
 import { API_IMGS_FOLDER } from "./../constants/api.js";
+import BaseLoader from "./BaseLoader.vue";
+import BaseNotification from "./BaseNotification.vue";
 import $ from 'jquery';
 
 export default {
   name: "UnaPublicacion",
-
+  components: {
+    BaseLoader,
+    BaseNotification,
+  },
   props: ['user', 'publicacion'],
   emits: ['newComment'],
   data: function () {
     return {
-      // usuario: [],
-
       // nuevo comentario:
       comentario: {
         texto: null,
@@ -163,6 +177,7 @@ export default {
         text: null,
         type: 'success',
       },
+      loading: false,
     }
   },
   methods: {
@@ -172,11 +187,11 @@ export default {
 
     crearComentario () {
       // Si la petición ya está en ejecución, entonces no repetimos el proceso.
-      // if(this.loading) return;
+      if (this.loading) return;
 
       // Si no pasa la validación, no realizamos la petición.
       if (!this.validatesComment()) return;
-      // this.loading = true;
+      this.loading = true;
       this.notification = {
         text: null,
       };
@@ -185,7 +200,7 @@ export default {
         body: JSON.stringify(this.comentario),
       })
         .then(rta => {
-          // this.loading = false;
+          this.loading = false;
           this.notification.text = rta.msg;
           if (rta.success) {
             this.notification.type = 'success';

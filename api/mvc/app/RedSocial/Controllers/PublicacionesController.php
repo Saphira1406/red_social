@@ -29,7 +29,6 @@ class PublicacionesController extends Controller
         View::renderJson($publicacion);
     }
 
-
     public function nuevoGuardar()
     {
         $this->requiresAuth();

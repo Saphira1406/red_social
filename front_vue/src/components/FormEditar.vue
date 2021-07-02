@@ -236,7 +236,6 @@
 <script>
 import { apiFetch } from "../functions/fetch.js";
 import { API_IMGS_FOLDER } from "../constants/api";
-// import authService from "../services/auth.js";
 import BaseNotification from "./BaseNotification.vue";
 
 import $ from 'jquery';
@@ -296,12 +295,10 @@ export default {
     * Lee el archivo de la imagen y lo transforma a base64 para su posterior envío con Ajax.
     */
     loadEditImage () {
-      // this.loadingImg = true;
       this.preview = true;
       const editReader = new FileReader();
       editReader.addEventListener('load', () => {
         this.usuario.imagen = editReader.result;
-        // this.loadingImg = false;
       });
       editReader.readAsDataURL(this.$refs.editImage.files[0]);
 
@@ -318,10 +315,9 @@ export default {
 
       // Si no pasa la validación, no realizamos la petición.
       if (!this.validates()) return;
-      //this.loading = true;
       this.notification.text = null;
 
-      // enviar la imagen sólo si se cambió:
+      // Enviar la imagen sólo si se cambió:
       if (this.preview) {
         data.imagen = this.usuario.imagen;
       }
