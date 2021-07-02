@@ -36,17 +36,6 @@ class Comentario extends Modelo implements JsonSerializable
     private $publicacion;
 
     /**
-     * @param array $data
-     */
-    /*
-    public function cargarDatosDeArray(array $data)
-    {
-        $this->setId($data['id']);
-        $this->setUsuariosId($data['usuarios_id']);
-        $this->setTexto($data['texto']);
-    }
-*/
-    /**
      * Esta función debe retornar cómo se representa como JSON este objeto.
      *
      * @return array
@@ -90,7 +79,7 @@ class Comentario extends Modelo implements JsonSerializable
         // $ids = [1, 2, 3, 27]
         $holders = array_fill(0, count($ids), '?');
         $query =
-            "SELECT c.*, u.email, u.nombre, u.apellido, u.imagen AS img_perfil FROM comentarios c INNER JOIN usuarios u ON c.usuarios_id = u.id WHERE publicaciones_id IN (" . implode(',', $holders) . ")";
+            "SELECT c.*, u.email, u.nombre, u.apellido, u.imagen AS img_perfil FROM comentarios c INNER JOIN usuarios u ON c.usuarios_id = u.id WHERE publicaciones_id IN (" . implode(',', $holders) . ") ORDER BY c.id";
         $db = DBConnection::getConnection();
         $stmt = $db->prepare($query);
         $stmt->execute($ids);
