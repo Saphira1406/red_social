@@ -25,7 +25,7 @@ class Auth
         if ($user !== null) {
             // Comparamos los passwords.
             if (password_verify($password, $user->getPassword())) {
-                // $this->setAsAuthenticated($user);
+                $this->setAsAuthenticated($user);
                 return true;
             }
         }
@@ -66,7 +66,6 @@ class Auth
         // return isset($_SESSION['id']);
 
         // El token lo seteamos previamente en una cookie, así que de una cookie lo vamos a leer.
-
         $token = $_COOKIE['token'] ?? null;
         if ($token || !parseAndVerifyToken($token)) {
             /*
@@ -92,8 +91,7 @@ class Auth
         if (!$this->isAuthenticated()) {
             return null;
         }
-
-        // $usuario = new Usuario;
-        // return $usuario->getByPk($_SESSION['id']);
+        $usuario = new Usuario;
+        return $usuario->getByPk($usuario->getId());
     }
 }

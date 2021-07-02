@@ -40,20 +40,39 @@
                 Perfil
               </router-link>
             </li>-->
-            <li class="nav-item dropdown mr-4">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
                 <img
-                    :src="imageUrl(auth.user.imagen)"
-                    class="img-fluid avatar mr-2"
-                    :alt="
+                  :src="imageUrl(auth.user.imagen)"
+                  class="img-fluid avatar mr-2"
+                  :alt="
                     `Foto de perfil de ${auth.user.nombre} ${auth.user.apellido}`
                   "
                 />
-                {{auth.user.nombre}}
+                {{ auth.user.nombre }}
               </a>
-              <div class="dropdown-menu" id="drop-perfil" aria-labelledby="navbarDropdown">
-                <router-link to="/perfil" class="dropdown-item drop-hover" href="#">Perfil</router-link>
-                <button class="dropdown-item drop-hover" @click="logout">Cerrar Sesión</button>
+              <div
+                class="dropdown-menu"
+                id="drop-perfil"
+                aria-labelledby="navbarDropdown"
+              >
+                <router-link
+                  to="/perfil"
+                  class="dropdown-item drop-hover"
+                  href="#"
+                  >Perfil</router-link
+                >
+                <button class="dropdown-item drop-hover" @click="logout">
+                  Cerrar Sesión
+                </button>
               </div>
             </li>
             <!--         
@@ -184,9 +203,14 @@ export default {
 </script>
 <style>
 #drop-perfil {
-  background-color: rgba(242,137,114, .8);
+  background-color: rgba(242, 137, 114, 0.8);
+  left: auto;
+  right: 0;
 }
 .drop-hover:hover {
-  background-color: rgba(242,137,114, .9) !important;
+  background-color: rgba(242, 137, 114, 0.9) !important;
+}
+.nav-item.dropdown .dropdown-toggle::after {
+  margin-left: 0.75em;
 }
 </style>

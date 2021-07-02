@@ -18,22 +18,18 @@ class PublicacionesController extends Controller
         $publicaciones = (new Publicacion())->traerTodo();
         View::renderJson($publicaciones);
     }
-    /*
+
     public function ver()
     {
-        // Capturamos el parámetro de la URL que definidos en la ruta.
-//        $params = Route::getUrlParameters();
-//        $id = $params['id'];
+        // Capturamos el parámetro de la URL que definimos en la ruta.
         $id = Route::getUrlParameters()['id'];
 
-//        echo "El id que pidieron es: " . $id;
-        $producto = (new Producto())->traerPorPK($id);
+        $publicacion = (new Publicacion())->traerPorPK($id);
 
-        View::render('productos/ver', compact('producto'));
-//        View::renderJson($producto);
+        View::renderJson($publicacion);
     }
 
-*/
+
     public function nuevoGuardar()
     {
         $this->requiresAuth();

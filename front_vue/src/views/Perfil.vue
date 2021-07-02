@@ -2,6 +2,7 @@
   <div v-if="user.id">
     <section class="profile text-center">
       <img
+        v-if="usuario.imagen"
         :src="imageUrl(usuario.imagen)"
         class="img-profile"
         :alt="`Foto de perfil de ${usuario.nombre} ${usuario.apellido}`"

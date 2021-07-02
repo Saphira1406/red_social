@@ -104,10 +104,9 @@ class Usuario extends Modelo implements JsonSerializable
                 WHERE id = ?";
         $stmt = $db->prepare($query);
         if (!$stmt->execute([$id])) {
-            //            throw new \Exception("No se pudo eliminar el producto #" . $id);
+            //throw new \Exception("No se pudo eliminar el usuario.");
             return false;
         }
-
         return true;
     }
 

@@ -94,11 +94,7 @@ class AuthController
 
     public function logout()
     {
-        //        $auth = new Auth;
-        //        $auth->logout();
         (new Auth)->logout();
-        // $_SESSION['status_success'] = 'Cerraste sesión con éxito. ¡Te esperamos pronto!';
-        // App::redirect('iniciar-sesion');
         echo json_encode([
             'success' => true,
         ]);
@@ -106,8 +102,5 @@ class AuthController
 
     public function options()
     {
-        echo json_encode([
-            'success' => true,
-        ]);
     }
 }

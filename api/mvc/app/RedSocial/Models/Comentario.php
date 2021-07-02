@@ -22,7 +22,6 @@ class Comentario extends Modelo implements JsonSerializable
         'publicaciones_id',
     ];
 
-
     private $publicaciones_id;
     private $id;          // id del comentario
     private $usuarios_id;
