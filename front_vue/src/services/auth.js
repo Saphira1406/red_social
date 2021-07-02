@@ -65,17 +65,18 @@ const authService = {
         return apiFetch('/cerrar-sesion', {
             method: 'POST',
         }).then(res => {
-            console.log(res);
-            userData = {
-                id: null,
-                usuario: null,
-                email: null,
-                imagen: null,
-                nombre: null,
-                apellido: null,
-            };
-            localStorage.removeItem('userData');
-            return true;
+            if (res.success) {
+                userData = {
+                    id: null,
+                    usuario: null,
+                    email: null,
+                    imagen: null,
+                    nombre: null,
+                    apellido: null,
+                };
+                localStorage.removeItem('userData');
+                return true;
+            }
         });
     },
 

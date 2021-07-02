@@ -347,12 +347,10 @@ export default {
           if (rta.success) {
             this.notification.type = 'success';
             this.$emit('changed', true);
-            console.log(rta);
             // Cerrar la modal:
             $('#editForm').modal('hide');
           } else {
             this.notification.type = 'danger';
-            console.log(rta);
           }
         });
     },
@@ -394,8 +392,6 @@ export default {
       })
         .then(rta => {
           if (rta.success) {
-            console.log(rta);
-
             this.usuario = {
               nombre: null,
               apellido: null,
@@ -411,7 +407,6 @@ export default {
             $('.modal-backdrop').remove();
 
           } else {
-            console.log(rta);
             this.notification = {
               text: 'Ocurrió un error al tratar de eliminar el usuario.',
               type: 'danger',

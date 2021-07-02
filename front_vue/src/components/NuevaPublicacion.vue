@@ -169,7 +169,6 @@ export default {
             this.$emit('newPublication', this.publicacion);
           } else {
             this.notification.type = 'danger';
-            console.log(rta);
           }
         });
     },

@@ -166,7 +166,6 @@ export default {
       })
         .then(rta => {
           this.loading = false;
-          console.log('respuesta del Post', rta);
 
           if (rta.success) {
             this.$router.push("login");
