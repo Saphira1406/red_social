@@ -3,6 +3,7 @@
 namespace RedSocial\Auth;
 
 use RedSocial\Models\Usuario;
+use RedSocial\Models\Token;
 
 class Auth
 {
@@ -36,7 +37,8 @@ class Auth
      */
     public function setAsAuthenticated(Usuario $user): void
     {
-        $token = createToken($user->getId());
+        // $token = new Token;
+        $token = Token::createToken($user->getId());
         setcookie('token', $token, 0, "", "", false, true);
     }
 
