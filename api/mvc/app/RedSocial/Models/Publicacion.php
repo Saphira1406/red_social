@@ -20,12 +20,14 @@ class Publicacion extends Modelo implements JsonSerializable
         'usuarios_id',
         'texto',
         'imagen',
+        'fecha',
     ];
 
     private $id;
     private $usuarios_id;
     private $texto;
     private $imagen;
+    private $fecha;
 
     // Propiedades para las clases de las tablas asociadas.
     /** @var Usuario */
@@ -46,6 +48,7 @@ class Publicacion extends Modelo implements JsonSerializable
             'usuarios_id'   => $this->getUsuariosId(),
             'texto'         => $this->getTexto(),
             'imagen'        => $this->getImagen(),
+            'fecha'         => $this->getFecha(),
             'usuario'       => $this->getUsuario(),
             'comentarios'   => $this->getComentarios()
         ];
@@ -80,6 +83,7 @@ class Publicacion extends Modelo implements JsonSerializable
                 'nombre'   => $fila['nombre'],
                 'apellido' => $fila['apellido'],
                 'imagen'   => $fila['img_perfil'],
+                'fecha' => $fila['fecha'],
             ]);
 
             $publicacion->setUsuario($usuario);
@@ -171,6 +175,7 @@ class Publicacion extends Modelo implements JsonSerializable
         $publicacion->setUsuariosId($fila['usuarios_id']);
         $publicacion->setTexto($fila['texto']);
         $publicacion->setImagen($fila['imagen']);
+        $publicacion->setFecha($fila['fecha']);
         return $publicacion;
     }
 
@@ -183,8 +188,8 @@ class Publicacion extends Modelo implements JsonSerializable
     public function crear(array $data): bool
     {
         $db = DBConnection::getConnection();
-        $query = "INSERT INTO publicaciones (usuarios_id, texto, imagen) 
-                  VALUES (:usuarios_id, :texto, :imagen)";
+        $query = "INSERT INTO publicaciones (usuarios_id, texto, imagen, fecha) 
+                  VALUES (:usuarios_id, :texto, :imagen, :fecha)";
         $stmt = $db->prepare($query);
 
         if (!$stmt->execute($data)) {
@@ -193,10 +198,12 @@ class Publicacion extends Modelo implements JsonSerializable
         return true;
     }
 
+/*
     public function editar()
     {
         $db = DBConnection::getConnection();
     }
+*/
 
     /**
      * Elimina una publicación por su $id.
@@ -279,6 +286,22 @@ class Publicacion extends Modelo implements JsonSerializable
     public function setImagen($imagen)
     {
         $this->imagen = $imagen;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    /**
+     * @param mixed $fecha
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
     }
 
     /**

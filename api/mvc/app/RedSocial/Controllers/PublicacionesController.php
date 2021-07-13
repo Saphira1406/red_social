@@ -8,6 +8,8 @@ use RedSocial\Core\View;
 use RedSocial\Models\Publicacion;
 use RedSocial\Validation\Validator;
 use RedSocial\Storage\FileUpload;
+use \DateTime;
+use \DateTimeZone;
 
 class PublicacionesController extends Controller
 {
@@ -49,10 +51,13 @@ class PublicacionesController extends Controller
             $nombreImagen = '';
         }
 
+        $fecha = new DateTime(null, new DateTimeZone(App::getEnv('TIMEZONE')));
+
         $data = [
             "texto"  => $texto,
             "usuarios_id"  => $usuarios_id,
             "imagen"  => $nombreImagen,
+            "fecha" => $fecha->format('Y-m-d H:i:s'),
         ];
 
         $rules = [
