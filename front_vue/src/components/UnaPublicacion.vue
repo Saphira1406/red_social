@@ -7,18 +7,17 @@
       <div class="mt-1 mb-1 d-flex align-items-center">
         <img
           :src="imageUrl(publicacion.usuario.imagen)"
-          class="img-fluid
-          avatar"
-          :alt="
-            `Foto de perfil de ${publicacion.usuario.nombre} ${publicacion.usuario.apellido}`
-          "
+          class="img-fluid avatar"
+          alt="Avatar"
         />
 
-        <p class="font-weight-bold ml-3 mb-0">
-          {{ publicacion.usuario.nombre + " " + publicacion.usuario.apellido }}
-        </p>
-
-        <!-- Editar y elminar publicación, todavía no agregado al backend:
+        <div>
+          <p class="font-weight-bold ml-3 mb-0">
+            {{ publicacion.usuario.nombre + " " + publicacion.usuario.apellido }}
+          </p>
+          <p class="small ml-3 mb-0">{{ publicacion.fecha }}</p>
+        </div>
+        <!-- Editar y eliminar publicación, todavía no agregado al backend:
         <div
           v-if="publicacion.usuarios_id == user.id"
           class="dropdown ml-auto align-self-center"
@@ -89,7 +88,7 @@
                 <img
                   :src="imageUrl(user.imagen)"
                   class="img-fluid avatar"
-                  :alt="`Foto de perfil de ${user.nombre} ${user.apellido}`"
+                  alt="Avatar"
                 />
               </div>
               <div class="form-group col">
@@ -137,11 +136,8 @@
           <div class="d-flex align-items-center mx-3">
             <img
               :src="imageUrl(comentario.usuario.imagen)"
-              class="img-fluid
-          avatar"
-              :alt="
-                `Foto de perfil de ${comentario.usuario.nombre} ${comentario.usuario.apellido}`
-              "
+              class="img-fluid avatar"
+              alt="Avatar"
             />
             <p class="font-weight-bold ml-3 mb-0">
               {{

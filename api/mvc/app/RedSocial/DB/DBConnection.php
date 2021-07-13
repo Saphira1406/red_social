@@ -38,7 +38,7 @@ class DBConnection
         $dsn = "mysql:host=" . $host . ";dbname=" . $base . ";charset=utf8mb4";
 
         try {
-            self::$db = new PDO($dsn, $user, $pass);
+            self::$db = new PDO($dsn, $user, $pass);  
         } catch (Exception $e) {
             echo "Error al conectar con la base de datos :(";
         }
