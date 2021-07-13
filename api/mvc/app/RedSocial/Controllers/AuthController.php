@@ -6,15 +6,12 @@ use RedSocial\Auth\Auth;
 use RedSocial\Models\Usuario;
 use RedSocial\Validation\Validator;
 
-require_once __DIR__ . '../../../../../functions/auth.php';
-
 class AuthController
 {
     public function loginProcesar()
     {
         $inputData = file_get_contents('php://input');
         $postData = json_decode($inputData, true);
-
 
         $validator = new Validator($postData, [
             'email' => ['required'],
