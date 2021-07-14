@@ -2,8 +2,11 @@
 
 namespace RedSocial\Controllers;
 
+use RedSocial\Core\App;
 use RedSocial\Models\Comentario;
 use RedSocial\Validation\Validator;
+use \DateTime;
+use \DateTimeZone;
 
 class ComentariosController extends Controller
 {
@@ -19,10 +22,13 @@ class ComentariosController extends Controller
         $usuarios_id        = $postData['usuarios_id'];
         $publicaciones_id   = $postData['publicaciones_id'];
 
+        $fecha = new DateTime(null, new DateTimeZone(App::getEnv('TIMEZONE')));
+
         $data = [
             "texto"  => $texto,
             "usuarios_id"  => $usuarios_id,
             "publicaciones_id"  => $publicaciones_id,
+            "fecha" => $fecha->format('Y-m-d H:i:s'),
         ];
 
         $rules = [
