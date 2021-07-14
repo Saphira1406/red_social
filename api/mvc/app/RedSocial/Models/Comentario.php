@@ -20,12 +20,14 @@ class Comentario extends Modelo implements JsonSerializable
         'usuarios_id',
         'texto',
         'publicaciones_id',
+        'fecha',
     ];
 
     private $publicaciones_id;
     private $id;          // id del comentario
     private $usuarios_id;
     private $texto;
+    private $fecha;
 
     // Propiedades para las clases de las tablas asociadas.
     /** @var Usuario */
@@ -48,6 +50,7 @@ class Comentario extends Modelo implements JsonSerializable
             'usuarios_id'       => $this->getUsuariosId(),
             'texto'             => $this->getTexto(),
             'usuario'           => $this->getUsuario(),
+            'fecha'             => $this->getFecha(),
         ];
     }
 
@@ -116,8 +119,8 @@ class Comentario extends Modelo implements JsonSerializable
     public function crear(array $data): bool
     {
         $db = DBConnection::getConnection();
-        $query = "INSERT INTO comentarios (usuarios_id, texto, publicaciones_id) 
-                  VALUES (:usuarios_id, :texto, :publicaciones_id)";
+        $query = "INSERT INTO comentarios (usuarios_id, texto, publicaciones_id, fecha) 
+                  VALUES (:usuarios_id, :texto, :publicaciones_id, :fecha)";
         $stmt = $db->prepare($query);
 
         if (!$stmt->execute($data)) {
@@ -188,6 +191,22 @@ class Comentario extends Modelo implements JsonSerializable
     public function setPublicacionesId(int $publicaciones_id): void
     {
         $this->publicaciones_id = $publicaciones_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    /**
+     * @param mixed $fecha
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
     }
 
     /**

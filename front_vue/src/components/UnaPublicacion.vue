@@ -1,5 +1,5 @@
 <template>
-  <article
+  <div
     class="card mb-4 publicaciones"
     :id="`publicacion-${publicacion.id}`"
   >
@@ -127,11 +127,11 @@
         </div>
       </div>
     </div>
-    <div
+    <ul
       class="card-footer"
       v-if="Object.keys(publicacion.comentarios).length !== 0"
     >
-      <div v-for="comentario in publicacion.comentarios" :key="comentario.id">
+      <li v-for="comentario in publicacion.comentarios" :key="comentario.id">
         <div class="mt-1 mb-3 comentario">
           <div class="d-flex align-items-center mx-3">
             <img
@@ -139,19 +139,23 @@
               class="img-fluid avatar"
               alt="Avatar"
             />
-            <p class="font-weight-bold ml-3 mb-0">
-              {{
-                comentario.usuario.nombre + " " + comentario.usuario.apellido
-              }}
-            </p>
+
+            <div>
+              <p class="font-weight-bold ml-3 mb-0">
+                {{
+                  comentario.usuario.nombre + " " + comentario.usuario.apellido
+                }}
+              </p>
+              <p class="small ml-3 mb-0">{{ comentario.fecha }}</p>
+            </div>
           </div>
           <p class="mt-2 mx-3">
             {{ comentario.texto }}
           </p>
         </div>
-      </div>
-    </div>
-  </article>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -259,5 +263,9 @@ export default {
 
 .dropdown-item:hover {
   background-color: rgba(242, 137, 114, 0.7);
+}
+
+ul {
+  list-style: none;
 }
 </style>

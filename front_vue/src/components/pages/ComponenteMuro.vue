@@ -6,13 +6,15 @@
     <div class="loader-container">
       <BaseLoader v-if="loading" />
     </div>
-    <div v-for="publicacion in publicaciones" :key="publicacion.id">
+    <ul>
+    <li v-for="publicacion in publicaciones" :key="publicacion.id">
       <una-publicacion
         :publicacion="publicacion"
         :user="user"
         @newComment="loadPublications"
       />
-    </div>
+    </li>
+    </ul>
   </div>
 </template>
 
@@ -64,5 +66,10 @@ export default {
 .loader-container {
   max-width: 50rem;
   margin: 1rem auto;
+}
+
+ul {
+  padding-left: 0;
+  list-style: none;
 }
 </style>
