@@ -21,7 +21,7 @@ const publicationsService = {
     },
 
     /**
-     * Hace la petición de login al backend, y de tener éxito, marca al usuario como autenticado.
+     * Hace la petición para crear una publicación al backend y retorna el resultado
      *
      * @param {{}} data
      * @return {Promise<*>}

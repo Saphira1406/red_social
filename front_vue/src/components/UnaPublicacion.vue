@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="card mb-4 publicaciones"
-    :id="`publicacion-${publicacion.id}`"
-  >
+  <div class="card mb-4 publicaciones" :id="`publicacion-${publicacion.id}`">
     <div class="card-header">
       <div class="mt-1 mb-1 d-flex align-items-center">
         <img
@@ -13,7 +10,9 @@
 
         <div>
           <p class="font-weight-bold ml-3 mb-0">
-            {{ publicacion.usuario.nombre + " " + publicacion.usuario.apellido }}
+            {{
+              publicacion.usuario.nombre + " " + publicacion.usuario.apellido
+            }}
           </p>
           <p class="small ml-3 mb-0">{{ publicacion.fecha }}</p>
         </div>
@@ -159,10 +158,10 @@
 </template>
 
 <script>
-import { apiFetch } from "./../functions/fetch.js";
 import { API_IMGS_FOLDER } from "./../constants/api.js";
 import BaseLoader from "./BaseLoader.vue";
 import BaseNotification from "./BaseNotification.vue";
+import commentsService from "../services/comments.js";
 import $ from 'jquery';
 
 export default {
@@ -206,10 +205,7 @@ export default {
       this.notification = {
         text: null,
       };
-      apiFetch('/comentarios/nuevo', {
-        method: 'POST',
-        body: JSON.stringify(this.comentario),
-      })
+      commentsService.create(this.comentario)
         .then(rta => {
           this.loading = false;
           this.notification.text = rta.msg;

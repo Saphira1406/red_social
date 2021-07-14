@@ -115,9 +115,9 @@
 </template>
 
 <script>
-import { apiFetch } from "../functions/fetch.js";
 import BaseNotification from "../components/BaseNotification.vue";
 import BaseLoader from "../components/BaseLoader.vue";
+import usersService from "../services/users.js";
 
 export default {
   name: "Registrarse",
@@ -160,10 +160,7 @@ export default {
       this.loading = true;
       this.notification.text = null;
 
-      apiFetch('/usuarios/nuevo', {
-        method: 'post',
-        body: JSON.stringify(this.usuario),
-      })
+      usersService.create(this.usuario)
         .then(rta => {
           this.loading = false;
 
