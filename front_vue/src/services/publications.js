@@ -20,6 +20,22 @@ const publicationsService = {
             });
     },
 
+    /**
+     * Hace la petición de login al backend, y de tener éxito, marca al usuario como autenticado.
+     *
+     * @param {{}} data
+     * @return {Promise<*>}
+     */
+    create(data) {
+        return apiFetch('/publicaciones/nuevo', {
+                method: 'POST',
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                return response;
+            });
+    },
+
 };
 
 export default publicationsService;

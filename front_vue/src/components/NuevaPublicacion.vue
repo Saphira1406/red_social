@@ -91,10 +91,10 @@
 </template>
 
 <script>
-import { apiFetch } from "../functions/fetch.js";
 import { API_IMGS_FOLDER } from "../constants/api.js";
 import BaseLoader from "./BaseLoader.vue";
 import BaseNotification from "./BaseNotification.vue";
+import publicationsService from "../services/publications.js";
 
 export default {
   name: "NuevaPublicacion",
@@ -149,10 +149,7 @@ export default {
       this.loading = true;
       this.notification.text = null;
 
-      apiFetch('/publicaciones/nuevo', {
-        method: 'POST',
-        body: JSON.stringify(this.publicacion),
-      })
+      publicationsService.create(this.publicacion)
         .then(rta => {
           this.loading = false;
           this.notification.text = rta.msg;
