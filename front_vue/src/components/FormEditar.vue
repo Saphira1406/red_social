@@ -66,6 +66,7 @@
                   ref="editImage"
                   accept="image/x-png,image/jpeg"
                   @change="loadEditImage"
+                  :disabled="loading"
                 />
                 <p><small>Haz click en la imagen para cambiarla</small></p>
               </div>
@@ -77,8 +78,20 @@
                   class="form-control"
                   id="usuario"
                   v-model="usuario.usuario"
+                  :aria-describedby="
+                    errors.usuario !== null ? 'errors-usuario' : null
+                  "
+                  :disabled="loading"
                 />
+                <div
+                  v-if="errors.usuario !== null"
+                  id="errors-usuario"
+                  class="text-danger"
+                >
+                  {{ errors.usuario }}
+                </div>
               </div>
+
               <div class="form-group">
                 <label for="nombre">Nombre</label>
                 <input
@@ -86,8 +99,20 @@
                   class="form-control"
                   id="nombre"
                   v-model="usuario.nombre"
+                  :aria-describedby="
+                    errors.nombre !== null ? 'errors-nombre' : null
+                  "
+                  :disabled="loading"
                 />
+                <div
+                  v-if="errors.nombre !== null"
+                  id="errors-nombre"
+                  class="text-danger"
+                >
+                  {{ errors.nombre }}
+                </div>
               </div>
+
               <div class="form-group">
                 <label for="apellido">Apellido</label>
                 <input
@@ -95,7 +120,18 @@
                   class="form-control"
                   id="apellido"
                   v-model="usuario.apellido"
+                  :aria-describedby="
+                    errors.apellido !== null ? 'errors-apellido' : null
+                  "
+                  :disabled="loading"
                 />
+                <div
+                  v-if="errors.apellido !== null"
+                  id="errors-apellido"
+                  class="text-danger"
+                >
+                  {{ errors.apellido }}
+                </div>
               </div>
               <div class="form-group">
                 <label for="email">Email</label>
@@ -104,18 +140,34 @@
                   class="form-control"
                   id="email"
                   v-model="usuario.email"
+                  :aria-describedby="
+                    errors.email !== null ? 'errors-email' : null
+                  "
+                  :disabled="loading"
                 />
+                <div
+                  v-if="errors.email !== null"
+                  id="errors-email"
+                  class="text-danger"
+                >
+                  {{ errors.email }}
+                </div>
               </div>
-              <div class="d-flex justify-content-center">
-                <button type="submit" class="boton w-50 boton-guardar">
+              <div class="d-flex justify-content-center align-items-end">
+                <button
+                  type="submit"
+                  class="boton w-50 boton-guardar"
+                  :disabled="loading"
+                >
                   Guardar
                 </button>
+                <BaseLoader v-if="loading" class="ml-3" size="small" />
               </div>
             </form>
 
             <section class="card border-danger fondo mt-5 mb-3">
               <div class="card-body text-white">
-                <h5 class="card-title">Eliminar Cuenta</h5>
+                <h3 class="card-title h5">Eliminar Cuenta</h3>
                 <p class="card-text">
                   Si eliminas tu cuenta se borrarán todos tus datos y
                   publicaciones.
@@ -142,12 +194,12 @@
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5
-                          class="modal-title text-danger"
+                        <p
+                          class="modal-title text-danger h5"
                           id="confirmModalLabel"
                         >
                           Estás a punto de eliminar tu cuenta
-                        </h5>
+                        </p>
                         <button
                           type="button"
                           class="close"
@@ -194,7 +246,7 @@
 <script>
 import { apiFetch } from "../functions/fetch.js";
 import { API_IMGS_FOLDER } from "../constants/api";
-// import authService from "../services/auth.js";
+import BaseLoader from "./BaseLoader.vue";
 import BaseNotification from "./BaseNotification.vue";
 
 import $ from 'jquery';
@@ -207,6 +259,7 @@ export default {
     'deleted'
   ],
   components: {
+    BaseLoader,
     BaseNotification,
   },
   data: function () {
@@ -220,13 +273,16 @@ export default {
         imagen: this.user.imagen,
       },
       errors: {
-        texto: null
+        usuario: null,
+        nombre: null,
+        apellido: null,
+        email: null,
       },
       notification: {
         text: null,
         type: 'success',
       },
-      preview: false,
+      preview: false, loading: false,
     }
   },
   methods: {
@@ -240,6 +296,10 @@ export default {
           this.usuario = sesion;
           this.preview = false;
           this.notification.text = null;
+          this.errors.usuario = null;
+          this.errors.nombre = null;
+          this.errors.apellido = null;
+          this.errors.email = null;
         });
     },
 
@@ -247,18 +307,23 @@ export default {
     * Lee el archivo de la imagen y lo transforma a base64 para su posterior envío con Ajax.
     */
     loadEditImage () {
-      // this.loadingImg = true;
       this.preview = true;
       const editReader = new FileReader();
       editReader.addEventListener('load', () => {
         this.usuario.imagen = editReader.result;
-        // this.loadingImg = false;
       });
       editReader.readAsDataURL(this.$refs.editImage.files[0]);
-
     },
 
     editUsuario () {
+      // Si la petición ya está en ejecución, entonces no repetimos el proceso.
+      if (this.loading) return;
+
+      // Si no pasa la validación, no realizamos la petición.
+      if (!this.validates()) return;
+      this.loading = true;
+      this.notification.text = null;
+
       let data = {
         id: this.usuario.id,
         nombre: this.usuario.nombre,
@@ -266,27 +331,59 @@ export default {
         email: this.usuario.email,
         usuario: this.usuario.usuario,
       };
-      // enviar la imagen sólo si se cambió:
+
+      // Enviar la imagen sólo si se cambió:
       if (this.preview) {
         data.imagen = this.usuario.imagen;
       }
+
       apiFetch('/usuarios/' + this.usuario.id + '/editar', {
         method: 'PUT',
         body: JSON.stringify(data),
       })
         .then(rta => {
+          this.loading = false;
           this.notification.text = rta.msg;
           if (rta.success) {
             this.notification.type = 'success';
             this.$emit('changed', true);
-            console.log(rta);
             // Cerrar la modal:
             $('#editForm').modal('hide');
           } else {
             this.notification.type = 'danger';
-            console.log(rta);
           }
         });
+    },
+
+    /**
+    * Valida el form.
+    *
+    * @returns boolean
+    */
+    validates () {
+      let hasErrors = false;
+
+      if (this.usuario.usuario == null || this.usuario.usuario === '') {
+        this.errors.usuario = 'Tenés que completar el nombre de usuario.';
+        hasErrors = true;
+      }
+
+      if (this.usuario.nombre == null || this.usuario.nombre === '') {
+        this.errors.nombre = 'Tenés que completar el nombre.';
+        hasErrors = true;
+      }
+
+      if (this.usuario.apellido == null || this.usuario.apellido === '') {
+        this.errors.apellido = 'Tenés que completar el apellido.';
+        hasErrors = true;
+      }
+
+      if (this.usuario.email == null || this.usuario.email === '') {
+        this.errors.email = 'Tenés que completar el email.';
+        hasErrors = true;
+      }
+
+      return !hasErrors;
     },
 
     deleteUsuario () {
@@ -295,8 +392,6 @@ export default {
       })
         .then(rta => {
           if (rta.success) {
-            console.log(rta);
-
             this.usuario = {
               nombre: null,
               apellido: null,
@@ -312,7 +407,6 @@ export default {
             $('.modal-backdrop').remove();
 
           } else {
-            console.log(rta);
             this.notification = {
               text: 'Ocurrió un error al tratar de eliminar el usuario.',
               type: 'danger',
@@ -338,6 +432,8 @@ export default {
 .boton-guardar {
   border: 1px solid #361973;
   padding: 0.5em;
+  box-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+  border-radius: 0.25rem;
 }
 
 .img-profile:hover {
@@ -351,5 +447,14 @@ export default {
 
 #confirmModal {
   background: rgba(0, 0, 0, 0.9);
+}
+
+.close {
+  color: white;
+  opacity: 1;
+}
+
+.close:hover {
+  color: white;
 }
 </style>

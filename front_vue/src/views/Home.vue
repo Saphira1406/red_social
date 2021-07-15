@@ -78,7 +78,8 @@ main > div:first-child {
   min-width: 180px;
 }
 
-.boton:visited {
+body .boton:visited,
+body .boton:hover {
   color: white;
 }
 

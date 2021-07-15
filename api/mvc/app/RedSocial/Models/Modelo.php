@@ -43,7 +43,7 @@ class Modelo
                 if (method_exists($this, $setter)) {
                     $this->{$setter}($data[$attribute]);
                 } else {
-                    // Si no había un getter, probamos de asignarla directamente.
+                    // Si no había un setter, probamos de asignarla directamente.
                     $this->{$attribute} = $data[$attribute];
                 }
             }
@@ -62,42 +62,9 @@ class Modelo
         $stmt = $db->prepare($query);
         $stmt->execute();
 
-        // Variante 3: Usando setFetchMode.
         $stmt->setFetchMode(PDO::FETCH_CLASS, static::class);
 
         return $stmt->fetchAll();
-
-        // Variante 1: Haciendo un bucle para recorrer uno por uno los registros, crear el objeto,
-        // cargarle los datos y agregarlo a la salida.
-        //        $salida = [];
-        //
-        //        while($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        ////            $salida[] = $fila;
-        //            // En cada vuelta, instanciamos un producto para almacenar los datos del registro.
-        //            // Cuando hacemos el "new self", estamos instanciando un nuevo "self". Donde "self"
-        //            // hace referencia a la clase en _donde estamos ubicados ahora_. Es decir, "Modelo".
-        //            // Nosotros no queremos instanciar Modelos, necesitamos que se instancien las clases
-        //            // que estén heredando de Modelo. Y esas clases son dinámicas: no sabemos de antemano
-        //            // cuál es el valor que corresponde.
-        //            // Para salvarnos, podemos usar en vez de "self", la keyword "static".
-        //            // Cuando usamos "static" en reemplazo de una clase, la keyword hace referencia a la
-        //            // clase que esté ejecutando el método _en tiempo de ejecución_.
-        //            $obj = new static();
-        //            $obj->cargarDatosDeArray($fila);
-        //
-        //            $salida[] = $obj;
-        //        }
-        //
-        //        return $salida;
-
-        // Variante 2: Usando fetchObject.
-        //        $salida = [];
-        //
-        //        while($obj = $stmt->fetchObject(static::class)) {
-        //            $salida[] = $obj;
-        //        }
-        //
-        //        return $salida;
     }
 
     /**
@@ -108,7 +75,6 @@ class Modelo
      */
     public function traerPorPK($id)
     {
-        //        echo "Modelo::traerPorPK | Haciendo una consulta a la base<br>";
         $db = DBConnection::getConnection();
         $query = "SELECT * FROM " . $this->table . "
                 WHERE " . $this->primaryKey . " = ?";
@@ -116,14 +82,6 @@ class Modelo
         if (!$stmt->execute([$id])) {
             return null;
         }
-
-        // Variante 1: Obteniendo el array e instanciando la clase.
-        //        $fila = $stmt->fetch(PDO::FETCH_ASSOC);
-        //
-        //        $obj = new static();
-        //        $obj->cargarDatosDeArray($fila);
-
-        // Variante 2: Usando el método fetchObject.
         return $stmt->fetchObject(static::class);
     }
 
@@ -137,14 +95,10 @@ class Modelo
         $columns    = $this->prepareInsertColumns($data);
         $holders    = $this->prepareInsertHolders($columns);
         $data       = $this->prepareInsertData($data, $columns);
-        //        echo "<pre>";
-        //        print_r($columns);
-        //        echo "</pre>";
-        //        exit;
+
         $query = "INSERT INTO " . $this->table . " (" . implode(',', $columns) . ")
                   VALUES (" . implode(',', $holders) . ")";
-        //        $query = "INSERT INTO {$this->table} ({implode(',', $columns)})
-        //                  VALUES ({implode(',', $holders)})";
+
         $stmt = $db->prepare($query);
 
         if (!$stmt->execute($data)) {

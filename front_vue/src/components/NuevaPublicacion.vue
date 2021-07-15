@@ -72,11 +72,6 @@
 
           <div v-if="publicacion.imagen !== null" class="form-group mt-4">
             <p>Previsualización de la imagen seleccionada:</p>
-            <!-- !! IMPORTANTE !!
-                 Este es uno de los casos _muy_ específicos donde el alt de la imagen tiene sentido
-                 que quede vacío. Pero es una caso de _excepción_, no una regla.
-                 El líneas generales, SIEMPRE tienen que poner un alt descriptivo para la imagen.
-                 -->
             <img :src="publicacion.imagen" alt="" class="d-block mx-auto" />
           </div>
           <div class="text-center">
@@ -96,10 +91,10 @@
 </template>
 
 <script>
-import { apiFetch } from "../functions/fetch.js";
 import { API_IMGS_FOLDER } from "../constants/api.js";
 import BaseLoader from "./BaseLoader.vue";
 import BaseNotification from "./BaseNotification.vue";
+import publicationsService from "../services/publications.js";
 
 export default {
   name: "NuevaPublicacion",
@@ -143,7 +138,6 @@ export default {
         this.loadingImg = false;
       });
       reader.readAsDataURL(this.$refs.image.files[0]);
-
     },
 
     crearPublicacion () {
@@ -155,10 +149,7 @@ export default {
       this.loading = true;
       this.notification.text = null;
 
-      apiFetch('/publicaciones/nuevo', {
-        method: 'POST',
-        body: JSON.stringify(this.publicacion),
-      })
+      publicationsService.create(this.publicacion)
         .then(rta => {
           this.loading = false;
           this.notification.text = rta.msg;
@@ -175,7 +166,6 @@ export default {
             this.$emit('newPublication', this.publicacion);
           } else {
             this.notification.type = 'danger';
-            console.log(rta);
           }
         });
     },

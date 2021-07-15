@@ -1,6 +1,10 @@
 <template>
   <section class="coming-soon">
-    <img src="./../../assets/img/soon.png"  class="img-fluid" alt="en construccion">
+    <img
+      src="./../../assets/img/soon.png"
+      class="img-fluid"
+      alt="Sección en construcción"
+    />
   </section>
 </template>
 

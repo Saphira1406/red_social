@@ -1,19 +1,22 @@
 <template>
-  <article class="card mb-4 publicaciones">
+  <div class="card mb-4 publicaciones" :id="`publicacion-${publicacion.id}`">
     <div class="card-header">
       <div class="mt-1 mb-1 d-flex align-items-center">
         <img
           :src="imageUrl(publicacion.usuario.imagen)"
-          class="img-fluid
-          avatar"
-          :alt="
-            `Foto de perfil de ${publicacion.usuario.nombre} ${publicacion.usuario.apellido}`
-          "
+          class="img-fluid avatar"
+          alt="Avatar"
         />
 
-        <p class="font-weight-bold ml-3 mb-0">
-          {{ publicacion.usuario.nombre + " " + publicacion.usuario.apellido }}
-        </p>
+        <div>
+          <p class="font-weight-bold ml-3 mb-0">
+            {{
+              publicacion.usuario.nombre + " " + publicacion.usuario.apellido
+            }}
+          </p>
+          <p class="small ml-3 mb-0">{{ publicacion.fecha }}</p>
+        </div>
+        <!-- Editar y eliminar publicación, todavía no agregado al backend:
         <div
           v-if="publicacion.usuarios_id == user.id"
           class="dropdown ml-auto align-self-center"
@@ -21,7 +24,7 @@
           <button
             class="btn pr-0"
             type="button"
-            id="dropdownMenuButton"
+            :id="`dropdownPublicationMenuButton${publicacion.id}`"
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
@@ -34,11 +37,15 @@
               aria-label="Editar publicación"
             />
           </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <div
+            class="dropdown-menu"
+            :aria-labelledby="`dropdownPublicationMenuButton${publicacion.id}`"
+          >
             <a class="dropdown-item" href="#">Editar</a>
             <a class="dropdown-item" href="#">Eliminar</a>
           </div>
         </div>
+        -->
       </div>
     </div>
 
@@ -63,6 +70,14 @@
       >
         Comentar
       </button>
+      <BaseLoader v-if="loading" class="ml-3" size="small" />
+
+      <BaseNotification
+        v-if="notification.text !== null"
+        :text="notification.text"
+        :type="notification.type"
+        class="mt-2"
+      />
 
       <div class="collapse" :id="`commentForm${publicacion.id}`">
         <div class="card card-body mt-2 comentario">
@@ -72,7 +87,7 @@
                 <img
                   :src="imageUrl(user.imagen)"
                   class="img-fluid avatar"
-                  :alt="`Foto de perfil de ${user.nombre} ${user.apellido}`"
+                  alt="Avatar"
                 />
               </div>
               <div class="form-group col">
@@ -86,6 +101,7 @@
                   :aria-describedby="
                     errorsComment.texto !== null ? 'errorsComment-texto' : null
                   "
+                  :disabled="loading"
                 ></textarea>
                 <div
                   v-if="errorsComment.texto !== null"
@@ -98,7 +114,11 @@
             </div>
 
             <div class="text-center">
-              <button type="submit" class="btn boton boton-publicar">
+              <button
+                type="submit"
+                class="btn boton boton-publicar"
+                :disabled="loading"
+              >
                 Publicar
               </button>
             </div>
@@ -106,47 +126,54 @@
         </div>
       </div>
     </div>
-    <div
+    <ul
       class="card-footer"
-      v-for="comentario in publicacion.comentarios"
-      :key="comentario.id"
+      v-if="Object.keys(publicacion.comentarios).length !== 0"
     >
-      <div class="mt-1 mb-3 comentario">
-        <div class="d-flex align-items-center mx-3">
-          <img
-            :src="imageUrl(comentario.usuario.imagen)"
-            class="img-fluid
-          avatar"
-            :alt="
-              `Foto de perfil de ${comentario.usuario.nombre} ${comentario.usuario.apellido}`
-            "
-          />
-          <p class="font-weight-bold ml-3 mb-0">
-            {{ comentario.usuario.nombre + " " + comentario.usuario.apellido }}
+      <li v-for="comentario in publicacion.comentarios" :key="comentario.id">
+        <div class="mt-1 mb-3 comentario">
+          <div class="d-flex align-items-center mx-3">
+            <img
+              :src="imageUrl(comentario.usuario.imagen)"
+              class="img-fluid avatar"
+              alt="Avatar"
+            />
+
+            <div>
+              <p class="font-weight-bold ml-3 mb-0">
+                {{
+                  comentario.usuario.nombre + " " + comentario.usuario.apellido
+                }}
+              </p>
+              <p class="small ml-3 mb-0">{{ comentario.fecha }}</p>
+            </div>
+          </div>
+          <p class="mt-2 mx-3">
+            {{ comentario.texto }}
           </p>
         </div>
-        <p class="mt-2 mx-3">
-          {{ comentario.texto }}
-        </p>
-      </div>
-    </div>
-  </article>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
-import { apiFetch } from "./../functions/fetch.js";
 import { API_IMGS_FOLDER } from "./../constants/api.js";
+import BaseLoader from "./BaseLoader.vue";
+import BaseNotification from "./BaseNotification.vue";
+import commentsService from "../services/comments.js";
 import $ from 'jquery';
 
 export default {
   name: "UnaPublicacion",
-
+  components: {
+    BaseLoader,
+    BaseNotification,
+  },
   props: ['user', 'publicacion'],
   emits: ['newComment'],
   data: function () {
     return {
-      // usuario: [],
-
       // nuevo comentario:
       comentario: {
         texto: null,
@@ -160,6 +187,7 @@ export default {
         text: null,
         type: 'success',
       },
+      loading: false,
     }
   },
   methods: {
@@ -169,32 +197,27 @@ export default {
 
     crearComentario () {
       // Si la petición ya está en ejecución, entonces no repetimos el proceso.
-      // if(this.loading) return;
+      if (this.loading) return;
 
       // Si no pasa la validación, no realizamos la petición.
       if (!this.validatesComment()) return;
-      // this.loading = true;
+      this.loading = true;
       this.notification = {
         text: null,
       };
-      apiFetch('/comentarios/nuevo', {
-        method: 'POST',
-        body: JSON.stringify(this.comentario),
-      })
+      commentsService.create(this.comentario)
         .then(rta => {
-          // this.loading = false;
+          this.loading = false;
           this.notification.text = rta.msg;
           if (rta.success) {
             this.notification.type = 'success';
             // Luego de grabar exitosamente, ocultamos y vaciamos el form.
             $(`#commentForm${this.comentario.publicaciones_id}`).collapse('hide');
-            this.comentario = {
-              texto: null,
-            };
+            this.comentario.texto = null;
             this.$emit('newComment', this.publicacion);
+
           } else {
             this.notification.type = 'danger';
-            console.log(rta);
           }
         });
     },
@@ -208,7 +231,7 @@ export default {
       let commentHasErrors = false;
 
       if (this.comentario.texto == null || this.comentario.texto === '') {
-        this.errors.texto = 'Tenés que escribir el texto del comentario.';
+        this.errorsComment.texto = 'Tenés que escribir el texto del comentario.';
         commentHasErrors = true;
       }
 
@@ -216,9 +239,6 @@ export default {
     },
 
   },
-  mounted () {
-
-  }
 }
 </script>
 
@@ -239,5 +259,9 @@ export default {
 
 .dropdown-item:hover {
   background-color: rgba(242, 137, 114, 0.7);
+}
+
+ul {
+  list-style: none;
 }
 </style>

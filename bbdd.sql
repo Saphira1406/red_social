@@ -38,6 +38,7 @@ imagen VARCHAR
 (60),
 texto TEXT
 (1000), 
+fecha DATETIME,
 usuarios_id INT UNSIGNED,
 
 PRIMARY KEY
@@ -62,6 +63,7 @@ IF NOT EXISTS comentarios
 (id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
 texto TEXT
 (1000), 
+fecha DATETIME,
 usuarios_id INT UNSIGNED,
 publicaciones_id INT UNSIGNED,
 
@@ -125,25 +127,25 @@ password = "$2y$10$FYRDwgiPDZ1A4I4CepGTQ.ZfbZblq2VjVhEKIwCmhCoW/3hokW4tq";
 INSERT INTO publicaciones
 SET texto
 = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
-
+fecha = '2021-07-13 22:15:10',
 imagen = "group-friends.jpg", usuarios_id = 1;
 
 INSERT INTO publicaciones
 SET texto
 = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
-
+fecha = '2021-07-13 22:15:10',
 usuarios_id = 2;
 
 INSERT INTO publicaciones
 SET texto
 = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
-
+fecha = '2021-07-13 22:15:10',
 imagen = "img-publicacion.jpg", usuarios_id = 2;
 
 INSERT INTO publicaciones
 SET texto
 = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
-
+fecha = '2021-07-13 22:15:10',
 usuarios_id = 3;
 
 -- COMENTARIOS
@@ -153,6 +155,7 @@ SET texto
 = 'Comentario 1 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
 publicaciones_id
 = 1,
+fecha = '2021-07-13 22:15:10',
 usuarios_id = 1;
 
 INSERT INTO comentarios
@@ -160,6 +163,7 @@ SET texto
 = 'Comentario 2 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
 publicaciones_id
 = 3,
+fecha = '2021-07-13 22:15:10',
 usuarios_id = 2;
 
 INSERT INTO comentarios
@@ -167,6 +171,7 @@ SET texto
 = 'Comentario 3 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
 publicaciones_id
 = 1,
+fecha = '2021-07-13 22:15:10',
 usuarios_id = 2;
 
 INSERT INTO comentarios
@@ -174,6 +179,7 @@ SET texto
 = 'Comentario 4 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
 publicaciones_id
 = 3,
+fecha = '2021-07-13 22:15:10',
 usuarios_id = 3;
 
 INSERT INTO comentarios
@@ -181,6 +187,7 @@ SET texto
 = 'Comentario 5 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
 publicaciones_id
 = 3,
+fecha = '2021-07-13 22:15:10',
 usuarios_id = 2;
 
 INSERT INTO comentarios
@@ -188,6 +195,7 @@ SET texto
 = 'Comentario 6 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
 publicaciones_id
 = 1,
+fecha = '2021-07-13 22:15:10',
 usuarios_id = 1;
 
 
@@ -196,4 +204,5 @@ SET texto
 = 'Comentario 7 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
 publicaciones_id
 = 4,
+fecha = '2021-07-13 22:15:10',
 usuarios_id = 3;
