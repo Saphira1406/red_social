@@ -1,22 +1,19 @@
 <template>
-  <div class="card mb-4 publicaciones" :id="`publicacion-${publicacion.id}`">
+  <article class="card mb-4 publicaciones">
     <div class="card-header">
       <div class="mt-1 mb-1 d-flex align-items-center">
         <img
           :src="imageUrl(publicacion.usuario.imagen)"
-          class="img-fluid avatar"
-          alt="Avatar"
+          class="img-fluid
+          avatar"
+          :alt="
+            `Foto de perfil de ${publicacion.usuario.nombre} ${publicacion.usuario.apellido}`
+          "
         />
 
-        <div>
-          <p class="font-weight-bold ml-3 mb-0">
-            {{
-              publicacion.usuario.nombre + " " + publicacion.usuario.apellido
-            }}
-          </p>
-          <p class="small ml-3 mb-0">{{ publicacion.fecha }}</p>
-        </div>
-        <!-- Editar y eliminar publicación, todavía no agregado al backend:
+        <p class="font-weight-bold ml-3 mb-0">
+          {{ publicacion.usuario.nombre + " " + publicacion.usuario.apellido }}
+        </p>
         <div
           v-if="publicacion.usuarios_id == user.id"
           class="dropdown ml-auto align-self-center"
@@ -24,7 +21,7 @@
           <button
             class="btn pr-0"
             type="button"
-            :id="`dropdownPublicationMenuButton${publicacion.id}`"
+            id="dropdownMenuButton"
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
@@ -37,15 +34,11 @@
               aria-label="Editar publicación"
             />
           </button>
-          <div
-            class="dropdown-menu"
-            :aria-labelledby="`dropdownPublicationMenuButton${publicacion.id}`"
-          >
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <a class="dropdown-item" href="#">Editar</a>
             <a class="dropdown-item" href="#">Eliminar</a>
           </div>
         </div>
-        -->
       </div>
     </div>
 
@@ -78,14 +71,6 @@
           <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
         </svg>
       </button>
-      <BaseLoader v-if="loading" class="ml-3" size="small" />
-
-      <BaseNotification
-        v-if="notification.text !== null"
-        :text="notification.text"
-        :type="notification.type"
-        class="mt-2"
-      />
 
       <div class="collapse" :id="`commentForm${publicacion.id}`">
         <div class="card card-body mt-2 comentario">
@@ -95,7 +80,7 @@
                 <img
                   :src="imageUrl(user.imagen)"
                   class="img-fluid avatar"
-                  alt="Avatar"
+                  :alt="`Foto de perfil de ${user.nombre} ${user.apellido}`"
                 />
               </div>
               <div class="form-group col">
@@ -109,7 +94,6 @@
                   :aria-describedby="
                     errorsComment.texto !== null ? 'errorsComment-texto' : null
                   "
-                  :disabled="loading"
                 ></textarea>
                 <div
                   v-if="errorsComment.texto !== null"
@@ -122,11 +106,7 @@
             </div>
 
             <div class="text-center">
-              <button
-                type="submit"
-                class="btn boton boton-publicar"
-                :disabled="loading"
-              >
+              <button type="submit" class="btn boton boton-publicar">
                 Publicar
               </button>
             </div>
@@ -134,54 +114,47 @@
         </div>
       </div>
     </div>
-    <ul
+    <div
       class="card-footer"
-      v-if="Object.keys(publicacion.comentarios).length !== 0"
+      v-for="comentario in publicacion.comentarios"
+      :key="comentario.id"
     >
-      <li v-for="comentario in publicacion.comentarios" :key="comentario.id">
-        <div class="mt-1 mb-3 comentario">
-          <div class="d-flex align-items-center mx-3">
-            <img
-              :src="imageUrl(comentario.usuario.imagen)"
-              class="img-fluid avatar"
-              alt="Avatar"
-            />
-
-            <div>
-              <p class="font-weight-bold ml-3 mb-0">
-                {{
-                  comentario.usuario.nombre + " " + comentario.usuario.apellido
-                }}
-              </p>
-              <p class="small ml-3 mb-0">{{ comentario.fecha }}</p>
-            </div>
-          </div>
-          <p class="mt-2 mx-3">
-            {{ comentario.texto }}
+      <div class="mt-1 mb-3 comentario">
+        <div class="d-flex align-items-center mx-3">
+          <img
+            :src="imageUrl(comentario.usuario.imagen)"
+            class="img-fluid
+          avatar"
+            :alt="
+              `Foto de perfil de ${comentario.usuario.nombre} ${comentario.usuario.apellido}`
+            "
+          />
+          <p class="font-weight-bold ml-3 mb-0">
+            {{ comentario.usuario.nombre + " " + comentario.usuario.apellido }}
           </p>
         </div>
-      </li>
-    </ul>
-  </div>
+        <p class="mt-2 mx-3">
+          {{ comentario.texto }}
+        </p>
+      </div>
+    </div>
+  </article>
 </template>
 
 <script>
+import { apiFetch } from "./../functions/fetch.js";
 import { API_IMGS_FOLDER } from "./../constants/api.js";
-import BaseLoader from "./BaseLoader.vue";
-import BaseNotification from "./BaseNotification.vue";
-import commentsService from "../services/comments.js";
 import $ from 'jquery';
 
 export default {
   name: "UnaPublicacion",
-  components: {
-    BaseLoader,
-    BaseNotification,
-  },
+
   props: ['user', 'publicacion'],
   emits: ['newComment'],
   data: function () {
     return {
+      // usuario: [],
+
       // nuevo comentario:
       comentario: {
         texto: null,
@@ -195,7 +168,6 @@ export default {
         text: null,
         type: 'success',
       },
-      loading: false,
     }
   },
   methods: {
@@ -205,27 +177,32 @@ export default {
 
     crearComentario () {
       // Si la petición ya está en ejecución, entonces no repetimos el proceso.
-      if (this.loading) return;
+      // if(this.loading) return;
 
       // Si no pasa la validación, no realizamos la petición.
       if (!this.validatesComment()) return;
-      this.loading = true;
+      // this.loading = true;
       this.notification = {
         text: null,
       };
-      commentsService.create(this.comentario)
+      apiFetch('/comentarios/nuevo', {
+        method: 'POST',
+        body: JSON.stringify(this.comentario),
+      })
         .then(rta => {
-          this.loading = false;
+          // this.loading = false;
           this.notification.text = rta.msg;
           if (rta.success) {
             this.notification.type = 'success';
             // Luego de grabar exitosamente, ocultamos y vaciamos el form.
             $(`#commentForm${this.comentario.publicaciones_id}`).collapse('hide');
-            this.comentario.texto = null;
+            this.comentario = {
+              texto: null,
+            };
             this.$emit('newComment', this.publicacion);
-
           } else {
             this.notification.type = 'danger';
+            console.log(rta);
           }
         });
     },
@@ -239,7 +216,7 @@ export default {
       let commentHasErrors = false;
 
       if (this.comentario.texto == null || this.comentario.texto === '') {
-        this.errorsComment.texto = 'Tenés que escribir el texto del comentario.';
+        this.errors.texto = 'Tenés que escribir el texto del comentario.';
         commentHasErrors = true;
       }
 
@@ -247,6 +224,9 @@ export default {
     },
 
   },
+  mounted () {
+
+  }
 }
 </script>
 
@@ -287,6 +267,5 @@ export default {
 .btn-comment:hover {
   color: #ffffff;
   background-color: #AC5CCF;
-
 }
 </style>

@@ -1,4 +1,3 @@
-COMPONENTE FAVORITOS
 <template>
   <article class="container">
    <!-- <img src="./../../assets/img/soon.png"  class="img-fluid" alt="en construccion">-->
