@@ -98,7 +98,7 @@ section {
 .card {
   width: 60%;
   margin-top: 1em;
-  background: rgba(54, 25, 115, 0.6);
+  background: rgba(54, 25, 115, 0.9);
 }
 
 .boton {

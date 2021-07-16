@@ -7,7 +7,7 @@
         <h2 class="card-title">Registrate</h2>
       </div>
       <div class="card-body">
-        <span class="text-white form-text h6 mb-3"
+        <span class="form-text text-white h6 mb-3"
           >(Todos los campos son requeridos)</span
         >
 
@@ -123,7 +123,7 @@ section {
 .card {
   width: 60%;
   margin-top: 1em;
-  background: rgba(54, 25, 115, 0.6);
+  background: rgba(54, 25, 115, 0.9);
 }
 
 .boton {
@@ -135,4 +135,6 @@ section {
   );
   color: white;
 }
+
+
 </style>
