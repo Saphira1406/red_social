@@ -28,3 +28,4 @@ $app = new \RedSocial\Core\App($rootPath);
 
 // Arrancamos la App.
 $app->run();
+

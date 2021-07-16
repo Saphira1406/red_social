@@ -241,3 +241,4 @@ class Comentario extends Modelo implements JsonSerializable
         $this->publicacion = $publicacion;
     }
 }
+

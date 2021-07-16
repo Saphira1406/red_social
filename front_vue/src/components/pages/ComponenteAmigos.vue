@@ -58,7 +58,7 @@
     </div>
 
   </article>
-</template>
+
 
 <script>
 export default {
