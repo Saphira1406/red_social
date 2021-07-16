@@ -86,7 +86,7 @@ export default {
 
 .usuarios {
   background: rgb(242,137,114);
-  background: linear-gradient(94deg, rgba(242,137,114,0.7371148288416929) 21%, rgba(242,166,73,0.7735293946680235) 43%);
+  background: linear-gradient(94deg, rgba(242,137,114,0.5802520837436538) 21%, rgba(242,166,73,0.6082632882254464) 43%);
 }
 
 .img-friend {
