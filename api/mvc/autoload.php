@@ -1,6 +1,6 @@
 <?php
 // Definimos un autoload.
-spl_autoload_register(function($className) {
+spl_autoload_register(function ($className) {
     // Cambiamos las \ a /
     $className = str_replace('\\', DIRECTORY_SEPARATOR, $className);
 
@@ -10,7 +10,7 @@ spl_autoload_register(function($className) {
 
     // Verificamos si existe, y en caso positivo,
     // incluimos la clase.
-    if(file_exists($filepath)) {
+    if (file_exists($filepath)) {
         require_once $filepath;
     }
 });

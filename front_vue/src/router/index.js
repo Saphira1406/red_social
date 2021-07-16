@@ -4,13 +4,12 @@ import {
 } from 'vue-router'
 import Home from '../views/Home.vue'
 import Registrarse from "../views/Registrarse";
-// import Publicaciones from "@/views/Publicaciones";
 import Login from "@/views/Login";
 import ComponenteMuro from "../components/pages/ComponenteMuro";
 import ComponenteAmigos from "../components/pages/ComponenteAmigos";
 import ComponenteFavoritos from "../components/pages/ComponenteFavoritos";
 import Perfil from "../views/Perfil";
-// import FormEditar from "../components/FormEditar";
+import authService from "../services/auth.js";
 
 const routes = [{
     path: '/',
@@ -25,11 +24,17 @@ const routes = [{
         path: 'amigos',
         name: 'amigos',
         component: ComponenteAmigos,
+        meta: {
+          requiresAuth: true,
+        },
       },
       {
         path: 'favoritos',
         name: 'favoritos',
         component: ComponenteFavoritos,
+        meta: {
+          requiresAuth: true,
+        },
       },
     ],
   },
@@ -44,18 +49,23 @@ const routes = [{
   {
     path: '/perfil',
     component: Perfil,
-    /*
-    children: [{
-      path: '',
-      component: FormEditar,
-    }],
-    */
+    meta: {
+      requiresAuth: true,
+    }
   },
 ]
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes
-})
+});
+
+router.beforeEach((to, from) => {
+  if (to.meta.requiresAuth && !authService.isAuthenticated()) {
+    return {
+      path: '/login'
+    };
+  }
+});
 
 export default router

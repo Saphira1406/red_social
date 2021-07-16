@@ -20,12 +20,14 @@ class Publicacion extends Modelo implements JsonSerializable
         'usuarios_id',
         'texto',
         'imagen',
+        'fecha',
     ];
 
     private $id;
     private $usuarios_id;
     private $texto;
     private $imagen;
+    private $fecha;
 
     // Propiedades para las clases de las tablas asociadas.
     /** @var Usuario */
@@ -46,6 +48,7 @@ class Publicacion extends Modelo implements JsonSerializable
             'usuarios_id'   => $this->getUsuariosId(),
             'texto'         => $this->getTexto(),
             'imagen'        => $this->getImagen(),
+            'fecha'         => $this->getFecha(),
             'usuario'       => $this->getUsuario(),
             'comentarios'   => $this->getComentarios()
         ];
@@ -69,9 +72,6 @@ class Publicacion extends Modelo implements JsonSerializable
         $salida = [];
 
         while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            //            $salida[] = $fila;
-            // En cada vuelta, instanciamos una publicación para almacenar los datos del registro.
-
             $publicacion = new self();
 
             $publicacion->cargarDatosDeArray($fila);
@@ -83,6 +83,7 @@ class Publicacion extends Modelo implements JsonSerializable
                 'nombre'   => $fila['nombre'],
                 'apellido' => $fila['apellido'],
                 'imagen'   => $fila['img_perfil'],
+                'fecha' => $fila['fecha'],
             ]);
 
             $publicacion->setUsuario($usuario);
@@ -104,14 +105,6 @@ class Publicacion extends Modelo implements JsonSerializable
      */
     public function cargarComentariosEnLasPublicaciones(array $publicaciones): array
     {
-        // Acá queremos traer los comentarios de las publicaciones que nos hayan pasado en el
-        // parámetro $publicaciones, y solo los de esas publicaciones.
-        // Esto es importante porque yo puedo tener decenas de cientos de miles de publicaciones en la
-        // base, y que me estén pidiendo solo los comentarios de 20 publicaciones.
-        // Para lograr esto, necesitamos primero llevar un registro de cuáles son las publicaciones que nos
-        // pasaron (particularmente sus ids), para poder realizar la búsqueda en base a ellos.
-        // Vamos además a crear un array nuevo (como indicamos en la documentación) para las publicaciones,
-        // al cual vamos a inicialmente indexar por el id de la publicación.
         $salida = [];
         $ids = [];
 
@@ -125,9 +118,6 @@ class Publicacion extends Modelo implements JsonSerializable
         $comentariosTotales = (new Comentario())->traerPorListaDePublicaciones($ids);
 
         // Ahora, finalmente, asignamos cada comentario a la publicación que le corresponde.
-        // Para hacer esto fácil, vamos a recorrer los comentarios, encontrar la publicación a la que
-        // le corresponde gracias al id de la misma (que usamos como clave en el array de salida), y
-        // hacer la asignación.
         foreach ($comentariosTotales as $comentario) {
             $idPublicacion = $comentario->getPublicacionesId();
             $salida[$idPublicacion]->addComentario($comentario);
@@ -175,7 +165,6 @@ class Publicacion extends Modelo implements JsonSerializable
                 WHERE id = ?";
         $stmt = $db->prepare($query);
         if (!$stmt->execute([$id])) {
-            //            throw new \Exception('No existe una publicación con este id.');
             return null;
         }
 
@@ -186,6 +175,7 @@ class Publicacion extends Modelo implements JsonSerializable
         $publicacion->setUsuariosId($fila['usuarios_id']);
         $publicacion->setTexto($fila['texto']);
         $publicacion->setImagen($fila['imagen']);
+        $publicacion->setFecha($fila['fecha']);
         return $publicacion;
     }
 
@@ -198,11 +188,9 @@ class Publicacion extends Modelo implements JsonSerializable
     public function crear(array $data): bool
     {
         $db = DBConnection::getConnection();
-        $query = "INSERT INTO publicaciones (usuarios_id, texto, imagen) 
-                  VALUES (:usuarios_id, :texto, :imagen)";
+        $query = "INSERT INTO publicaciones (usuarios_id, texto, imagen, fecha) 
+                  VALUES (:usuarios_id, :texto, :imagen, :fecha)";
         $stmt = $db->prepare($query);
-
-        //        return $stmt->execute($data);
 
         if (!$stmt->execute($data)) {
             return false;
@@ -210,10 +198,12 @@ class Publicacion extends Modelo implements JsonSerializable
         return true;
     }
 
+/*
     public function editar()
     {
         $db = DBConnection::getConnection();
     }
+*/
 
     /**
      * Elimina una publicación por su $id.
@@ -229,7 +219,6 @@ class Publicacion extends Modelo implements JsonSerializable
                 WHERE id = ?";
         $stmt = $db->prepare($query);
         if (!$stmt->execute([$id])) {
-            //            throw new \Exception("No se pudo eliminar el producto #" . $id);
             return false;
         }
         return true;
@@ -297,6 +286,22 @@ class Publicacion extends Modelo implements JsonSerializable
     public function setImagen($imagen)
     {
         $this->imagen = $imagen;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    /**
+     * @param mixed $fecha
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
     }
 
     /**

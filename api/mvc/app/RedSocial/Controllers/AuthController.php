@@ -4,61 +4,33 @@ namespace RedSocial\Controllers;
 
 use RedSocial\Auth\Auth;
 use RedSocial\Models\Usuario;
-
-use RedSocial\Core\App;
-use RedSocial\Core\View;
 use RedSocial\Validation\Validator;
-
-require_once __DIR__ . '../../../../../functions/auth.php';
 
 class AuthController
 {
-    /*
-    public function loginForm()
-    {
-        if (isset($_SESSION['old_data'])) {
-            $oldData = $_SESSION['old_data'];
-            unset($_SESSION['old_data']);
-        } else {
-            $oldData = [];
-        }
-        if (isset($_SESSION['errores'])) {
-            $errores = $_SESSION['errores'];
-            unset($_SESSION['errores']);
-        } else {
-            $errores = [];
-        }
-        if (isset($_SESSION['status_error'])) {
-            $statusError = $_SESSION['status_error'];
-            unset($_SESSION['status_error']);
-        } else {
-            $statusError = null;
-        }
-
-        View::render('auth/login', [
-            'oldData' => $oldData,
-            'errores' => $errores,
-            'statusError' => $statusError,
-        ]);
-    }
-*/
     public function loginProcesar()
     {
         $inputData = file_get_contents('php://input');
         $postData = json_decode($inputData, true);
 
-        /*
         $validator = new Validator($postData, [
             'email' => ['required'],
             'password' => ['required'],
         ]);
 
         if (!$validator->passes()) {
-            $_SESSION['errores'] = $validator->getErrores();
-            $_SESSION['old_data'] = $postData;
-            // App::redirect('iniciar-sesion');
+            $errores =  $validator->getErrores();
+            $texto = '';
+            foreach ($errores as $error => $val) {
+                $texto .= "$val[0] ";
+            };
+            echo json_encode([
+                "success" => false,
+                "msg" => $texto
+            ]);
+            exit;
         }
-*/
+
         $email = trim($postData['email']);
         $password = $postData['password'];
 
@@ -71,7 +43,6 @@ class AuthController
 
             if ($usuario) {
                 (new Auth)->setAsAuthenticated($usuario);
-                //     $_SESSION['id'] = $usuario->getId();
                 echo json_encode([
                     'success' => true,
                     'data' => [
@@ -88,19 +59,19 @@ class AuthController
         }
         echo json_encode([
             'success' => false,
-            'msg' => 'Ocurrió un error al tratar de loguearse.',
+            'msg' => 'Los datos ingresados no coinciden con nuestros registros.',
         ]);
     }
 
     public function logout()
     {
-        //        $auth = new Auth;
-        //        $auth->logout();
         (new Auth)->logout();
-        // $_SESSION['status_success'] = 'Cerraste sesión con éxito. ¡Te esperamos pronto!';
-        // App::redirect('iniciar-sesion');
         echo json_encode([
             'success' => true,
         ]);
+    }
+
+    public function options()
+    {
     }
 }

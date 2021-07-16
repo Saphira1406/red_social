@@ -6,22 +6,24 @@
     <div class="loader-container">
       <BaseLoader v-if="loading" />
     </div>
-    <div v-for="publicacion in publicaciones" :key="publicacion.id">
-      <una-publicacion
-        :publicacion="publicacion"
-        :user="user"
-        @newComment="loadPublications"
-      />
-    </div>
+    <ul>
+      <li v-for="publicacion in publicaciones" :key="publicacion.id">
+        <una-publicacion
+          :publicacion="publicacion"
+          :user="user"
+          @newComment="loadPublications"
+        />
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-import { apiFetch } from "../../functions/fetch.js";
 import { API_IMGS_FOLDER } from "../../constants/api.js";
 import BaseLoader from "../BaseLoader.vue";
 import NuevaPublicacion from "../NuevaPublicacion.vue";
 import UnaPublicacion from "../UnaPublicacion.vue";
+import publicationsService from "../../services/publications.js";
 
 export default {
   name: "Muro",
@@ -45,7 +47,8 @@ export default {
 
     loadPublications () {
       this.loading = true;
-      apiFetch('/publicaciones')
+
+      publicationsService.fetchAll()
         .then(publicaciones => {
           this.loading = false;
           // Asignamos las publicaciones al state del componente.
@@ -64,5 +67,10 @@ export default {
 .loader-container {
   max-width: 50rem;
   margin: 1rem auto;
+}
+
+ul {
+  padding-left: 0;
+  list-style: none;
 }
 </style>

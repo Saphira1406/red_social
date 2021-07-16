@@ -48,16 +48,6 @@ nav .avatar {
     background: linear-gradient( 351deg, rgba(172, 92, 207, 1) 37%, rgba(54, 25, 115, 1) 87%);
 }
 
-.btn-delete {
-    color: #361973;
-    border: 1px solid #361973;
-}
-
-.btn-delete:hover {
-    color: #ffffff;
-    background-color: #361973;
-}
-
 p .btn {
     vertical-align: unset;
     text-decoration: underline;

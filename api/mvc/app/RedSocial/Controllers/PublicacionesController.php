@@ -2,13 +2,14 @@
 
 namespace RedSocial\Controllers;
 
-use RedSocial\Auth\Auth;
 use RedSocial\Core\App;
 use RedSocial\Core\Route;
 use RedSocial\Core\View;
 use RedSocial\Models\Publicacion;
 use RedSocial\Validation\Validator;
 use RedSocial\Storage\FileUpload;
+use \DateTime;
+use \DateTimeZone;
 
 class PublicacionesController extends Controller
 {
@@ -18,22 +19,16 @@ class PublicacionesController extends Controller
         $publicaciones = (new Publicacion())->traerTodo();
         View::renderJson($publicaciones);
     }
-    /*
+
     public function ver()
     {
-        // Capturamos el parámetro de la URL que definidos en la ruta.
-//        $params = Route::getUrlParameters();
-//        $id = $params['id'];
         $id = Route::getUrlParameters()['id'];
 
-//        echo "El id que pidieron es: " . $id;
-        $producto = (new Producto())->traerPorPK($id);
+        $publicacion = (new Publicacion())->traerPorPK($id);
 
-        View::render('productos/ver', compact('producto'));
-//        View::renderJson($producto);
+        View::renderJson($publicacion);
     }
 
-*/
     public function nuevoGuardar()
     {
         $this->requiresAuth();
@@ -56,10 +51,13 @@ class PublicacionesController extends Controller
             $nombreImagen = '';
         }
 
+        $fecha = new DateTime(null, new DateTimeZone(App::getEnv('TIMEZONE')));
+
         $data = [
             "texto"  => $texto,
             "usuarios_id"  => $usuarios_id,
             "imagen"  => $nombreImagen,
+            "fecha" => $fecha->format('Y-m-d H:i:s'),
         ];
 
         $rules = [
@@ -95,20 +93,4 @@ class PublicacionesController extends Controller
             ]);
         }
     }
-    /*
-    public function eliminar()
-    {
-        $this->requiresAuth();
-
-        $id = urlParam('id');
-        $producto = new Producto();
-        if(!$producto->eliminar($id)) {
-            $_SESSION['error'] = 'Ocurrió un error al tratar de guardar la información.';
-            App::redirect('/productos');
-            exit;
-        }
-        $_SESSION['exito'] = 'El producto fue eliminado exitosamente.';
-        App::redirect('/productos');
-    }
-    */
 }
