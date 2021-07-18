@@ -61,7 +61,7 @@ p .btn {
     height: 170px;
 }
 
-.card, .publicaciones {
+.card.publicaciones {
     background-color: rgba(242, 166, 73, 0.5);
     font-family: "SourceSansPro", sans-serif;
     max-width: 50rem;
