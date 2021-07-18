@@ -88,6 +88,38 @@ ON
 UPDATE CASCADE
 )ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Tabla favoritos
+-- -----------------------------------------------------
+CREATE TABLE
+IF NOT EXISTS favoritos
+(id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+fecha DATETIME,
+usuarios_id INT UNSIGNED,
+publicaciones_id INT UNSIGNED,
+
+PRIMARY KEY
+(id),
+
+FOREIGN KEY
+(usuarios_id) REFERENCES usuarios
+(id) ON
+DELETE
+SET NULL
+ON
+UPDATE CASCADE,
+
+FOREIGN KEY
+(publicaciones_id) REFERENCES publicaciones
+(id)
+ON
+DELETE
+SET NULL
+ON
+UPDATE CASCADE
+)ENGINE = InnoDB;
+
+
 -- INSERTS
 
 -- USUARIOS
