@@ -75,6 +75,16 @@ p .btn {
     /* margin-top: -1em; */
 }
 
+.btn-publish  {
+    color: #361973;
+ 
+}
+
+.btn-publish:hover {
+    color: #ffffff;
+    background-color: #361973;
+}
+
 .btn-favorite {
     color: #F26B8F;
     border: 1px solid #F26B8F;
