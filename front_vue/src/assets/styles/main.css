@@ -75,6 +75,36 @@ p .btn {
     /* margin-top: -1em; */
 }
 
+.btn-favorite {
+    color: #F26B8F;
+    border: 1px solid #F26B8F;
+}
+
+.btn-favorite:hover {
+    color: #ffffff;
+    background-color: #F26B8F;
+}
+
+.btn-comment {
+    color: #AC5CCF;
+    border: 1px solid #AC5CCF;
+}
+
+.btn-comment:hover {
+    color: #ffffff;
+    background-color: #AC5CCF;
+}
+
+.btn-delete {
+    color: #7D664B;
+    border: 1px solid #7D664B;
+}
+
+.btn-delete:hover {
+    color: #ffffff;
+    background-color: #7D664B;
+}
+
 body footer {
     display: flex;
     height: 50px;
