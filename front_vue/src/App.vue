@@ -23,6 +23,9 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <div v-if="auth.user.id !== null" class="navbar-nav ml-auto">
+            <div class="nav-item">
+              <router-link class="nav-link ml-1" to="/">Home</router-link>
+            </div>
             <div class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
