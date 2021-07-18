@@ -62,4 +62,3 @@ class DBConnection
         return self::$db;
     }
 }
-

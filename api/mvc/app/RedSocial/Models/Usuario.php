@@ -306,4 +306,3 @@ class Usuario extends Modelo implements JsonSerializable
         ];
     }
 }
-
