@@ -77,10 +77,19 @@ p .btn {
 
 .btn-publish  {
     color: #361973;
-
 }
 
 .btn-publish:hover {
+    color: #ffffff;
+    background-color: #361973;
+}
+
+.btn-add {
+    color: #361973;
+    border: 1px solid #361973;
+}
+
+.btn-add:hover {
     color: #ffffff;
     background-color: #361973;
 }
