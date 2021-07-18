@@ -85,8 +85,8 @@
 
 <script>
 import authService from "./services/auth.js";
-import { apiFetch } from "./functions/fetch.js";
 import { API_IMGS_FOLDER } from "./constants/api.js";
+import usersService from "./services/users.js";
 
 export default {
   data () {
@@ -123,7 +123,7 @@ export default {
       this.$router.push("/");
     },
     onUpdateUser () {
-      apiFetch('/usuarios/' + this.auth.user.id)
+      usersService.fetch(this.auth.user.id)
         .then(sesion => {
           this.auth.user = sesion;
         });

@@ -42,9 +42,9 @@
 </template>
 
 <script>
-import { apiFetch } from "../functions/fetch.js";
 import { API_IMGS_FOLDER } from "../constants/api";
 import FormEditar from "./../components/FormEditar.vue";
+import usersService from "./../services/users.js";
 
 export default {
   name: "Perfil",
@@ -64,7 +64,7 @@ export default {
     },
 
     loadUsuario () {
-      apiFetch('/usuarios/' + this.user.id)
+      usersService.fetch(this.user.id)
         .then(sesion => {
           this.usuario = sesion;
         });
@@ -77,7 +77,6 @@ export default {
 
     deleteUser () {
       this.$emit('deletedUser', true);
-
     }
 
   },

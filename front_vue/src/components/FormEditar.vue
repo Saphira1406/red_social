@@ -244,10 +244,10 @@
 </template>
 
 <script>
-import { apiFetch } from "../functions/fetch.js";
 import { API_IMGS_FOLDER } from "../constants/api";
 import BaseLoader from "./BaseLoader.vue";
 import BaseNotification from "./BaseNotification.vue";
+import usersService from "./../services/users.js";
 
 import $ from 'jquery';
 
@@ -291,7 +291,7 @@ export default {
     },
 
     loadUsuario () {
-      apiFetch('/usuarios/' + this.user.id)
+      usersService.fetch(this.user.id)
         .then(sesion => {
           this.usuario = sesion;
           this.preview = false;
@@ -337,10 +337,7 @@ export default {
         data.imagen = this.usuario.imagen;
       }
 
-      apiFetch('/usuarios/' + this.usuario.id + '/editar', {
-        method: 'PUT',
-        body: JSON.stringify(data),
-      })
+      usersService.edit(this.usuario.id, data)
         .then(rta => {
           this.loading = false;
           this.notification.text = rta.msg;
@@ -387,9 +384,7 @@ export default {
     },
 
     deleteUsuario () {
-      apiFetch('/usuarios/' + this.usuario.id + '/eliminar', {
-        method: 'DELETE',
-      })
+      usersService.delete(this.usuario.id)
         .then(rta => {
           if (rta.success) {
             this.usuario = {
