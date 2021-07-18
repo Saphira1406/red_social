@@ -12,6 +12,13 @@
                 <h5 class="card-title">Nombre Apellido</h5>
                 <p class="card-text">Usuario</p>
               </div>
+              <div class="text-right mt-n4">
+              <button class="btn btn-delete">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash2" viewBox="0 0 16 16">
+                  <path d="M14 3a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2zM3.215 4.207l1.493 8.957a1 1 0 0 0 .986.836h4.612a1 1 0 0 0 .986-.836l1.493-8.957C11.69 4.689 9.954 5 8 5c-1.954 0-3.69-.311-4.785-.793z"/>
+                </svg>
+              </button>
+              </div>
             </div>
           </div>
         </div>
@@ -24,6 +31,13 @@
               <div>
                 <h5 class="card-title">Nombre Apellido</h5>
                 <p class="card-text">Usuario</p>
+              </div>
+              <div class="text-right mt-n4">
+                <button class="btn btn-delete">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash2" viewBox="0 0 16 16">
+                    <path d="M14 3a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2zM3.215 4.207l1.493 8.957a1 1 0 0 0 .986.836h4.612a1 1 0 0 0 .986-.836l1.493-8.957C11.69 4.689 9.954 5 8 5c-1.954 0-3.69-.311-4.785-.793z"/>
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
@@ -38,6 +52,13 @@
                 <h5 class="card-title">Nombre Apellido</h5>
                 <p class="card-text">Usuario</p>
               </div>
+              <div class="text-right mt-n4">
+                <button class="btn btn-delete">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash2" viewBox="0 0 16 16">
+                    <path d="M14 3a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2zM3.215 4.207l1.493 8.957a1 1 0 0 0 .986.836h4.612a1 1 0 0 0 .986-.836l1.493-8.957C11.69 4.689 9.954 5 8 5c-1.954 0-3.69-.311-4.785-.793z"/>
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -50,6 +71,13 @@
               <div>
                 <h5 class="card-title">Nombre Apellido</h5>
                 <p class="card-text">Usuario</p>
+              </div>
+              <div class="text-right mt-n4">
+                <button class="btn btn-delete">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash2" viewBox="0 0 16 16">
+                    <path d="M14 3a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2zM3.215 4.207l1.493 8.957a1 1 0 0 0 .986.836h4.612a1 1 0 0 0 .986-.836l1.493-8.957C11.69 4.689 9.954 5 8 5c-1.954 0-3.69-.311-4.785-.793z"/>
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
@@ -66,11 +94,6 @@ export default {
 </script>
 
 <style scoped>
-.usuarios {
-  background: rgb(242,137,114);
-  background: linear-gradient(94deg, rgba(242,137,114,0.5802520837436538) 21%, rgba(242,166,73,0.6082632882254464) 43%);
-}
-
 .img-friend {
   width: 40%;
   border-radius: 50%;
@@ -79,7 +102,6 @@ export default {
 
 .friend {
   position: relative;
-  background: rgba(242, 137, 114, 0.1);
   z-index: 999;
 }
 .friend:before {
@@ -97,4 +119,5 @@ export default {
       rgba(242, 107, 143, 0.90238093528427) 85%
   );
 }
+
 </style>
