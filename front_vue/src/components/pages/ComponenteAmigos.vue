@@ -1,139 +1,50 @@
 <template>
   <div class="container">
-    <div class="row row-cols-1 row-cols-md-3">
-      <div class="col mb-4">
-        <div class="card text-center publicaciones">
-          <div class="friend">
-            <img
-              src="./../../assets/img/persona_2.jpg"
-              class="img-friend"
-              alt="..."
-            />
-          </div>
-          <div class="card-body">
-            <div>
-              <h5 class="card-title">Nombre Apellido</h5>
-              <p class="card-text">Usuario</p>
+    <ul class="row">
+      <li
+        v-for="amigo in amigos"
+        :key="amigo.id"
+        class="col-sm-6 col-md-4 col-lg-3"
+      >
+        <div class="mb-4">
+          <div class="card text-center publicaciones">
+            <div class="friend">
+              <img
+                :src="imageUrl(amigo.receptor.imagen)"
+                class="img-fluid avatar img-friend"
+                alt="Avatar"
+              />
             </div>
-            <div class="text-right mt-n4">
-              <button class="btn btn-delete">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-trash2"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M14 3a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2zM3.215 4.207l1.493 8.957a1 1 0 0 0 .986.836h4.612a1 1 0 0 0 .986-.836l1.493-8.957C11.69 4.689 9.954 5 8 5c-1.954 0-3.69-.311-4.785-.793z"
-                  />
-                </svg>
-              </button>
+            <div class="card-body">
+              <div>
+                <p class="card-title h5">
+                  {{ amigo.receptor.nombre + " " + amigo.receptor.apellido }}
+                </p>
+                <p class="card-text">Usuario</p>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="col mb-4">
-        <div class="card text-center publicaciones">
-          <div class="friend">
-            <img
-              src="./../../assets/img/persona_3.jpg"
-              class="img-friend"
-              alt="..."
-            />
-          </div>
-          <div class="card-body">
-            <div>
-              <h5 class="card-title">Nombre Apellido</h5>
-              <p class="card-text">Usuario</p>
-            </div>
-            <div class="text-right mt-n4">
-              <button class="btn btn-delete">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-trash2"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M14 3a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2zM3.215 4.207l1.493 8.957a1 1 0 0 0 .986.836h4.612a1 1 0 0 0 .986-.836l1.493-8.957C11.69 4.689 9.954 5 8 5c-1.954 0-3.69-.311-4.785-.793z"
-                  />
-                </svg>
-              </button>
+            <div class="card-footer">
+              <div class="text-right mt-1">
+                <button class="btn btn-delete">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-trash2"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M14 3a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2zM3.215 4.207l1.493 8.957a1 1 0 0 0 .986.836h4.612a1 1 0 0 0 .986-.836l1.493-8.957C11.69 4.689 9.954 5 8 5c-1.954 0-3.69-.311-4.785-.793z"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col mb-4">
-        <div class="card text-center publicaciones">
-          <div class="friend">
-            <img
-              src="./../../assets/img/persona_2.jpg"
-              class="img-friend"
-              alt="..."
-            />
-          </div>
-          <div class="card-body">
-            <div>
-              <h5 class="card-title">Nombre Apellido</h5>
-              <p class="card-text">Usuario</p>
-            </div>
-            <div class="text-right mt-n4">
-              <button class="btn btn-delete">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-trash2"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M14 3a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2zM3.215 4.207l1.493 8.957a1 1 0 0 0 .986.836h4.612a1 1 0 0 0 .986-.836l1.493-8.957C11.69 4.689 9.954 5 8 5c-1.954 0-3.69-.311-4.785-.793z"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col mb-4">
-        <div class="card text-center publicaciones">
-          <div class="friend">
-            <img
-              src="./../../assets/img/persona_3.jpg"
-              class="img-friend"
-              alt="..."
-            />
-          </div>
-          <div class="card-body">
-            <div>
-              <h5 class="card-title">Nombre Apellido</h5>
-              <p class="card-text">Usuario</p>
-            </div>
-            <div class="text-right mt-n4">
-              <button class="btn btn-delete">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-trash2"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M14 3a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2zM3.215 4.207l1.493 8.957a1 1 0 0 0 .986.836h4.612a1 1 0 0 0 .986-.836l1.493-8.957C11.69 4.689 9.954 5 8 5c-1.954 0-3.69-.311-4.785-.793z"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -174,9 +85,9 @@ export default {
 
 <style scoped>
 .img-friend {
-  width: 40%;
-  border-radius: 50%;
   margin-top: 1.5em;
+  width: 140px;
+  height: 140px;
 }
 
 .friend {
@@ -197,5 +108,10 @@ export default {
     rgba(172, 92, 207, 0.9107842966288078) 33%,
     rgba(242, 107, 143, 0.90238093528427) 85%
   );
+}
+
+ul {
+  padding-left: 0;
+  list-style: none;
 }
 </style>

@@ -40,6 +40,7 @@ class Amigo extends Modelo implements JsonSerializable
             'id'            => $this->getId(),
             'emisor_id'     => $this->getEmisorId(),
             'receptor_id'   => $this->getReceptorId(),
+            'receptor'      => $this->getUsuario(),
         ];
     }
 
@@ -66,19 +67,16 @@ class Amigo extends Modelo implements JsonSerializable
             $amigo = new self();
 
             $amigo->cargarDatosDeArray($fila);
-            /*
-            $usuario = new Usuario();
-            $usuario->cargarDatosDeArray([
-                'id'       => $fila['usuarios_id'],
-                'email'    => $fila['email'],
+
+            $receptor = new Usuario();
+            $receptor->cargarDatosDeArray([
                 'nombre'   => $fila['nombre'],
                 'apellido' => $fila['apellido'],
-                'imagen'   => $fila['img_perfil'],
-                'fecha' => $fila['fecha'],
+                'imagen'   => $fila['imagen'],
             ]);
 
-            $amigo->setUsuario($usuario);
-*/
+            $amigo->setUsuario($receptor);
+
             $salida[] = $amigo;
         }
 
