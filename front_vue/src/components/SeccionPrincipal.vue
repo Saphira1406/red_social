@@ -18,20 +18,38 @@
     <section
       class="d-flex justify-content-center align-items-center flex-column pt-3"
     >
-      <router-view :user="user" />
+      <router-view :user="user" :amigos="amigos" />
     </section>
   </div>
 </template>
 
 <script>
+import friendsService from "./../services/friends.js";
+
 export default {
   name: "SeccionPrincipal",
   props: ['user'],
   data () {
     return {
-
+      amigos: [],
     }
   },
+  methods: {
+
+    loadFriends () {
+      // this.loading = true;
+      friendsService.fetchAll(this.user.id)
+        .then(amigos => {
+          // this.loading = false;
+          // Asignamos los amigos al state del componente.
+          this.amigos = amigos;
+        });
+    },
+
+  },
+  mounted () {
+    this.loadFriends();
+  }
 }
 </script>
 

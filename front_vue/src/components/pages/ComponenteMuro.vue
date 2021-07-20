@@ -11,6 +11,7 @@
         <una-publicacion
           :publicacion="publicacion"
           :user="user"
+          :amigos="amigos"
           @newComment="loadPublications"
         />
       </li>
@@ -32,7 +33,7 @@ export default {
     NuevaPublicacion,
     UnaPublicacion
   },
-  props: ['user'],
+  props: ['user', 'amigos'],
   data: function () {
     return {
       loading: false,

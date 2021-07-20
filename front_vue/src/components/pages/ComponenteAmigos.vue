@@ -20,7 +20,6 @@
                 <p class="card-title h5">
                   {{ amigo.receptor.nombre + " " + amigo.receptor.apellido }}
                 </p>
-                <p class="card-text">Usuario</p>
               </div>
             </div>
             <div class="card-footer">
@@ -50,36 +49,16 @@
 
 <script>
 import { API_IMGS_FOLDER } from "../../constants/api.js";
-import friendsService from "../../services/friends.js";
 
 export default {
   name: "Amigos",
-  props: ['user'],
-  data: function () {
-    return {
-      amigos: [],
-    }
+  props: ['user', 'amigos'],
 
-  },
   methods: {
     imageUrl (image) {
       return `${API_IMGS_FOLDER}/${image}`;
     },
-
-    loadFriends () {
-      // this.loading = true;
-      friendsService.fetchAll(this.user.id)
-        .then(amigos => {
-          // this.loading = false;
-          // Asignamos los amigos al state del componente.
-          this.amigos = amigos;
-        });
-    },
-
   },
-  mounted () {
-    this.loadFriends();
-  }
 }
 </script>
 
