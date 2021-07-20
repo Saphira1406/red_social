@@ -100,7 +100,7 @@ class Amigo extends Modelo implements JsonSerializable
     }
 
     /**
-     * Crea una nueva publicación en la base de datos.
+     * Crea una nueva amistad en la base de datos.
      *
      * @param array $data
      * @return bool
@@ -108,8 +108,8 @@ class Amigo extends Modelo implements JsonSerializable
     public function crear(array $data): bool
     {
         $db = DBConnection::getConnection();
-        $query = "INSERT INTO publicaciones (usuarios_id, texto, imagen, fecha) 
-                  VALUES (:usuarios_id, :texto, :imagen, :fecha)";
+        $query = "INSERT INTO amigos (emisor_id, receptor_id) 
+                  VALUES (:emisor_id, :receptor_id)";
         $stmt = $db->prepare($query);
 
         if (!$stmt->execute($data)) {

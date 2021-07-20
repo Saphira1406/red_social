@@ -16,4 +16,36 @@ class AmigosController extends Controller
         $amigos = (new Amigo())->traerTodos($id);
         View::renderJson($amigos);
     }
+
+    public function nuevoGuardar()
+    {
+        $this->requiresAuth();
+
+        $inputData = file_get_contents('php://input');
+        $postData = json_decode($inputData, true);
+
+        // Captura de datos:       
+        $emisor_id         = $postData['emisor_id'];
+        $receptor_id       = $postData['receptor_id'];
+
+        $data = [
+            "emisor_id"  => $emisor_id,
+            "receptor_id"  => $receptor_id,
+        ];
+
+        $amigo = new Amigo();
+        $exito = $amigo->crear($data);
+
+        if ($exito) {
+            echo json_encode([
+                'success' => true,
+                'msg' => 'Amistad creada con éxito.',
+            ]);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'msg' => 'Ocurrió un error inesperado y no se pudo crear la amistad.',
+            ]);
+        }
+    }
 }

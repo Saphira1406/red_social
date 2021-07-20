@@ -21,6 +21,22 @@ const friendsService = {
             });
     },
 
+    /**
+     * Hace la petición para agregar un amigo al backend y retorna el resultado
+     *
+     * @param {{}} data
+     * @return {Promise<*>}
+     */
+    create(data) {
+        return apiFetch('/amigos/nuevo', {
+                method: 'POST',
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                return response;
+            });
+    },
+
 };
 
 export default friendsService;

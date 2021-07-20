@@ -20,7 +20,7 @@
           v-if="publicacion.usuarios_id != user.id && !yaEsAmigo"
           class="ml-auto"
         >
-          <button class="btn btn-add">
+          <button @click="agregarAmigo" class="btn btn-add">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -207,6 +207,7 @@ import { API_IMGS_FOLDER } from "./../constants/api.js";
 import BaseLoader from "./BaseLoader.vue";
 import BaseNotification from "./BaseNotification.vue";
 import commentsService from "../services/comments.js";
+import friendsService from "../services/friends.js";
 import $ from 'jquery';
 
 export default {
@@ -220,6 +221,10 @@ export default {
   data: function () {
     return {
       yaEsAmigo: false,
+      amistad: {
+        emisor_id: this.user.id,
+        receptor_id: this.publicacion.usuarios_id,
+      },
       // nuevo comentario:
       comentario: {
         texto: null,
@@ -279,6 +284,13 @@ export default {
           break;
         }
       }
+    },
+
+    agregarAmigo () {
+      friendsService.create(this.amistad)
+        .then(rta => {
+          console.log(rta);
+        });
     },
 
     /**

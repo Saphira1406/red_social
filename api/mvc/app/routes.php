@@ -68,3 +68,4 @@ Route::add('POST', '/comentarios/nuevo', 'ComentariosController@nuevoGuardar');
  */
 
 Route::add('GET', '/amigos/{id}', 'AmigosController@listado');
+Route::add('POST', '/amigos/nuevo', 'AmigosController@nuevoGuardar');
