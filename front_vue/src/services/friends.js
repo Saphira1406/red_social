@@ -37,6 +37,21 @@ const friendsService = {
             });
     },
 
+    /**
+     * Hace la petición de borrado de un amigo al backend por su id y retorna la respuesta
+     *
+     * @param {int} id
+     * @return {Promise<*>}
+     */
+    delete(id) {
+        return apiFetch('/amigos/' + id + '/eliminar', {
+                method: 'DELETE',
+            })
+            .then(response => {
+                return response;
+            });
+    },
+
 };
 
 export default friendsService;

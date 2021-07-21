@@ -69,3 +69,7 @@ Route::add('POST', '/comentarios/nuevo', 'ComentariosController@nuevoGuardar');
 
 Route::add('GET', '/amigos/{id}', 'AmigosController@listado');
 Route::add('POST', '/amigos/nuevo', 'AmigosController@nuevoGuardar');
+
+// Rutas para eliminar un amigo:
+Route::add('DELETE', '/amigos/{id}/eliminar', 'AmigosController@eliminar');
+Route::add('OPTIONS', '/amigos/{id}/eliminar', 'AuthController@options');

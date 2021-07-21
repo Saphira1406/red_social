@@ -24,7 +24,12 @@
             </div>
             <div class="card-footer">
               <div class="text-right mt-1">
-                <button class="btn btn-delete">
+                <button
+                  class="btn btn-delete"
+                  type="button"
+                  data-toggle="modal"
+                  :data-target="`#confirmModal-${amigo.receptor_id}`"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -42,6 +47,57 @@
             </div>
           </div>
         </div>
+
+        <div
+          class="modal fade"
+          :id="`confirmModal-${amigo.receptor_id}`"
+          tabindex="-1"
+          role="dialog"
+          :aria-labelledby="`confirmModalLabel-${amigo.receptor_id}`"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <p
+                  class="modal-title text-danger h5"
+                  :id="`confirmModalLabel-${amigo.receptor_id}`"
+                >
+                  Estás a punto de eliminar a tu amigo
+                </p>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Cerrar"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p class="text-danger">
+                  ¿Estás seguro de eliminar a tu amigo?
+                </p>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  @click="deleteFriend(amigo.id)"
+                >
+                  Eliminar amigo
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </li>
     </ul>
   </div>
@@ -49,15 +105,33 @@
 
 <script>
 import { API_IMGS_FOLDER } from "../../constants/api.js";
+import friendsService from "./../../services/friends.js";
 
 export default {
   name: "Amigos",
   props: ['user', 'amigos'],
+  emits: ['deletedFriend'],
 
   methods: {
     imageUrl (image) {
       return `${API_IMGS_FOLDER}/${image}`;
     },
+
+    deleteFriend (id) { // id de la fila que se va a borrar de la tabla "amigos"
+      friendsService.delete(id)
+        .then(rta => {
+          console.log(rta);
+          if (rta.success) {
+
+            this.$emit('deletedFriend', true);
+            // this.$router.push("/");
+            // Cerrar la modal:
+            // $('#editForm').modal('hide');
+            // $('.modal-backdrop').remove();
+
+          }
+        });
+    }
   },
 }
 </script>

@@ -39,9 +39,7 @@
                 <img
                   :src="imageUrl(auth.user.imagen)"
                   class="img-fluid avatar mr-2"
-                  :alt="
-                    `Foto de perfil de ${auth.user.nombre} ${auth.user.apellido}`
-                  "
+                  alt="Avatar"
                 />
                 {{ auth.user.nombre }}
               </a>

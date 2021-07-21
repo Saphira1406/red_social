@@ -70,6 +70,7 @@ class Amigo extends Modelo implements JsonSerializable
 
             $receptor = new Usuario();
             $receptor->cargarDatosDeArray([
+
                 'nombre'   => $fila['nombre'],
                 'apellido' => $fila['apellido'],
                 'imagen'   => $fila['imagen'],
@@ -119,7 +120,7 @@ class Amigo extends Modelo implements JsonSerializable
     }
 
     /**
-     * Elimina una publicación por su $id.
+     * Elimina un amigo por su $id.
      * Retorna true en caso de éxito, false de lo contrario.
      *
      * @param $id
@@ -128,13 +129,42 @@ class Amigo extends Modelo implements JsonSerializable
     public function eliminar($id): bool
     {
         $db = DBConnection::getConnection();
-        $query = "DELETE FROM publicaciones
+        $query = "DELETE FROM amigos
                 WHERE id = ?";
         $stmt = $db->prepare($query);
         if (!$stmt->execute([$id])) {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Retorna el amigo al que pertenece la $pk.
+     * De no existir, retorna null.
+     *
+     * @param int $pk
+     * @return Amigo|null
+     */
+    public function getByPk(int $pk)
+    {
+        $db = DBConnection::getConnection();
+
+        $query = "SELECT * FROM amigos
+                    WHERE id = ?";
+        $stmt = $db->prepare($query);
+        $stmt->execute([$pk]);
+
+        // Si no podemos obtener la fila, retornamos null.
+        if (!$fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            return null;
+        }
+
+        $amigo = new Amigo;
+        $amigo->id = $fila['id'];
+        $amigo->emisor_id = $fila['emisor_id'];
+        $amigo->receptor_id = $fila['receptor_id'];
+
+        return $amigo;
     }
 
     /**

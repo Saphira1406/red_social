@@ -48,4 +48,26 @@ class AmigosController extends Controller
             ]);
         }
     }
+
+    public function eliminar()
+    {
+        $this->requiresAuth();
+
+        $id = urlParam('id');
+
+        $amigo = (new Amigo())->getByPk($id);
+
+        if (!$amigo->eliminar($id)) {
+            echo json_encode([
+                "success" => false,
+                "msg" => 'Ocurrió un error al tratar de eliminar el amigo.',
+            ]);
+        } else {
+
+            echo json_encode([
+                'success' => true,
+                'msg' => 'El amigo ha sido eliminado',
+            ]);
+        }
+    }
 }
