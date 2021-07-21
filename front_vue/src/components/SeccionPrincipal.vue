@@ -18,7 +18,7 @@
     <section
       class="d-flex justify-content-center align-items-center flex-column pt-3"
     >
-      <router-view :user="user" :amigos="amigos" />
+      <router-view :user="user" :amigos="amigos" @updatedFriend="loadFriends" />
     </section>
   </div>
 </template>

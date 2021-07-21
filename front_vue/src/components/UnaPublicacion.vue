@@ -217,7 +217,7 @@ export default {
     BaseNotification,
   },
   props: ['user', 'publicacion', 'amigos'],
-  emits: ['newComment'],
+  emits: ['newComment', 'newFriend'],
   data: function () {
     return {
       yaEsAmigo: false,
@@ -290,6 +290,9 @@ export default {
       friendsService.create(this.amistad)
         .then(rta => {
           console.log(rta);
+          if (rta.success) {
+            this.$emit('newFriend', true);
+          }
         });
     },
 
