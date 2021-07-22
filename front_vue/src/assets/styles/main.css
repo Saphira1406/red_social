@@ -75,7 +75,7 @@ p .btn {
     /* margin-top: -1em; */
 }
 
-.btn-publish  {
+.btn-publish {
     color: #361973;
 }
 
@@ -143,6 +143,12 @@ body textarea {
     border-radius: 10px;
     margin-top: -1.5em;
     min-height: 64px;
+}
+
+.sticky-notification {
+    position: sticky;
+    top: 10px;
+    z-index: 9001;
 }
 
 @media screen and (min-width: 576px) {

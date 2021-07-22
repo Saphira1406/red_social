@@ -66,6 +66,12 @@
         </div>
         -->
       </div>
+      <BaseNotification
+        v-if="notificationFriend.text !== null"
+        :text="notificationFriend.text"
+        :type="notificationFriend.type"
+        class="mt-3 mb-0"
+      />
     </div>
 
     <img
@@ -118,9 +124,9 @@
       <BaseLoader v-if="loading" class="ml-3" size="small" />
 
       <BaseNotification
-        v-if="notification.text !== null"
-        :text="notification.text"
-        :type="notification.type"
+        v-if="notificationComment.text !== null"
+        :text="notificationComment.text"
+        :type="notificationComment.type"
         class="mt-2"
       />
 
@@ -234,7 +240,11 @@ export default {
       errorsComment: {
         texto: null,
       },
-      notification: {
+      notificationComment: {
+        text: null,
+        type: 'success',
+      },
+      notificationFriend: {
         text: null,
         type: 'success',
       },
@@ -253,22 +263,22 @@ export default {
       // Si no pasa la validación, no realizamos la petición.
       if (!this.validatesComment()) return;
       this.loading = true;
-      this.notification = {
+      this.notificationComment = {
         text: null,
       };
       commentsService.create(this.comentario)
         .then(rta => {
           this.loading = false;
-          this.notification.text = rta.msg;
+          this.notificationComment.text = rta.msg;
           if (rta.success) {
-            this.notification.type = 'success';
+            this.notificationComment.type = 'success';
             // Luego de grabar exitosamente, ocultamos y vaciamos el form.
             $(`#commentForm${this.comentario.publicaciones_id}`).collapse('hide');
             this.comentario.texto = null;
             this.$emit('newComment', this.publicacion);
 
           } else {
-            this.notification.type = 'danger';
+            this.notificationComment.type = 'danger';
           }
         });
     },
@@ -287,11 +297,18 @@ export default {
     },
 
     agregarAmigo () {
+      this.notificationFriend = {
+        text: null,
+      };
       friendsService.create(this.amistad)
         .then(rta => {
-          console.log(rta);
+          this.notificationFriend.text = rta.msg;
           if (rta.success) {
             this.$emit('newFriend', true);
+            this.notificationFriend.type = 'success';
+            this.yaEsAmigo = true;
+          } else {
+            this.notificationFriend.type = 'danger';
           }
         });
     },
