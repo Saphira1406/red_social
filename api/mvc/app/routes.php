@@ -60,3 +60,16 @@ Route::add('OPTIONS', '/usuarios/{id}/eliminar', 'AuthController@options');
 
 // Hacemos la ruta para grabar:
 Route::add('POST', '/comentarios/nuevo', 'ComentariosController@nuevoGuardar');
+
+/*
+ |--------------------------------------------------------------------------
+ | Amigos
+ |--------------------------------------------------------------------------
+ */
+
+Route::add('GET', '/amigos/{id}', 'AmigosController@listado');
+Route::add('POST', '/amigos/nuevo', 'AmigosController@nuevoGuardar');
+
+// Rutas para eliminar un amigo:
+Route::add('DELETE', '/amigos/{id}/eliminar', 'AmigosController@eliminar');
+Route::add('OPTIONS', '/amigos/{id}/eliminar', 'AuthController@options');

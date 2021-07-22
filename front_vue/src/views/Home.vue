@@ -26,7 +26,7 @@
 
 <script>
 import SeccionPrincipal from '../components/SeccionPrincipal.vue'
-// @ is an alias to /src
+
 
 export default {
   components: { SeccionPrincipal },

@@ -248,7 +248,6 @@ import { API_IMGS_FOLDER } from "../constants/api";
 import BaseLoader from "./BaseLoader.vue";
 import BaseNotification from "./BaseNotification.vue";
 import usersService from "./../services/users.js";
-
 import $ from 'jquery';
 
 export default {

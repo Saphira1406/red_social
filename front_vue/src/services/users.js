@@ -28,7 +28,7 @@ const usersService = {
     /**
      * Hace la petición de un usuario al backend por su id y retorna la respuesta
      *
-     * @param {string} id
+     * @param {int} id
      * @return {Promise<*>}
      */
     fetch(id) {
@@ -41,7 +41,7 @@ const usersService = {
     /**
      * Hace la petición de edición de un usuario al backend por su id y retorna la respuesta
      *
-     * @param {string} id
+     * @param {int} id
      * @param {{}} data
      * @return {Promise<*>}
      */
@@ -58,7 +58,7 @@ const usersService = {
     /**
      * Hace la petición de borrado de un usuario al backend por su id y retorna la respuesta
      *
-     * @param {string} id
+     * @param {int} id
      * @return {Promise<*>}
      */
     delete(id) {

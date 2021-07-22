@@ -83,7 +83,7 @@ class Publicacion extends Modelo implements JsonSerializable
                 'nombre'   => $fila['nombre'],
                 'apellido' => $fila['apellido'],
                 'imagen'   => $fila['img_perfil'],
-                'fecha' => $fila['fecha'],
+                'fecha'    => $fila['fecha'],
             ]);
 
             $publicacion->setUsuario($usuario);
@@ -198,7 +198,7 @@ class Publicacion extends Modelo implements JsonSerializable
         return true;
     }
 
-/*
+    /*
     public function editar()
     {
         $db = DBConnection::getConnection();

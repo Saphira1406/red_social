@@ -11,7 +11,9 @@
         <una-publicacion
           :publicacion="publicacion"
           :user="user"
+          :amigos="amigos"
           @newComment="loadPublications"
+          @newFriend="updateFriend"
         />
       </li>
     </ul>
@@ -32,7 +34,8 @@ export default {
     NuevaPublicacion,
     UnaPublicacion
   },
-  props: ['user'],
+  props: ['user', 'amigos'],
+  emits: ['updatedFriend'],
   data: function () {
     return {
       loading: false,
@@ -55,6 +58,10 @@ export default {
           this.publicaciones = publicaciones;
         });
     },
+
+    updateFriend () {
+      this.$emit('updatedFriend', true);
+    }
 
   },
   mounted () {
