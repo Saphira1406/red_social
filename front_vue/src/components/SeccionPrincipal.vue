@@ -18,7 +18,12 @@
     <section
       class="d-flex justify-content-center align-items-center flex-column pt-3"
     >
-      <router-view :user="user" :amigos="amigos" @updatedFriend="loadFriends" />
+      <router-view
+        :user="user"
+        :amigos="amigos"
+        @updatedFriend="loadFriends"
+        @deletedFriend="loadFriends"
+      />
     </section>
   </div>
 </template>

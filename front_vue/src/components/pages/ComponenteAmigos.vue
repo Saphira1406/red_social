@@ -28,7 +28,7 @@
                   class="btn btn-delete"
                   type="button"
                   data-toggle="modal"
-                  :data-target="`#confirmModal-${amigo.receptor_id}`"
+                  :data-target="`#confirmModal-${amigo.id}`"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -50,10 +50,10 @@
 
         <div
           class="modal fade"
-          :id="`confirmModal-${amigo.receptor_id}`"
+          :id="`confirmModal-${amigo.id}`"
           tabindex="-1"
           role="dialog"
-          :aria-labelledby="`confirmModalLabel-${amigo.receptor_id}`"
+          :aria-labelledby="`confirmModalLabel-${amigo.id}`"
           aria-hidden="true"
         >
           <div class="modal-dialog" role="document">
@@ -61,7 +61,7 @@
               <div class="modal-header">
                 <p
                   class="modal-title text-danger h5"
-                  :id="`confirmModalLabel-${amigo.receptor_id}`"
+                  :id="`confirmModalLabel-${amigo.id}`"
                 >
                   Estás a punto de eliminar a tu amigo
                 </p>
@@ -76,7 +76,11 @@
               </div>
               <div class="modal-body">
                 <p class="text-danger">
-                  ¿Estás seguro de eliminar a tu amigo?
+                  ¿Estás seguro de eliminar a
+                  <span class="font-weight-bold">{{
+                    amigo.receptor.nombre + " " + amigo.receptor.apellido
+                  }}</span>
+                  de tu lista de amigos?
                 </p>
               </div>
               <div class="modal-footer">
@@ -106,6 +110,7 @@
 <script>
 import { API_IMGS_FOLDER } from "../../constants/api.js";
 import friendsService from "./../../services/friends.js";
+import $ from 'jquery';
 
 export default {
   name: "Amigos",
@@ -124,10 +129,10 @@ export default {
           if (rta.success) {
 
             this.$emit('deletedFriend', true);
-            // this.$router.push("/");
+
             // Cerrar la modal:
-            // $('#editForm').modal('hide');
-            // $('.modal-backdrop').remove();
+            $('#confirmModal-' + id).modal('hide');
+            $('.modal-backdrop').remove();
 
           }
         });
