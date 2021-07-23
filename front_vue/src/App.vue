@@ -22,11 +22,11 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <div v-if="auth.user.id !== null" class="navbar-nav ml-auto">
-            <div class="nav-item">
+          <ul v-if="auth.user.id !== null" class="navbar-nav ml-auto">
+            <li class="nav-item">
               <router-link class="nav-link ml-1" to="/">Home</router-link>
-            </div>
-            <div class="nav-item dropdown">
+            </li>
+            <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
@@ -62,8 +62,8 @@
                   </button>
                 </li>
               </ul>
-            </div>
-          </div>
+            </li>
+          </ul>
         </div>
       </nav>
     </header>

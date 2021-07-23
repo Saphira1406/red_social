@@ -148,7 +148,7 @@
                   :id="`comentario${publicacion.id}`"
                   rows="1"
                   placeholder="Escribe un comentario..."
-                  v-model="comentario.texto"
+                  v-model.trim="comentario.texto"
                   :aria-describedby="
                     errorsComment.texto !== null ? 'errorsComment-texto' : null
                   "

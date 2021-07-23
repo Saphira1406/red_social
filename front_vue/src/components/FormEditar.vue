@@ -77,7 +77,7 @@
                   type="text"
                   class="form-control"
                   id="usuario"
-                  v-model="usuario.usuario"
+                  v-model.trim="usuario.usuario"
                   :aria-describedby="
                     errors.usuario !== null ? 'errors-usuario' : null
                   "
@@ -98,7 +98,7 @@
                   type="text"
                   class="form-control"
                   id="nombre"
-                  v-model="usuario.nombre"
+                  v-model.trim="usuario.nombre"
                   :aria-describedby="
                     errors.nombre !== null ? 'errors-nombre' : null
                   "
@@ -119,7 +119,7 @@
                   type="text"
                   class="form-control"
                   id="apellido"
-                  v-model="usuario.apellido"
+                  v-model.trim="usuario.apellido"
                   :aria-describedby="
                     errors.apellido !== null ? 'errors-apellido' : null
                   "
@@ -139,7 +139,7 @@
                   type="email"
                   class="form-control"
                   id="email"
-                  v-model="usuario.email"
+                  v-model.trim="usuario.email"
                   :aria-describedby="
                     errors.email !== null ? 'errors-email' : null
                   "
