@@ -7,7 +7,7 @@
         <h2 class="card-title">Registrate</h2>
       </div>
       <div class="card-body">
-        <p class="text-white form-text h6 mb-3">
+        <p class="text-white form-text h6 mb-4">
           (Todos los campos son requeridos)
         </p>
 
@@ -18,13 +18,13 @@
         />
 
         <form action="#" class="row g-3" @submit.prevent="crearUsuario">
-          <div class="col-md-6">
+          <div class="col-md-6 mb-4">
             <label for="nombre" class="form-label">Nombre</label>
             <input
               type="text"
               class="form-control"
               id="nombre"
-              v-model="usuario.nombre"
+              v-model.trim="usuario.nombre"
               :aria-describedby="
                 errors.nombre !== null ? 'errors-nombre' : null
               "
@@ -38,13 +38,13 @@
               {{ errors.nombre }}
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6 mb-4">
             <label for="apellido" class="form-label">Apellido</label>
             <input
               type="text"
               class="form-control"
               id="apellido"
-              v-model="usuario.apellido"
+              v-model.trim="usuario.apellido"
               :aria-describedby="
                 errors.apellido !== null ? 'errors-apellido' : null
               "
@@ -58,13 +58,13 @@
               {{ errors.apellido }}
             </div>
           </div>
-          <div class="col-12">
+          <div class="col-12 mb-4">
             <label for="email" class="form-label">Email</label>
             <input
               type="email"
               class="form-control"
               id="email"
-              v-model="usuario.email"
+              v-model.trim="usuario.email"
               :aria-describedby="errors.email !== null ? 'errors-email' : null"
               :disabled="loading"
             />
@@ -76,13 +76,13 @@
               {{ errors.email }}
             </div>
           </div>
-          <div class="col-12">
+          <div class="col-12 mb-4">
             <label for="password" class="form-label">Contraseña</label>
             <input
               type="password"
               class="form-control"
               id="password"
-              v-model="usuario.password"
+              v-model.trim="usuario.password"
               :aria-describedby="
                 errors.password !== null ? 'errors-password' : null
               "
