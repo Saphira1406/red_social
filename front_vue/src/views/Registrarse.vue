@@ -79,7 +79,7 @@
           <div class="col-12 mb-4">
             <label for="password" class="form-label">Contraseña</label>
             <input
-              type="password"
+              :type="type"
               class="form-control"
               id="password"
               v-model.trim="usuario.password"
@@ -88,6 +88,14 @@
               "
               :disabled="loading"
             />
+            <button
+              v-if="usuario.password"
+              type="button"
+              @click="showPassword"
+              class="btn btn-outline-light btn-sm mt-2"
+            >
+              {{ btnText }}
+            </button>
             <div
               v-if="errors.password !== null"
               id="errors-password"
@@ -143,9 +151,20 @@ export default {
         type: 'success',
       },
       loading: false,
+      type: 'password',
+      btnText: 'Mostrar contraseña',
     }
   },
   methods: {
+    showPassword () {
+      if (this.type === 'password') {
+        this.type = 'text';
+        this.btnText = 'Ocultar contraseña';
+      } else {
+        this.type = 'password';
+        this.btnText = 'Mostrar contraseña';
+      }
+    },
     crearUsuario () {
       // Si la petición ya está en ejecución, entonces no repetimos el proceso.
       if (this.loading) return;
