@@ -1,6 +1,13 @@
 <template>
   <div class="container">
-    <ul class="row">
+    <BaseNotification
+      v-if="notification.text !== null"
+      :text="notification.text"
+      :type="notification.type"
+      class="mt-0 sticky-notification"
+    />
+
+    <ul v-if="Object.keys(amigos).length" class="row">
       <li
         v-for="amigo in amigos"
         :key="amigo.id"
@@ -104,36 +111,54 @@
         </div>
       </li>
     </ul>
+
+    <div v-else>
+      <p class="text-center mt-5">Aún no hay amigos agregados.</p>
+    </div>
   </div>
 </template>
 
 <script>
+import BaseNotification from "./../BaseNotification.vue";
 import { API_IMGS_FOLDER } from "../../constants/api.js";
 import friendsService from "./../../services/friends.js";
 import $ from 'jquery';
 
 export default {
   name: "Amigos",
+  components: {
+    BaseNotification,
+  },
   props: ['user', 'amigos'],
   emits: ['deletedFriend'],
-
+  data: function () {
+    return {
+      notification: {
+        text: null,
+        type: 'success',
+      },
+    }
+  },
   methods: {
     imageUrl (image) {
       return `${API_IMGS_FOLDER}/${image}`;
     },
 
     deleteFriend (id) { // id de la fila que se va a borrar de la tabla "amigos"
+      this.notification.text = null;
       friendsService.delete(id)
         .then(rta => {
-          console.log(rta);
+          this.notification.text = rta.msg;
           if (rta.success) {
-
+            this.notification.type = 'success';
             this.$emit('deletedFriend', true);
 
             // Cerrar la modal:
             $('#confirmModal-' + id).modal('hide');
             $('.modal-backdrop').remove();
 
+          } else {
+            this.notification.type = 'danger';
           }
         });
     }

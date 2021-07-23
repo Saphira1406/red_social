@@ -71,11 +71,6 @@ export default {
 </script>
 
 <style scoped>
-.loader-container {
-  max-width: 50rem;
-  margin: 1rem auto;
-}
-
 ul {
   padding-left: 0;
   list-style: none;
