@@ -182,11 +182,18 @@ export default {
       usersService.create(this.usuario)
         .then(rta => {
           this.loading = false;
-
+          this.notification.text = rta.msg;
           if (rta.success) {
-            this.$router.push("login");
+            this.notification.text += ' Redireccionando...';
+            this.notification.type = 'success';
+            setTimeout(
+              () => {
+                this.$router.push("login");
+              }, 2000
+            );
+
           } else {
-            this.notification.text = rta.msg;
+
             this.notification.type = 'danger';
           }
         });
@@ -230,13 +237,14 @@ export default {
 section {
   background: url("./../assets/img/backgroundLogin.jpg") no-repeat;
   background-size: cover;
-  height: 96vh;
+  min-height: 96vh;
   padding-top: 1em;
 }
 .card {
   width: 60%;
   margin-top: 1em;
   background: rgba(54, 25, 115, 0.9);
+  margin-bottom: 2rem;
 }
 
 .boton {
