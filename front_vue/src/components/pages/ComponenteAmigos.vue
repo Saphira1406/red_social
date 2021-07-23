@@ -6,7 +6,8 @@
       :type="notification.type"
       class="mt-0 sticky-notification"
     />
-    <ul class="row">
+
+    <ul v-if="Object.keys(amigos).length" class="row">
       <li
         v-for="amigo in amigos"
         :key="amigo.id"
@@ -110,6 +111,10 @@
         </div>
       </li>
     </ul>
+
+    <div v-else>
+      <p class="text-center mt-5">Aún no hay amigos agregados.</p>
+    </div>
   </div>
 </template>
 
@@ -143,7 +148,6 @@ export default {
       this.notification.text = null;
       friendsService.delete(id)
         .then(rta => {
-          console.log(rta);
           this.notification.text = rta.msg;
           if (rta.success) {
             this.notification.type = 'success';

@@ -15,6 +15,12 @@
       </div>
     </section>
 
+    <div class="container">
+      <div class="loader-container">
+        <BaseLoader v-if="loading" />
+      </div>
+    </div>
+
     <section
       class="d-flex justify-content-center align-items-center flex-column pt-3"
     >
@@ -29,23 +35,28 @@
 </template>
 
 <script>
+import BaseLoader from "./BaseLoader.vue";
 import friendsService from "./../services/friends.js";
 
 export default {
   name: "SeccionPrincipal",
   props: ['user'],
+  components: {
+    BaseLoader,
+  },
   data () {
     return {
+      loading: false,
       amigos: [],
     }
   },
   methods: {
 
     loadFriends () {
-      // this.loading = true;
+      this.loading = true;
       friendsService.fetchAll(this.user.id)
         .then(amigos => {
-          // this.loading = false;
+          this.loading = false;
           // Asignamos los amigos al state del componente.
           this.amigos = amigos;
         });
@@ -77,7 +88,7 @@ export default {
   width: 15rem;
   border: 1px solid #361973;
   color: #361973;
-  background: rgb(255, 231, 227);
+  /* background: rgb(255, 231, 227); */
 }
 .tamaño-btn:hover,
 .router-link-exact-active {
