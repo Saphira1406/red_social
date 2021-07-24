@@ -16,10 +16,22 @@
           </p>
           <p class="small ml-3 mb-0">{{ publicacion.fecha }}</p>
         </div>
-        <div class="ml-auto">
-          <button class="btn btn-add">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        <div
+          v-if="publicacion.usuarios_id != user.id && !yaEsAmigo"
+          class="ml-auto"
+        >
+          <button @click="agregarAmigo" class="btn btn-add">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-plus"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
             </svg>
           </button>
         </div>
@@ -54,6 +66,12 @@
         </div>
         -->
       </div>
+      <BaseNotification
+        v-if="notificationFriend.text !== null"
+        :text="notificationFriend.text"
+        :type="notificationFriend.type"
+        class="mt-3 mb-0"
+      />
     </div>
 
     <img
@@ -68,29 +86,47 @@
         {{ publicacion.texto }}
       </p>
       <button
-          type="button"
-          class="btn btn-comment"
-          data-toggle="collapse"
-          :data-target="`#commentForm${publicacion.id}`"
-          aria-expanded="false"
-          :aria-controls="`commentForm${publicacion.id}`"
+        type="button"
+        class="btn btn-comment"
+        data-toggle="collapse"
+        :data-target="`#commentForm${publicacion.id}`"
+        aria-expanded="false"
+        :aria-controls="`commentForm${publicacion.id}`"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left" viewBox="0 0 16 16">
-          <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-chat-left"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
+          />
         </svg>
       </button>
 
       <button class="btn btn-favorite ml-2">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-          <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-star"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"
+          />
         </svg>
       </button>
       <BaseLoader v-if="loading" class="ml-3" size="small" />
 
       <BaseNotification
-        v-if="notification.text !== null"
-        :text="notification.text"
-        :type="notification.type"
+        v-if="notificationComment.text !== null"
+        :text="notificationComment.text"
+        :type="notificationComment.type"
         class="mt-2"
       />
 
@@ -112,7 +148,7 @@
                   :id="`comentario${publicacion.id}`"
                   rows="1"
                   placeholder="Escribe un comentario..."
-                  v-model="comentario.texto"
+                  v-model.trim="comentario.texto"
                   :aria-describedby="
                     errorsComment.texto !== null ? 'errorsComment-texto' : null
                   "
@@ -177,6 +213,7 @@ import { API_IMGS_FOLDER } from "./../constants/api.js";
 import BaseLoader from "./BaseLoader.vue";
 import BaseNotification from "./BaseNotification.vue";
 import commentsService from "../services/comments.js";
+import friendsService from "../services/friends.js";
 import $ from 'jquery';
 
 export default {
@@ -185,10 +222,15 @@ export default {
     BaseLoader,
     BaseNotification,
   },
-  props: ['user', 'publicacion'],
-  emits: ['newComment'],
+  props: ['user', 'publicacion', 'amigos'],
+  emits: ['newComment', 'newFriend'],
   data: function () {
     return {
+      yaEsAmigo: false,
+      amistad: {
+        emisor_id: this.user.id,
+        receptor_id: this.publicacion.usuarios_id,
+      },
       // nuevo comentario:
       comentario: {
         texto: null,
@@ -198,7 +240,11 @@ export default {
       errorsComment: {
         texto: null,
       },
-      notification: {
+      notificationComment: {
+        text: null,
+        type: 'success',
+      },
+      notificationFriend: {
         text: null,
         type: 'success',
       },
@@ -217,22 +263,52 @@ export default {
       // Si no pasa la validación, no realizamos la petición.
       if (!this.validatesComment()) return;
       this.loading = true;
-      this.notification = {
+      this.notificationComment = {
         text: null,
       };
       commentsService.create(this.comentario)
         .then(rta => {
           this.loading = false;
-          this.notification.text = rta.msg;
+          this.notificationComment.text = rta.msg;
           if (rta.success) {
-            this.notification.type = 'success';
+            this.notificationComment.type = 'success';
             // Luego de grabar exitosamente, ocultamos y vaciamos el form.
             $(`#commentForm${this.comentario.publicaciones_id}`).collapse('hide');
             this.comentario.texto = null;
             this.$emit('newComment', this.publicacion);
 
           } else {
-            this.notification.type = 'danger';
+            this.notificationComment.type = 'danger';
+          }
+        });
+    },
+
+    esAmigo () {
+      let AmigosObj = JSON.parse(JSON.stringify(this.amigos));
+
+      for (let key in AmigosObj) {
+        let obj = AmigosObj[key];
+
+        if (obj.receptor_id == this.publicacion.usuarios_id) {
+          this.yaEsAmigo = true;
+          break;
+        }
+      }
+    },
+
+    agregarAmigo () {
+      this.notificationFriend = {
+        text: null,
+      };
+      friendsService.create(this.amistad)
+        .then(rta => {
+          this.notificationFriend.text = rta.msg;
+          if (rta.success) {
+            this.$emit('newFriend', true);
+            this.notificationFriend.type = 'success';
+            this.yaEsAmigo = true;
+          } else {
+            this.notificationFriend.type = 'danger';
           }
         });
     },
@@ -254,6 +330,9 @@ export default {
     },
 
   },
+  mounted () {
+    this.esAmigo();
+  }
 }
 </script>
 

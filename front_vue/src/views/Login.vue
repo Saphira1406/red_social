@@ -14,14 +14,14 @@
         />
 
         <form action="#" class="row g-3" method="post" @submit.prevent="login">
-          <div class="col-12">
+          <div class="col-12 mb-4">
             <label for="email" class="form-label">Email</label>
             <input
               type="email"
               name="email"
               id="email"
               class="form-control"
-              v-model="user.email"
+              v-model.trim="user.email"
               :aria-describedby="errors.email !== null ? 'errors-email' : null"
               :disabled="loading"
             />
@@ -40,7 +40,7 @@
               name="password"
               id="password"
               class="form-control"
-              v-model="user.password"
+              v-model.trim="user.password"
               :aria-describedby="
                 errors.password !== null ? 'errors-password' : null
               "

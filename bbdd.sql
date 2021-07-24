@@ -118,6 +118,36 @@ ON
 UPDATE CASCADE
 )ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Tabla amigos
+-- -----------------------------------------------------
+CREATE TABLE
+IF NOT EXISTS amigos
+(id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
+emisor_id INT UNSIGNED,
+receptor_id INT UNSIGNED,
+
+PRIMARY KEY
+(id),
+
+FOREIGN KEY
+(emisor_id) REFERENCES usuarios
+(id) ON
+DELETE
+SET NULL
+ON
+UPDATE CASCADE,
+
+FOREIGN KEY
+(receptor_id) REFERENCES usuarios
+(id)
+ON
+DELETE
+SET NULL
+ON
+UPDATE CASCADE
+
+)ENGINE = InnoDB;
 
 -- INSERTS
 
@@ -238,12 +268,19 @@ publicaciones_id
 fecha = '2021-07-13 22:15:10',
 usuarios_id = 3;
 
-INSERT INTO favoritos
-SET
-publicaciones_id= 2,
-usuarios_id = 4;
+-- AMIGOS
 
-INSERT INTO favoritos
-SET
-publicaciones_id= 1,
-usuarios_id = 4;
+INSERT INTO amigos
+SET emisor_id
+= 1,
+receptor_id = 2;
+
+INSERT INTO amigos
+SET emisor_id
+= 2,
+receptor_id = 3;
+
+INSERT INTO amigos
+SET emisor_id
+= 1,
+receptor_id = 3;

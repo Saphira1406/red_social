@@ -22,11 +22,11 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <div v-if="auth.user.id !== null" class="navbar-nav ml-auto">
-            <div class="nav-item">
+          <ul v-if="auth.user.id !== null" class="navbar-nav ml-auto">
+            <li class="nav-item">
               <router-link class="nav-link ml-1" to="/">Home</router-link>
-            </div>
-            <div class="nav-item dropdown">
+            </li>
+            <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
@@ -39,9 +39,7 @@
                 <img
                   :src="imageUrl(auth.user.imagen)"
                   class="img-fluid avatar mr-2"
-                  :alt="
-                    `Foto de perfil de ${auth.user.nombre} ${auth.user.apellido}`
-                  "
+                  alt="Avatar"
                 />
                 {{ auth.user.nombre }}
               </a>
@@ -64,8 +62,8 @@
                   </button>
                 </li>
               </ul>
-            </div>
-          </div>
+            </li>
+          </ul>
         </div>
       </nav>
     </header>
@@ -85,8 +83,8 @@
 
 <script>
 import authService from "./services/auth.js";
-import { apiFetch } from "./functions/fetch.js";
 import { API_IMGS_FOLDER } from "./constants/api.js";
+import usersService from "./services/users.js";
 
 export default {
   data () {
@@ -123,7 +121,7 @@ export default {
       this.$router.push("/");
     },
     onUpdateUser () {
-      apiFetch('/usuarios/' + this.auth.user.id)
+      usersService.fetch(this.auth.user.id)
         .then(sesion => {
           this.auth.user = sesion;
         });
