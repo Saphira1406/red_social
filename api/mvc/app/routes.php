@@ -80,9 +80,9 @@ Route::add('OPTIONS', '/amigos/{id}/eliminar', 'AuthController@options');
  |--------------------------------------------------------------------------
  */
 
-Route::add('GET', '/amigos/{id}', 'FavoritosController@listado');
-Route::add('POST', '/amigos/nuevo', 'FavoritosController@nuevoGuardar');
+Route::add('GET', '/favoritos/{id}', 'FavoritosController@listado');
+Route::add('POST', '/favoritos/nuevo', 'FavoritosController@nuevoGuardar');
 
-// Rutas para eliminar un amigo:
-Route::add('DELETE', '/amigos/{id}/eliminar', 'FavoritosController@eliminar');
-Route::add('OPTIONS', '/amigos/{id}/eliminar', 'AuthController@options');
+// Rutas para eliminar un favorito:
+Route::add('DELETE', '/favoritos/{id}/eliminar', 'FavoritosController@eliminar');
+Route::add('OPTIONS', '/favoritos/{id}/eliminar', 'AuthController@options');
