@@ -94,7 +94,6 @@ UPDATE CASCADE
 CREATE TABLE
 IF NOT EXISTS favoritos
 (id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-fecha DATETIME,
 usuarios_id INT UNSIGNED,
 publicaciones_id INT UNSIGNED,
 
@@ -238,3 +237,13 @@ publicaciones_id
 = 4,
 fecha = '2021-07-13 22:15:10',
 usuarios_id = 3;
+
+INSERT INTO favoritos
+SET
+publicaciones_id= 2,
+usuarios_id = 4;
+
+INSERT INTO favoritos
+SET
+publicaciones_id= 1,
+usuarios_id = 4;
