@@ -35,18 +35,18 @@ class FavoritosController extends Controller
             "receptor_id"  => $receptor_id,
         ];
 
-        $amigo = new Favoritos();
-        $exito = $amigo->crear($data);
+        $favorito = new Favoritos();
+        $exito = $favorito->crear($data);
 
         if ($exito) {
             echo json_encode([
                 'success' => true,
-                'msg' => 'Amistad creada con éxito.',
+                'msg' => 'Favorito agregado con éxito.',
             ]);
         } else {
             echo json_encode([
                 'success' => false,
-                'msg' => 'Ocurrió un error inesperado y no se pudo crear la amistad.',
+                'msg' => 'Ocurrió un error inesperado y no se pudo agregar el favorito.',
             ]);
         }
     }
@@ -62,13 +62,13 @@ class FavoritosController extends Controller
         if (!$amigo->eliminar($id)) {
             echo json_encode([
                 "success" => false,
-                "msg" => 'Ocurrió un error al tratar de eliminar el amigo.',
+                "msg" => 'Ocurrió un error al tratar de eliminar el favorito.',
             ]);
         } else {
 
             echo json_encode([
                 'success' => true,
-                'msg' => 'El amigo ha sido eliminado',
+                'msg' => 'El favorito ha sido eliminado',
             ]);
         }
     }

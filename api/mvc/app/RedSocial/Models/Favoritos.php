@@ -82,12 +82,12 @@ class Favoritos extends Modelo implements JsonSerializable
     }
 
     /**
-     * Crea una nueva amistad en la base de datos.
+     * Crea una nuevo favorito en la base de datos.
      *
      * @param array $data
      * @return bool
      */
-    /* public function crear(array $data): bool
+     public function crear(array $data): bool
      {
          $db = DBConnection::getConnection();
          $query = "INSERT INTO favoritos (emisor_id, receptor_id)
@@ -99,18 +99,18 @@ class Favoritos extends Modelo implements JsonSerializable
          }
          return true;
      }
-
-     public function eliminar($id): bool
-     {
-         $db = DBConnection::getConnection();
-         $query = "DELETE FROM favoritos
-                 WHERE id = ?";
-         $stmt = $db->prepare($query);
-         if (!$stmt->execute([$id])) {
-             return false;
-         }
-         return true;
-     }*/
+    /*
+         public function eliminar($id): bool
+         {
+             $db = DBConnection::getConnection();
+             $query = "DELETE FROM favoritos
+                     WHERE id = ?";
+             $stmt = $db->prepare($query);
+             if (!$stmt->execute([$id])) {
+                 return false;
+             }
+             return true;
+         }*/
 
     public function getByPk(int $pk)
     {
