@@ -107,7 +107,7 @@
         </svg>
       </button>
 
-      <button class="btn btn-favorite ml-2">
+      <button @click="agregarFavorito" class="btn btn-favorite ml-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -214,6 +214,7 @@ import BaseLoader from "./BaseLoader.vue";
 import BaseNotification from "./BaseNotification.vue";
 import commentsService from "../services/comments.js";
 import friendsService from "../services/friends.js";
+import favoritesService from "../services/favorites.js";
 import $ from 'jquery';
 
 export default {
@@ -222,7 +223,7 @@ export default {
     BaseLoader,
     BaseNotification,
   },
-  props: ['user', 'publicacion', 'amigos'],
+  props: ['user', 'publicacion', 'amigos', 'favoritos'],
   emits: ['newComment', 'newFriend'],
   data: function () {
     return {
@@ -230,6 +231,10 @@ export default {
       amistad: {
         emisor_id: this.user.id,
         receptor_id: this.publicacion.usuarios_id,
+      },
+      favorito: {
+        emisor_id: this.user.id,
+        receptor_id: this.publicacion.id,
       },
       // nuevo comentario:
       comentario: {
@@ -245,6 +250,10 @@ export default {
         type: 'success',
       },
       notificationFriend: {
+        text: null,
+        type: 'success',
+      },
+      notificationFavorite: {
         text: null,
         type: 'success',
       },
@@ -311,6 +320,18 @@ export default {
             this.notificationFriend.type = 'danger';
           }
         });
+    },
+
+    agregarFavorito(){
+      favoritesService.create(this.favorito)
+      .then(rta => {
+        if(rta.success) {
+          this.$emit('newFavorite', true);
+          this.notificationFavorite.type = 'success';
+        } else {
+          this.notificationFavorite.type = 'danger';
+        }
+      })
     },
 
     /**

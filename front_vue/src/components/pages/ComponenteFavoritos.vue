@@ -1,5 +1,11 @@
 <template>
   <article class="container">
+    <BaseNotification
+      v-if="notification.text !== null"
+      :text="notification.text"
+      :type="notification.type"
+      class="mt-0 sticky-notification"
+    />
     <!-- <img src="./../../assets/img/soon.png"  class="img-fluid" alt="en construccion">-->
     <div class="card-columns">
       <div class="card publicaciones mb-2">
@@ -114,8 +120,19 @@
 </template>
 
 <script>
+import BaseNotification from "../BaseNotification";
 export default {
-  name: "Favoritos"
+  name: "Favoritos",
+  components: {BaseNotification},
+  props: ['user', 'favoritos'],
+  data: function () {
+    return {
+      notification: {
+        text: null,
+        type: 'success',
+      },
+    }
+  },
 }
 </script>
 
