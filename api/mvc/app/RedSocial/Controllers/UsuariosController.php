@@ -8,6 +8,7 @@ use RedSocial\Core\View;
 use RedSocial\Models\Usuario;
 use RedSocial\Validation\Validator;
 use RedSocial\Storage\FileUpload;
+use RedSocial\Storage\InvalidFileTypeException;
 
 class UsuariosController extends Controller
 {
@@ -20,56 +21,66 @@ class UsuariosController extends Controller
 
     public function nuevoGuardar()
     {
-        $inputData = file_get_contents('php://input');
-        $postData = json_decode($inputData, true);
+        $this->requiresAuth();
 
-        $nombre = $postData['nombre'];
-        $apellido = $postData['apellido'];
-        $email = $postData['email'];
-        $password = $postData['password'];
+        try {
 
-        $data = [
-            "nombre"  => $nombre,
-            "apellido"  => $apellido,
-            "email"    => $email,
-            "password" => $password,
-        ];
+            $inputData = file_get_contents('php://input');
+            $postData = json_decode($inputData, true);
 
-        $rules = [
-            "nombre" => ["required"],
-            "apellido" => ["required"],
-            "email" => ["required", "min:3"],
-            "password" => ["required", "min:3"],
-        ];
+            $nombre = $postData['nombre'];
+            $apellido = $postData['apellido'];
+            $email = $postData['email'];
+            $password = $postData['password'];
 
-        $validator = new Validator($data, $rules);
+            $data = [
+                "nombre"  => $nombre,
+                "apellido"  => $apellido,
+                "email"    => $email,
+                "password" => $password,
+            ];
 
-        if ($validator->passes()) {
-            $password = password_hash($postData['password'], PASSWORD_DEFAULT);
-            $data['password'] = $password;
-            $usuario_obj = new Usuario();
-            $exito = $usuario_obj->crear($data);
+            $rules = [
+                "nombre" => ["required"],
+                "apellido" => ["required"],
+                "email" => ["required", "min:3"],
+                "password" => ["required", "min:3"],
+            ];
 
-            if ($exito) {
-                echo json_encode([
-                    'success' => true,
-                    'msg' => 'El usuario se registró con éxito.',
-                ]);
+            $validator = new Validator($data, $rules);
+
+            if ($validator->passes()) {
+                $password = password_hash($postData['password'], PASSWORD_DEFAULT);
+                $data['password'] = $password;
+                $usuario_obj = new Usuario();
+                $exito = $usuario_obj->crear($data);
+
+                if ($exito) {
+                    echo json_encode([
+                        'success' => true,
+                        'msg' => 'El usuario se registró con éxito.',
+                    ]);
+                } else {
+                    echo json_encode([
+                        'success' => false,
+                        'msg' => 'Ocurrió un error al tratar de registrar el usuario.',
+                    ]);
+                }
             } else {
+                $errores =  $validator->getErrores();
+                $texto = '';
+                foreach ($errores as $error => $val) {
+                    $texto .= "$val[0] ";
+                };
                 echo json_encode([
-                    'success' => false,
-                    'msg' => 'Ocurrió un error al tratar de registrar el usuario.',
+                    "success" => false,
+                    "msg" => $texto
                 ]);
             }
-        } else {
-            $errores =  $validator->getErrores();
-            $texto = '';
-            foreach ($errores as $error => $val) {
-                $texto .= "$val[0] ";
-            };
+        } catch (InvalidFileTypeException $e) {
             echo json_encode([
-                "success" => false,
-                "msg" => $texto
+                'success' => false,
+                'msg' => 'El formato del archivo no es correcto, se recibió: ' . $e->getFileType(),
             ]);
         }
     }
