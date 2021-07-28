@@ -3,8 +3,10 @@
 namespace RedSocial\Models;
 
 use RedSocial\DB\DBConnection;
+use RedSocial\DB\QueryException;
 use JsonSerializable;
 use PDO;
+use PDOException;
 
 class Publicacion extends Modelo implements JsonSerializable
 {
@@ -66,8 +68,12 @@ class Publicacion extends Modelo implements JsonSerializable
 
         $query = "SELECT p.*, u.email, u.nombre, u.apellido, u.imagen as img_perfil FROM publicaciones p
                   INNER JOIN usuarios u ON p.usuarios_id = u.id ORDER BY p.id DESC";
-        $stmt = $db->prepare($query);
-        $stmt->execute();
+        try {
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            throw new QueryException($query, [], $stmt->errorInfo(), $e->getMessage(), $e->getCode(), $e->getPrevious());
+        }
 
         $salida = [];
 

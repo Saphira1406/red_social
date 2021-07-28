@@ -3,8 +3,10 @@
 namespace RedSocial\Models;
 
 use RedSocial\DB\DBConnection;
+use RedSocial\DB\QueryException;
 use RedSocial\Utilities\Str;
 use PDO;
+use PDOException;
 
 /**
  * Class Modelo
@@ -54,13 +56,18 @@ class Modelo
      * Retorna todos los registros de la tabla.
      *
      * @return static[]
+     * @throws QueryException
      */
     public function traerTodo(): array
     {
         $query = "SELECT * FROM " . $this->table;
         $db = DBConnection::getConnection();
-        $stmt = $db->prepare($query);
-        $stmt->execute();
+        try {
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            throw new QueryException($query, [], $stmt->errorInfo(), $e->getMessage(), $e->getCode(), $e->getPrevious());
+        }
 
         $stmt->setFetchMode(PDO::FETCH_CLASS, static::class);
 
@@ -71,16 +78,19 @@ class Modelo
      * Retorna el registro asociado a la PK.
      *
      * @param mixed $id
-     * @return static|null
+     * @return static
+     * @throws QueryException
      */
     public function traerPorPK($id)
     {
         $db = DBConnection::getConnection();
         $query = "SELECT * FROM " . $this->table . "
                 WHERE " . $this->primaryKey . " = ?";
-        $stmt = $db->prepare($query);
-        if (!$stmt->execute([$id])) {
-            return null;
+        try {
+            $stmt = $db->prepare($query);
+            $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            throw new QueryException($query, [$id], $stmt->errorInfo(), $e->getMessage(), $e->getCode(), $e->getPrevious());
         }
         return $stmt->fetchObject(static::class);
     }

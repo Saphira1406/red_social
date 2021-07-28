@@ -5,6 +5,8 @@ namespace RedSocial\Controllers;
 use RedSocial\Core\App;
 use RedSocial\Core\Route;
 use RedSocial\Core\View;
+use RedSocial\DB\QueryException;
+use RedSocial\Debug\Debug;
 use RedSocial\Models\Publicacion;
 use RedSocial\Validation\Validator;
 use RedSocial\Validation\EmptyFieldsException;
@@ -111,6 +113,13 @@ class PublicacionesController extends Controller
             echo json_encode([
                 'success' => false,
                 'msg' => $e->getMessage(),
+            ]);
+        } catch (QueryException $e) {
+            Debug::printQueryException($e);
+
+            echo json_encode([
+                'success' => false,
+                'msg' => 'Ocurrió un error inesperado y la publicación no pudo ser creada.',
             ]);
         }
     }
