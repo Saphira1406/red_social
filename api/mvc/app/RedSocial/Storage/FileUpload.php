@@ -24,7 +24,7 @@ class FileUpload
      * Si es otra cosa, lanza una Exception.
      *
      * @param string $path El path donde guardar el archivo. Debe incluir el nombre también.
-     * @throws \Exception
+     * @throws InvalidFileTypeException
      */
     public function save(string $path)
     {
@@ -34,7 +34,7 @@ class FileUpload
         } else if (is_string($this->file)) {
             $this->uploadBase64($path);
         } else {
-            throw new \Exception('El tipo de archivo provisto no es válido. Debe ser un array o un string, se pasó un ' . gettype($this->file) . '.');
+            throw new InvalidFileTypeException(gettype($this->file));
         }
     }
 
