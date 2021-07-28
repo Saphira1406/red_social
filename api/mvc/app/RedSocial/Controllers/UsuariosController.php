@@ -7,6 +7,8 @@ use RedSocial\Core\Route;
 use RedSocial\Core\View;
 use RedSocial\Models\Usuario;
 use RedSocial\Validation\Validator;
+use RedSocial\Validation\EmptyFieldsException;
+use RedSocial\Validation\NotExistentRuleException;
 use RedSocial\Storage\FileUpload;
 use RedSocial\Storage\InvalidFileTypeException;
 
@@ -21,8 +23,6 @@ class UsuariosController extends Controller
 
     public function nuevoGuardar()
     {
-        $this->requiresAuth();
-
         try {
 
             $inputData = file_get_contents('php://input');
@@ -81,6 +81,16 @@ class UsuariosController extends Controller
             echo json_encode([
                 'success' => false,
                 'msg' => 'El formato del archivo no es correcto, se recibió: ' . $e->getFileType(),
+            ]);
+        } catch (NotExistentRuleException $e) {
+            echo json_encode([
+                'success' => false,
+                'msg' => 'No existe una validación llamada: ' . $e->getRuleName(),
+            ]);
+        } catch (EmptyFieldsException $e) {
+            echo json_encode([
+                'success' => false,
+                'msg' => $e->getMessage(),
             ]);
         }
     }

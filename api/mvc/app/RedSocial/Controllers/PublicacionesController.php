@@ -7,6 +7,8 @@ use RedSocial\Core\Route;
 use RedSocial\Core\View;
 use RedSocial\Models\Publicacion;
 use RedSocial\Validation\Validator;
+use RedSocial\Validation\EmptyFieldsException;
+use RedSocial\Validation\NotExistentRuleException;
 use RedSocial\Storage\FileUpload;
 use RedSocial\Storage\InvalidFileTypeException;
 use \DateTime;
@@ -99,6 +101,16 @@ class PublicacionesController extends Controller
             echo json_encode([
                 'success' => false,
                 'msg' => 'El formato del archivo no es correcto, se recibió: ' . $e->getFileType(),
+            ]);
+        } catch (NotExistentRuleException $e) {
+            echo json_encode([
+                'success' => false,
+                'msg' => 'No existe una validación llamada: ' . $e->getRuleName(),
+            ]);
+        } catch (EmptyFieldsException $e) {
+            echo json_encode([
+                'success' => false,
+                'msg' => $e->getMessage(),
             ]);
         }
     }
