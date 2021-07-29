@@ -27,6 +27,7 @@
       <router-view
         :user="user"
         :amigos="amigos"
+        :favoritos = "favoritos"
         @updatedFriend="loadFriends"
         @deletedFriend="loadFriends"
       />
@@ -37,6 +38,7 @@
 <script>
 import BaseLoader from "./BaseLoader.vue";
 import friendsService from "./../services/friends.js";
+import favoritesService from "./../services/favorites";
 
 export default {
   name: "SeccionPrincipal",
@@ -48,6 +50,7 @@ export default {
     return {
       loading: false,
       amigos: [],
+      favoritos: [],
     }
   },
   methods: {
@@ -62,9 +65,19 @@ export default {
         });
     },
 
+    loadFavorites () {
+      this.loading = true;
+      favoritesService.fetchAll(this.user.id)
+      .then(favoritos => {
+        this.loading = false;
+        this.favoritos = favoritos;
+      });
+    },
+
   },
   mounted () {
     this.loadFriends();
+    this.loadFavorites();
   }
 }
 </script>

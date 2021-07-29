@@ -15,8 +15,8 @@ class FavoritosController extends Controller
     {
         $this->requiresAuth();
         $id = Route::getUrlParameters()['id'];
-        $amigos = (new Favoritos())->traerTodos($id);
-        View::renderJson($amigos);
+        $favoritos = (new Favoritos())->traerTodos($id);
+        View::renderJson($favoritos);
     }
 
     public function nuevoGuardar()

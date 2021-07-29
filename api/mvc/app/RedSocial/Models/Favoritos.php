@@ -23,7 +23,7 @@ class Favoritos extends Modelo implements JsonSerializable
     private $emisor_id;
     private $receptor_id;
 
-    private $usuario;
+    private $publicacion;
 
     public function jsonSerialize()
     {
@@ -31,7 +31,7 @@ class Favoritos extends Modelo implements JsonSerializable
             'id'            => $this->getId(),
             'emisor_id'     => $this->getEmisorId(),
             'receptor_id'   => $this->getReceptorId(),
-            'receptor'      => $this->getUsuario(),
+            'receptor'      => $this->getPublicacion(),
         ];
     }
 
@@ -40,7 +40,7 @@ class Favoritos extends Modelo implements JsonSerializable
         // Pedimos la conexión a la clase DBConnection...
         $db = DBConnection::getConnection();
 
-        $query = "SELECT f.*, p.imagen, p.texto, p.fecha FROM favoritos f INNER JOIN publicaciones p ON a.receptor_id = p.id
+        $query = "SELECT f.*, p.imagen, p.texto, p.fecha FROM favoritos f INNER JOIN publicaciones p ON f.receptor_id = p.id
                   WHERE emisor_id = ? ";
 
         $stmt = $db->prepare($query);
@@ -53,7 +53,7 @@ class Favoritos extends Modelo implements JsonSerializable
 
             $favorito->cargarDatosDeArray($fila);
 
-            $receptor = new Usuario();
+            $receptor = new Favoritos();
             $receptor->cargarDatosDeArray([
 
                 'texto'   => $fila['texto'],
@@ -61,24 +61,24 @@ class Favoritos extends Modelo implements JsonSerializable
                 'imagen'   => $fila['imagen'],
             ]);
 
-            $favorito->setUsuario($receptor);
+            $favorito->setPublicacion($receptor);
 
             $salida[] = $favorito;
         }
 
         return $salida;
     }
-    public function getUsuario(): Usuario
+    public function getPublicacion(): Publicacion
     {
-        return $this->usuario;
+        return $this->publicacion;
     }
 
     /**
-     * @param Usuario $usuario
+     * @param Publicacion $publicacion
      */
-    public function setUsuario(Usuario $usuario): void
+    public function setPublicacion(Publicacion $publicacion): void
     {
-        $this->usuario = $usuario;
+        $this->publicacion = $publicacion;
     }
 
     /**

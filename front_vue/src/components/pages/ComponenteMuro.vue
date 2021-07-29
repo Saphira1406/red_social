@@ -12,8 +12,10 @@
           :publicacion="publicacion"
           :user="user"
           :amigos="amigos"
+          :favoritos="favoritos"
           @newComment="loadPublications"
           @newFriend="updateFriend"
+          @newFavorite="updateFavorite"
         />
       </li>
     </ul>
@@ -34,8 +36,8 @@ export default {
     NuevaPublicacion,
     UnaPublicacion
   },
-  props: ['user', 'amigos'],
-  emits: ['updatedFriend'],
+  props: ['user', 'amigos', 'favoritos'],
+  emits: ['updatedFriend', 'updatedFavorite'],
   data: function () {
     return {
       loading: false,
@@ -61,7 +63,11 @@ export default {
 
     updateFriend () {
       this.$emit('updatedFriend', true);
-    }
+    },
+
+    updateFavorite() {
+      this.$emit('updatedFavorite', true);
+    },
 
   },
   mounted () {

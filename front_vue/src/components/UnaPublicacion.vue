@@ -224,7 +224,7 @@ export default {
     BaseNotification,
   },
   props: ['user', 'publicacion', 'amigos', 'favoritos'],
-  emits: ['newComment', 'newFriend'],
+  emits: ['newComment', 'newFriend', 'newFavorite'],
   data: function () {
     return {
       yaEsAmigo: false,
@@ -232,6 +232,7 @@ export default {
         emisor_id: this.user.id,
         receptor_id: this.publicacion.usuarios_id,
       },
+      yaEsFavorito: false,
       favorito: {
         emisor_id: this.user.id,
         receptor_id: this.publicacion.id,
@@ -328,10 +329,24 @@ export default {
         if(rta.success) {
           this.$emit('newFavorite', true);
           this.notificationFavorite.type = 'success';
+          this.yaEsFavorito = true;
         } else {
           this.notificationFavorite.type = 'danger';
         }
       })
+    },
+
+    esFavorito () {
+      let FavoritosObj = JSON.parse(JSON.stringify(this.favoritos));
+
+      for (let key in FavoritosObj) {
+        let obj = FavoritosObj[key];
+
+        if (obj.receptor_id == this.publicacion.id) {
+          this.yaEsFavorito = true;
+          break;
+        }
+      }
     },
 
     /**
@@ -353,6 +368,7 @@ export default {
   },
   mounted () {
     this.esAmigo();
+    this.esFavorito();
   }
 }
 </script>
