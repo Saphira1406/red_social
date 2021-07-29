@@ -33,9 +33,14 @@ class Validator
      * Validator constructor.
      * @param array $campos
      * @param array $reglas
+     * @throws EmptyFieldsException
      */
     public function __construct($campos, $reglas)
     {
+        if (count($campos) === 0) {
+            throw new EmptyFieldsException();
+        }
+
         $this->campos = $campos;
         $this->reglas = $reglas;
 
@@ -90,7 +95,7 @@ class Validator
      *
      * @param string $campo
      * @param string $regla
-     * @throws Exception
+     * @throws NotExistentRuleException
      */
     protected function aplicarRegla($campo, $regla)
     {
@@ -117,7 +122,7 @@ class Validator
             $nombreMetodo = '_' . $nombreRegla;
 
             if (!method_exists($this, $nombreMetodo)) {
-                throw new Exception('No existe una validación llamada ' . $nombreRegla . '.');
+                throw new NotExistentRuleException($nombreMetodo);
             }
 
             // Si       $nombreMetodo = '_min'
@@ -132,7 +137,7 @@ class Validator
             // Es decir, necesitamos saber si existe en esta clase un método que tenga como nombre $nombreMetodo.
             // Eso lo podemos lograr con ayuda de la función method_exists().
             if (!method_exists($this, $nombreMetodo)) {
-                throw new Exception('No existe una validación llamada ' . $regla . '.');
+                throw new NotExistentRuleException($nombreMetodo);
             }
 
             // Ejecutamos el método :D

@@ -7,7 +7,10 @@ use RedSocial\Core\Route;
 use RedSocial\Core\View;
 use RedSocial\Models\Usuario;
 use RedSocial\Validation\Validator;
+use RedSocial\Validation\EmptyFieldsException;
+use RedSocial\Validation\NotExistentRuleException;
 use RedSocial\Storage\FileUpload;
+use RedSocial\Storage\InvalidFileTypeException;
 
 class UsuariosController extends Controller
 {
@@ -20,56 +23,74 @@ class UsuariosController extends Controller
 
     public function nuevoGuardar()
     {
-        $inputData = file_get_contents('php://input');
-        $postData = json_decode($inputData, true);
+        try {
 
-        $nombre = $postData['nombre'];
-        $apellido = $postData['apellido'];
-        $email = $postData['email'];
-        $password = $postData['password'];
+            $inputData = file_get_contents('php://input');
+            $postData = json_decode($inputData, true);
 
-        $data = [
-            "nombre"  => $nombre,
-            "apellido"  => $apellido,
-            "email"    => $email,
-            "password" => $password,
-        ];
+            $nombre = $postData['nombre'];
+            $apellido = $postData['apellido'];
+            $email = $postData['email'];
+            $password = $postData['password'];
 
-        $rules = [
-            "nombre" => ["required"],
-            "apellido" => ["required"],
-            "email" => ["required", "min:3"],
-            "password" => ["required", "min:3"],
-        ];
+            $data = [
+                "nombre"  => $nombre,
+                "apellido"  => $apellido,
+                "email"    => $email,
+                "password" => $password,
+            ];
 
-        $validator = new Validator($data, $rules);
+            $rules = [
+                "nombre" => ["required"],
+                "apellido" => ["required"],
+                "email" => ["required", "min:3"],
+                "password" => ["required", "min:3"],
+            ];
 
-        if ($validator->passes()) {
-            $password = password_hash($postData['password'], PASSWORD_DEFAULT);
-            $data['password'] = $password;
-            $usuario_obj = new Usuario();
-            $exito = $usuario_obj->crear($data);
+            $validator = new Validator($data, $rules);
 
-            if ($exito) {
-                echo json_encode([
-                    'success' => true,
-                    'msg' => 'El usuario se registró con éxito.',
-                ]);
+            if ($validator->passes()) {
+                $password = password_hash($postData['password'], PASSWORD_DEFAULT);
+                $data['password'] = $password;
+                $usuario_obj = new Usuario();
+                $exito = $usuario_obj->crear($data);
+
+                if ($exito) {
+                    echo json_encode([
+                        'success' => true,
+                        'msg' => 'El usuario se registró con éxito.',
+                    ]);
+                } else {
+                    echo json_encode([
+                        'success' => false,
+                        'msg' => 'Ocurrió un error al tratar de registrar el usuario.',
+                    ]);
+                }
             } else {
+                $errores =  $validator->getErrores();
+                $texto = '';
+                foreach ($errores as $error => $val) {
+                    $texto .= "$val[0] ";
+                };
                 echo json_encode([
-                    'success' => false,
-                    'msg' => 'Ocurrió un error al tratar de registrar el usuario.',
+                    "success" => false,
+                    "msg" => $texto
                 ]);
             }
-        } else {
-            $errores =  $validator->getErrores();
-            $texto = '';
-            foreach ($errores as $error => $val) {
-                $texto .= "$val[0] ";
-            };
+        } catch (InvalidFileTypeException $e) {
             echo json_encode([
-                "success" => false,
-                "msg" => $texto
+                'success' => false,
+                'msg' => 'El formato del archivo no es correcto, se recibió: ' . $e->getFileType(),
+            ]);
+        } catch (NotExistentRuleException $e) {
+            echo json_encode([
+                'success' => false,
+                'msg' => 'No existe una validación llamada: ' . $e->getRuleName(),
+            ]);
+        } catch (EmptyFieldsException $e) {
+            echo json_encode([
+                'success' => false,
+                'msg' => $e->getMessage(),
             ]);
         }
     }
