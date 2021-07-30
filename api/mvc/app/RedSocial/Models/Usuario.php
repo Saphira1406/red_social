@@ -3,16 +3,15 @@
 namespace RedSocial\Models;
 
 use RedSocial\DB\DBConnection;
+use RedSocial\DB\QueryException;
 use JsonSerializable;
 use PDO;
+use PDOException;
 
 class Usuario extends Modelo implements JsonSerializable
 {
     /** @var string La tabla con la que el Modelo se mapea. */
     protected $table = 'usuarios';
-
-    /** @var string El nombre del campo que es la PK. */
-    protected $primaryKey = 'id';
 
     /** @var array La lista de atributos/campos de la tabla que se mapean con las propiedades del Modelo. */
     protected $attributes = [
@@ -32,28 +31,6 @@ class Usuario extends Modelo implements JsonSerializable
     private $nombre;
     private $apellido;
     private $imagen;
-
-    /**
-     * Crea un nuevo usuario en la base de datos.
-     *
-     * @param array $data
-     * @return bool
-     */
-
-    public function crear(array $data): bool
-    {
-        $db = DBConnection::getConnection();
-
-        $query = "INSERT INTO usuarios (nombre, apellido, email, password) 
-                  VALUES (:nombre, :apellido, :email, :password)";
-
-        $stmt = $db->prepare($query);
-
-        if (!$stmt->execute($data)) {
-            return false;
-        }
-        return true;
-    }
 
     public function editar(int $id, array $data): bool
     {
@@ -123,58 +100,13 @@ class Usuario extends Modelo implements JsonSerializable
 
         $query = "SELECT * FROM usuarios
                     WHERE email = ?";
-        $stmt = $db->prepare($query);
-        $stmt->execute([$email]);
-
-        // Si no podemos obtener la fila, retornamos null.
-        if (!$fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            return null;
+        try {
+            $stmt = $db->prepare($query);
+            $stmt->execute([$email]);
+        } catch (PDOException $e) {
+            throw new QueryException($query, [$email], $stmt->errorInfo(), $e->getMessage(), $e->getCode(), $e->getPrevious());
         }
-
-        $usuario = new Usuario;
-        $usuario->id = $fila['id'];
-        $usuario->usuario = $fila['usuario'];
-        $usuario->password = $fila['password'];
-        $usuario->imagen = $fila['imagen'];
-        $usuario->email = $email;
-        $usuario->nombre = $fila['nombre'];
-        $usuario->apellido = $fila['apellido'];
-
-
-        return $usuario;
-    }
-
-    /**
-     * Retorna el usuario al que pertenece la $pk.
-     * De no existir, retorna null.
-     *
-     * @param int $pk
-     * @return Usuario|null
-     */
-    public function getByPk(int $pk)
-    {
-        $db = DBConnection::getConnection();
-
-        $query = "SELECT * FROM usuarios
-                    WHERE id = ?";
-        $stmt = $db->prepare($query);
-        $stmt->execute([$pk]);
-
-        // Si no podemos obtener la fila, retornamos null.
-        if (!$fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            return null;
-        }
-
-        $usuario = new Usuario;
-        $usuario->id = $fila['id'];
-        $usuario->usuario = $fila['usuario'];
-        $usuario->password = $fila['password'];
-        $usuario->email = $fila['email'];
-        $usuario->imagen = $fila['imagen'];
-        $usuario->nombre = $fila['nombre'];
-        $usuario->apellido = $fila['apellido'];
-
-        return $usuario;
+        return $stmt->fetchObject(static::class);
     }
 
     /**

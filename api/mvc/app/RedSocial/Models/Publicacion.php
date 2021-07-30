@@ -13,9 +13,6 @@ class Publicacion extends Modelo implements JsonSerializable
     /** @var string La tabla con la que el Modelo se mapea. */
     protected $table = 'publicaciones';
 
-    /** @var string El nombre del campo que es la PK. */
-    protected $primaryKey = 'id';
-
     /** @var array La lista de atributos/campos de la tabla que se mapean con las propiedades del Modelo. */
     protected $attributes = [
         'id',
@@ -60,6 +57,7 @@ class Publicacion extends Modelo implements JsonSerializable
      * Retorna todas las publicaciones de la base de datos.
      *
      * @return array|Publicacion[]
+     * @throws QueryException
      */
     public function traerTodo(): array
     {
@@ -164,6 +162,8 @@ class Publicacion extends Modelo implements JsonSerializable
      * @param int $id
      * @return Publicacion|null
      */
+
+    /*
     public function traerPorPK($id)
     {
         $db = DBConnection::getConnection();
@@ -183,31 +183,6 @@ class Publicacion extends Modelo implements JsonSerializable
         $publicacion->setImagen($fila['imagen']);
         $publicacion->setFecha($fila['fecha']);
         return $publicacion;
-    }
-
-    /**
-     * Crea una nueva publicación en la base de datos.
-     *
-     * @param array $data
-     * @return bool
-     */
-    public function crear(array $data): bool
-    {
-        $db = DBConnection::getConnection();
-        $query = "INSERT INTO publicaciones (usuarios_id, texto, imagen, fecha) 
-                  VALUES (:usuarios_id, :texto, :imagen, :fecha)";
-        $stmt = $db->prepare($query);
-
-        if (!$stmt->execute($data)) {
-            return false;
-        }
-        return true;
-    }
-
-    /*
-    public function editar()
-    {
-        $db = DBConnection::getConnection();
     }
 */
 
