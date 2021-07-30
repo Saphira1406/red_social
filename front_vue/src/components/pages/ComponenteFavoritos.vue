@@ -7,7 +7,7 @@
       class="mt-0 sticky-notification"
     />
 
-    <ul v-if="Object.keys(favoritos).length" class="card-columns">
+    <ul v-if="Object.keys(favoritos).length" class="card-columns list-unstyled">
       <li
           v-for="favorito in favoritos"
           :key="favorito.id"
@@ -24,9 +24,12 @@
               </button>
             </div>
           </div>
-          <img class="card-img-top" src="./../../assets/img/fondo_login.jpg" alt="Card image cap">
+          <img class="card-img-top"
+               v-if="favorito.receptor.imagen !== null"
+               :src="imgUrl(favorito.receptor.imagen)"
+               alt="">
           <div class="card-body">
-            <p class="card-text"></p>
+            <p class="card-text">{{ favorito.receptor.texto }}</p>
           </div>
         </div>
       </li>
