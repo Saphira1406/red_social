@@ -65,6 +65,38 @@ class Usuario extends Modelo implements JsonSerializable
         return true;
     }
 
+    /* De no existir, retorna null.
+    *
+    * @param int $pk
+    * @return Usuario|null
+    */
+   public function getByPk(int $pk)
+   {
+       $db = DBConnection::getConnection();
+
+       $query = "SELECT * FROM usuarios
+                   WHERE id = ?";
+       $stmt = $db->prepare($query);
+       $stmt->execute([$pk]);
+
+       // Si no podemos obtener la fila, retornamos null.
+       if (!$fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+           return null;
+       }
+
+       $usuario = new Usuario;
+       $usuario->id = $fila['id'];
+       $usuario->usuario = $fila['usuario'];
+       $usuario->password = $fila['password'];
+       $usuario->email = $fila['email'];
+       $usuario->imagen = $fila['imagen'];
+       $usuario->nombre = $fila['nombre'];
+       $usuario->apellido = $fila['apellido'];
+
+       return $usuario;
+   }
+
+
 
     /**
      * Elimina un usuario por su $id.
