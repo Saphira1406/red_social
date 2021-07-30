@@ -11,9 +11,6 @@ class Comentario extends Modelo implements JsonSerializable
     /** @var string La tabla con la que el Modelo se mapea. */
     protected $table = 'comentarios';
 
-    /** @var string El nombre del campo que es la PK. */
-    protected $primaryKey = 'id';
-
     /** @var array La lista de atributos/campos de la tabla que se mapean con las propiedades del Modelo. */
     protected $attributes = [
         'id',
@@ -108,25 +105,6 @@ class Comentario extends Modelo implements JsonSerializable
         }
 
         return $salida;
-    }
-
-    /**
-     * Crea un nuevo comentario en la base de datos.
-     *
-     * @param array $data
-     * @return bool
-     */
-    public function crear(array $data): bool
-    {
-        $db = DBConnection::getConnection();
-        $query = "INSERT INTO comentarios (usuarios_id, texto, publicaciones_id, fecha) 
-                  VALUES (:usuarios_id, :texto, :publicaciones_id, :fecha)";
-        $stmt = $db->prepare($query);
-
-        if (!$stmt->execute($data)) {
-            return false;
-        }
-        return true;
     }
 
     /**

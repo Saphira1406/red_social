@@ -4,6 +4,8 @@ namespace RedSocial\Auth;
 
 use RedSocial\Models\Usuario;
 use RedSocial\Models\Token;
+use RedSocial\DB\QueryException;
+use RedSocial\Debug\Debug;
 
 class Auth
 {
@@ -15,19 +17,29 @@ class Auth
      * @param string $email
      * @param string $password
      * @return bool
+     * @throws QueryException
      */
     public function login(string $email, string $password): bool
     {
-        $user = new Usuario;
-        $user = $user->getByEmail($email);
+        try {
+            $user = new Usuario;
+            $user = $user->getByEmail($email);
 
-        if ($user !== null) {
-            if (password_verify($password, $user->getPassword())) {
-                $this->setAsAuthenticated($user);
-                return true;
+            if ($user !== null) {
+                if (password_verify($password, $user->getPassword())) {
+                    $this->setAsAuthenticated($user);
+                    return true;
+                }
             }
+            return false;
+        } catch (QueryException $e) {
+            Debug::printQueryException($e);
+
+            echo json_encode([
+                'success' => false,
+                'msg' => 'Ocurrió un error inesperado y no se pudo completar la acción.',
+            ]);
         }
-        return false;
     }
 
     /**
@@ -37,7 +49,6 @@ class Auth
      */
     public function setAsAuthenticated(Usuario $user): void
     {
-        // $token = new Token;
         $token = Token::createToken($user->getId());
         setcookie('token', $token, 0, "", "", false, true);
     }
@@ -76,6 +87,6 @@ class Auth
             return null;
         }
         $usuario = new Usuario;
-        return $usuario->getByPk($usuario->getId());
+        return $usuario->traerPorPK($usuario->getId());
     }
 }

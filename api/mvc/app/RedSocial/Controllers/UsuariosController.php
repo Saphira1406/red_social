@@ -17,7 +17,7 @@ class UsuariosController extends Controller
     public function ver()
     {
         $id = Route::getUrlParameters()['id'];
-        $usuario = (new Usuario())->getByPk($id);
+        $usuario = (new Usuario())->traerPorPK($id);
         View::renderJson($usuario);
     }
 
@@ -170,7 +170,7 @@ class UsuariosController extends Controller
 
         $id = urlParam('id');
 
-        $usuario = (new Usuario())->getByPk($id);
+        $usuario = (new Usuario())->traerPorPK($id);
         $nombreImagen = $usuario->getImagen();
 
         if (!$usuario->eliminar($id)) {
