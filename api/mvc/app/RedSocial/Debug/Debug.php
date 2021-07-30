@@ -9,7 +9,7 @@ class Debug
     /**
      * Imprime la data de un query, si el modo de DEBUG está habilitado.
      *
-     * @param \DaVinci\DB\QueryException $e
+     * @param \RedSocial\DB\QueryException $e
      */
     public static function printQueryException(\RedSocial\DB\QueryException $e)
     {

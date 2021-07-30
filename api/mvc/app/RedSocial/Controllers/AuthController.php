@@ -7,6 +7,8 @@ use RedSocial\Models\Usuario;
 use RedSocial\Validation\Validator;
 use RedSocial\Validation\EmptyFieldsException;
 use RedSocial\Validation\NotExistentRuleException;
+use RedSocial\DB\QueryException;
+use RedSocial\Debug\Debug;
 
 class AuthController
 {
@@ -73,6 +75,13 @@ class AuthController
             echo json_encode([
                 'success' => false,
                 'msg' => $e->getMessage(),
+            ]);
+        } catch (QueryException $e) {
+            Debug::printQueryException($e);
+
+            echo json_encode([
+                'success' => false,
+                'msg' => 'Ocurrió un error inesperado y no se pudo completar la acción.',
             ]);
         }
     }

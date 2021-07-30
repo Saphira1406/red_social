@@ -168,10 +168,9 @@ export default {
             this.notification.type = 'success';
 
             // Luego de grabar exitosamente, vaciamos el form y el mensaje de error:
-            this.publicacion = {
-              texto: null,
-              imagen: null,
-            };
+            this.publicacion.texto = null;
+            this.publicacion.imagen = null;
+
             this.errors.texto = null;
 
             this.$emit('newPublication', this.publicacion);

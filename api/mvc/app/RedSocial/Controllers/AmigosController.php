@@ -55,18 +55,18 @@ class AmigosController extends Controller
 
         $id = urlParam('id');
 
-        $amigo = (new Amigo())->getByPk($id);
+        $amigo = (new Amigo())->traerPorPK($id);
 
         if (!$amigo->eliminar($id)) {
             echo json_encode([
                 "success" => false,
-                "msg" => 'Ocurrió un error al tratar de eliminar el amigo.',
+                "msg" => 'Ocurrió un error al tratar de eliminar la amistad.',
             ]);
         } else {
 
             echo json_encode([
                 'success' => true,
-                'msg' => 'El amigo ha sido eliminado',
+                'msg' => 'La amistad ha sido eliminada exitosamente.',
             ]);
         }
     }
