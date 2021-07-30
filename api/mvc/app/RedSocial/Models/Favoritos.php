@@ -53,15 +53,19 @@ class Favoritos extends Modelo implements JsonSerializable
 
             $favorito->cargarDatosDeArray($fila);
 
-            $receptor = new Favoritos();
-            $receptor->cargarDatosDeArray([
+            $publicacion = new Publicacion();
+            $publicacion->cargarDatosDeArray([
 
                 'texto'   => $fila['texto'],
                 'fecha' => $fila['fecha'],
                 'imagen'   => $fila['imagen'],
             ]);
 
-            $favorito->setPublicacion($receptor);
+            $data = new Usuario();
+
+            $favorito->setPublicacion($publicacion);
+
+            $publicacion->setUsuario($data->getByPk($id));
 
             $salida[] = $favorito;
         }
