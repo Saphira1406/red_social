@@ -154,7 +154,6 @@ body textarea {
 .fixed-notification {
     position: fixed;
     top: 60px;
-    z-index: 9001;
     width: 90%;
     margin-left: 5%;
 }
