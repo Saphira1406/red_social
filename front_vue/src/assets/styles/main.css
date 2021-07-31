@@ -151,6 +151,14 @@ body textarea {
     z-index: 9001;
 }
 
+.fixed-notification {
+    position: fixed;
+    top: 60px;
+    z-index: 9001;
+    width: 90%;
+    margin-left: 5%;
+}
+
 .loader-container {
     max-width: 50rem;
     margin: 1rem auto;
