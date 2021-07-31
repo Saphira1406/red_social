@@ -25,7 +25,7 @@ class Auth
             $user = new Usuario;
             $user = $user->getByEmail($email);
 
-            if ($user !== null) {
+            if ($user) {
                 if (password_verify($password, $user->getPassword())) {
                     $this->setAsAuthenticated($user);
                     return true;
