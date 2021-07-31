@@ -156,37 +156,6 @@ class Publicacion extends Modelo implements JsonSerializable
     }
 
     /**
-     * Retorna una publicación por su PK.
-     * Si no existe, retorna null.
-     *
-     * @param int $id
-     * @return Publicacion|null
-     */
-
-    /*
-    public function traerPorPK($id)
-    {
-        $db = DBConnection::getConnection();
-        $query = "SELECT * FROM publicaciones
-                WHERE id = ?";
-        $stmt = $db->prepare($query);
-        if (!$stmt->execute([$id])) {
-            return null;
-        }
-
-        $fila = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $publicacion = new self();
-        $publicacion->setId($fila['id']);
-        $publicacion->setUsuariosId($fila['usuarios_id']);
-        $publicacion->setTexto($fila['texto']);
-        $publicacion->setImagen($fila['imagen']);
-        $publicacion->setFecha($fila['fecha']);
-        return $publicacion;
-    }
-*/
-
-    /**
      * Elimina una publicación por su $id.
      * Retorna true en caso de éxito, false de lo contrario.
      *
@@ -203,6 +172,55 @@ class Publicacion extends Modelo implements JsonSerializable
             return false;
         }
         return true;
+    }
+
+    /**
+     * Retorna todas las publicaciones de la base de datos.
+     *
+     * @param $usuarios_id
+     * @return array|Publicacion[]
+     * @throws QueryException
+     */
+    public function traerPorUsuario($usuarios_id): array
+    {
+        // Pedimos la conexión a la clase DBConnection...
+        $db = DBConnection::getConnection();
+
+        $query = "SELECT p.*, u.email, u.nombre, u.apellido, u.imagen as img_perfil FROM publicaciones p
+                  INNER JOIN usuarios u ON p.usuarios_id = u.id WHERE p.usuarios_id = ? ORDER BY p.id DESC";
+        try {
+            $stmt = $db->prepare($query);
+            $stmt->execute([$usuarios_id]);
+        } catch (PDOException $e) {
+            throw new QueryException($query, [$usuarios_id], $stmt->errorInfo(), $e->getMessage(), $e->getCode(), $e->getPrevious());
+        }
+
+        $salida = [];
+
+        while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $publicacion = new self();
+
+            $publicacion->cargarDatosDeArray($fila);
+
+            $usuario = new Usuario();
+            $usuario->cargarDatosDeArray([
+                'id'       => $fila['usuarios_id'],
+                'email'    => $fila['email'],
+                'nombre'   => $fila['nombre'],
+                'apellido' => $fila['apellido'],
+                'imagen'   => $fila['img_perfil'],
+                'fecha'    => $fila['fecha'],
+            ]);
+
+            $publicacion->setUsuario($usuario);
+
+            $salida[] = $publicacion;
+        }
+
+        // Cargamos los comentarios de las publicaciones que vamos a retornar.
+        $salida = $this->cargarComentariosEnLasPublicaciones($salida);
+
+        return $salida;
     }
 
     /**

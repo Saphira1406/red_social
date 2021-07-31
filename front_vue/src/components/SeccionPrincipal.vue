@@ -7,7 +7,7 @@
       <div class="card-body">
         <div class="btn-group" role="group" aria-label="Navegación interna">
           <router-link to="/" class="btn tamaño-btn">Publicaciones</router-link>
-          <router-link to="/amigos" class="btn  tamaño-btn">Amigos</router-link>
+          <router-link to="/amigos" class="btn tamaño-btn">Amigos</router-link>
           <router-link to="/favoritos" class="btn tamaño-btn"
             >Favoritos</router-link
           >

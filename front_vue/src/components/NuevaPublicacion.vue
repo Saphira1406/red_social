@@ -88,7 +88,7 @@
           <div class="text-center">
             <button
               type="submit"
-              class="btn boton boton-publicar"
+              class="btn boton boton-publicar btn-gradient"
               :disabled="loading"
             >
               Publicar

@@ -36,6 +36,19 @@ const publicationsService = {
             });
     },
 
+    /**
+     * Hace la petición de las publicaciones de un usuario por su id al backend, y de tener éxito, las retorna
+     *
+     * @param {int} id
+     * @return {Promise<*>}
+     */
+    fetchByUser(id) {
+        return apiFetch('/publicaciones/' + id)
+            .then(response => {
+                return response;
+            });
+    },
+
 };
 
 export default publicationsService;

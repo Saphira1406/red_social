@@ -13,15 +13,15 @@
           class="navbar-toggler"
           type="button"
           data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
+          data-target="#mainNavBar"
+          aria-controls="mainNavBar"
           aria-expanded="false"
-          aria-label="Toggle navigation"
+          aria-label="Menú hamburguesa"
         >
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="mainNavBar">
           <ul v-if="auth.user.id !== null" class="navbar-nav ml-auto">
             <li class="nav-item">
               <router-link class="nav-link ml-1" to="/">Home</router-link>
@@ -50,6 +50,14 @@
               >
                 <li>
                   <router-link
+                    :to="'/publicaciones/' + auth.user.id"
+                    class="dropdown-item drop-hover"
+                    href="#"
+                    >Mis publicaciones</router-link
+                  >
+                </li>
+                <li>
+                  <router-link
                     to="/perfil"
                     class="dropdown-item drop-hover"
                     href="#"
@@ -68,6 +76,13 @@
       </nav>
     </header>
 
+    <BaseNotification
+      v-if="notification.text !== null"
+      :text="notification.text"
+      :type="notification.type"
+      class="fixed-notification"
+    />
+
     <router-view
       @logged="logUser"
       :user="auth.user"
@@ -85,8 +100,12 @@
 import authService from "./services/auth.js";
 import { API_IMGS_FOLDER } from "./constants/api.js";
 import usersService from "./services/users.js";
+import BaseNotification from "./components/BaseNotification.vue";
 
 export default {
+  components: {
+    BaseNotification,
+  },
   data () {
     return {
       auth: {
@@ -98,7 +117,11 @@ export default {
           nombre: null,
           apellido: null,
         },
-      }
+      },
+      notification: {
+        text: null,
+        type: 'success',
+      },
     }
   },
   methods: {
@@ -125,8 +148,14 @@ export default {
         .then(sesion => {
           this.auth.user = sesion;
         });
+      this.notification.text = "Tu perfil ha sido actualizado.";
+      this.notification.type = 'success';
     },
     onDeleteUser () {
+
+      this.notification.text = "Tu perfil ha sido eliminado.";
+      this.notification.type = 'success';
+
       this.auth.user = {
         id: null,
         email: null,

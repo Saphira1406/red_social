@@ -103,6 +103,11 @@ class Usuario extends Modelo implements JsonSerializable
         try {
             $stmt = $db->prepare($query);
             $stmt->execute([$email]);
+
+            // Si no podemos obtener la fila, retornamos null.
+            if (!$fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                return null;
+            }
         } catch (PDOException $e) {
             throw new QueryException($query, [$email], $stmt->errorInfo(), $e->getMessage(), $e->getCode(), $e->getPrevious());
         }

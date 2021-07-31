@@ -30,7 +30,8 @@ Route::add('GET', '/publicaciones', 'PublicacionesController@listado');
 
 Route::add('POST', '/publicaciones/nuevo', 'PublicacionesController@nuevoGuardar');
 
-// Route::add('GET', '/publicaciones/{id}', 'PublicacionesController@ver');
+// Mostrar publicaciones de un usuario según el id del mismo:
+Route::add('GET', '/publicaciones/{id}', 'PublicacionesController@usuario');
 
 Route::add('DELETE', '/publicaciones/{id}/eliminar', 'PublicacionesController@eliminar');
 
@@ -44,7 +45,7 @@ Route::add('POST', '/usuarios/nuevo', 'UsuariosController@nuevoGuardar');
 
 Route::add('GET', '/usuarios/{id}', 'UsuariosController@ver');
 
-//Rutas para editar el usuario:
+// Rutas para editar el usuario:
 Route::add('PUT', '/usuarios/{id}/editar', 'UsuariosController@editarUsuario');
 Route::add('OPTIONS', '/usuarios/{id}/editar', 'AuthController@options');
 

@@ -25,13 +25,12 @@ class PublicacionesController extends Controller
         View::renderJson($publicaciones);
     }
 
-    public function ver()
+    public function usuario()
     {
-        $id = Route::getUrlParameters()['id'];
-
-        $publicacion = (new Publicacion())->traerPorPK($id);
-
-        View::renderJson($publicacion);
+        $this->requiresAuth();
+        $usuarios_id = Route::getUrlParameters()['id'];
+        $publicaciones = (new Publicacion())->traerPorUsuario($usuarios_id);
+        View::renderJson($publicaciones);
     }
 
     public function nuevoGuardar()
