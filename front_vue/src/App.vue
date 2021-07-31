@@ -50,6 +50,14 @@
               >
                 <li>
                   <router-link
+                    :to="'/publicaciones/' + auth.user.id"
+                    class="dropdown-item drop-hover"
+                    href="#"
+                    >Mis publicaciones</router-link
+                  >
+                </li>
+                <li>
+                  <router-link
                     to="/perfil"
                     class="dropdown-item drop-hover"
                     href="#"

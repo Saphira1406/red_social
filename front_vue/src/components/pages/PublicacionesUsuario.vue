@@ -3,29 +3,33 @@
     <div class="loader-container">
       <BaseLoader v-if="loading" />
     </div>
-    <h2 class="mt-3 h5 mb-3">
-      Publicaciones de
-      <span class="font-weight-bold"
-        >{{ usuario.nombre }} {{ usuario.apellido }}</span
-      >:
-    </h2>
-    <ul>
-      <li v-for="publicacion in publicaciones" :key="publicacion.id">
-        <una-publicacion
-          :publicacion="publicacion"
-          :user="user"
-          :amigos="amigos"
-          @newComment="loadPublications"
-        />
-      </li>
-    </ul>
+    <div v-if="Object.keys(publicaciones).length">
+      <h2 class="mt-3 h5 mb-4">
+        Publicaciones de
+        <span class="font-weight-bold"
+          >{{ usuario.nombre }} {{ usuario.apellido }}</span
+        >:
+      </h2>
+      <ul>
+        <li v-for="publicacion in publicaciones" :key="publicacion.id">
+          <una-publicacion
+            :publicacion="publicacion"
+            :user="user"
+            :amigos="amigos"
+            @newComment="loadPublications"
+          />
+        </li>
+      </ul>
+    </div>
+    <div v-else>
+      <p class="text-center mt-5">No hay publicaciones para mostrar.</p>
+    </div>
   </div>
 </template>
 
 <script>
 import { API_IMGS_FOLDER } from "../../constants/api.js";
 import BaseLoader from "../BaseLoader.vue";
-
 import UnaPublicacion from "../UnaPublicacion.vue";
 import usersService from "../../services/users.js";
 import publicationsService from "../../services/publications.js";
@@ -63,8 +67,8 @@ export default {
 
     loadUsuario () {
       usersService.fetch(this.$route.params.id)
-        .then(sesion => {
-          this.usuario = sesion;
+        .then(data => {
+          this.usuario = data;
         });
     },
 
