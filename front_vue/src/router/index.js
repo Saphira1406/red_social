@@ -8,6 +8,7 @@ import Login from "@/views/Login";
 import ComponenteMuro from "../components/pages/ComponenteMuro";
 import ComponenteAmigos from "../components/pages/ComponenteAmigos";
 import ComponenteFavoritos from "../components/pages/ComponenteFavoritos";
+import PublicacionesUsuario from "../components/pages/PublicacionesUsuario";
 import Perfil from "../views/Perfil";
 import authService from "../services/auth.js";
 
@@ -24,6 +25,14 @@ const routes = [{
         path: 'amigos',
         name: 'amigos',
         component: ComponenteAmigos,
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: 'publicaciones/:id',
+        name: 'PublicacionesUsuario',
+        component: PublicacionesUsuario,
         meta: {
           requiresAuth: true,
         },
