@@ -15,20 +15,26 @@
       >
         <div class="mb-4">
           <div class="card text-center publicaciones">
-            <div class="friend">
-              <img
-                :src="imageUrl(amigo.receptor.imagen)"
-                class="img-fluid avatar img-friend"
-                alt="Avatar"
-              />
-            </div>
-            <div class="card-body">
-              <div>
-                <p class="card-title h5">
-                  {{ amigo.receptor.nombre + " " + amigo.receptor.apellido }}
-                </p>
+            <router-link
+              :to="'/publicaciones/' + amigo.receptor_id"
+              class="to-friend"
+            >
+              <div class="friend">
+                <img
+                  :src="imageUrl(amigo.receptor.imagen)"
+                  class="img-fluid avatar img-friend"
+                  alt="Avatar"
+                />
               </div>
-            </div>
+              <div class="card-body">
+                <div>
+                  <p class="card-title h5">
+                    {{ amigo.receptor.nombre + " " + amigo.receptor.apellido }}
+                  </p>
+                </div>
+              </div>
+            </router-link>
+
             <div class="card-footer">
               <div class="text-right mt-1">
                 <button
@@ -177,6 +183,7 @@ export default {
   position: relative;
   z-index: 999;
 }
+
 .friend:before {
   position: absolute;
   content: "";
@@ -196,5 +203,15 @@ export default {
 ul {
   padding-left: 0;
   list-style: none;
+}
+
+.to-friend {
+  color: initial;
+}
+
+.to-friend:hover {
+  text-decoration: none;
+  filter: contrast(1.25);
+  box-shadow: 0 0 10px black;
 }
 </style>

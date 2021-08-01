@@ -121,10 +121,10 @@ class Usuario extends Modelo implements JsonSerializable
 
     /**
      * Retorna el usuario al que pertenece el $email.
-     * Si no existe, retorna null.
      *
      * @param string $email
-     * @return Usuario|null
+     * @return Usuario
+     * @throws QueryException
      */
     public function getByEmail(string $email)
     {
