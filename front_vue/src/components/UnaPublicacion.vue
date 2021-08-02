@@ -348,7 +348,7 @@ export default {
       })
     },
 
-    esFavorito () {
+    /*esFavorito () {
       let FavoritosObj = JSON.parse(JSON.stringify(this.favoritos));
 
       for (let key in FavoritosObj) {
@@ -359,7 +359,7 @@ export default {
           break;
         }
       }
-    },
+    },*/
 
     /**
     * Valida el form Comentario.
@@ -380,7 +380,7 @@ export default {
   },
   mounted () {
     this.esAmigo();
-    this.esFavorito();
+    //this.esFavorito();
   }
 }
 </script>
