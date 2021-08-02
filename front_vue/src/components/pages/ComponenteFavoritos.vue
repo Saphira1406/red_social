@@ -108,7 +108,7 @@ export default {
   name: "Favoritos",
   components: {BaseNotification},
   props: ['user', 'favoritos'],
-  emits: ['deletedFavorite  q'],
+  emits: ['deletedFavorite'],
   data: function () {
     return {
       notification: {
