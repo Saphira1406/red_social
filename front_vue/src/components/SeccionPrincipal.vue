@@ -30,6 +30,8 @@
         :favoritos = "favoritos"
         @updatedFriend="loadFriends"
         @deletedFriend="loadFriends"
+        @updatedFavorite="loadFavorites"
+        @deletedFavorite="loadFavorites"
       />
     </section>
   </div>
