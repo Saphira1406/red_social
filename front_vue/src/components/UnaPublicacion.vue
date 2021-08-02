@@ -348,7 +348,7 @@ export default {
       })
     },
 
-    /*esFavorito () {
+   /* esFavorito () {
       let FavoritosObj = JSON.parse(JSON.stringify(this.favoritos));
 
       for (let key in FavoritosObj) {
