@@ -40,7 +40,7 @@ class Favoritos extends Modelo implements JsonSerializable
         // Pedimos la conexión a la clase DBConnection...
         $db = DBConnection::getConnection();
 
-        $query = "SELECT f.*, p.imagen, p.texto, p.fecha FROM favoritos f INNER JOIN publicaciones p ON f.receptor_id = p.id
+        $query = "SELECT f.*, p.imagen, p.texto, p.fecha, p.usuarios_id FROM favoritos f INNER JOIN publicaciones p ON f.receptor_id = p.id
                   WHERE emisor_id = ? ";
 
         $stmt = $db->prepare($query);
@@ -55,7 +55,6 @@ class Favoritos extends Modelo implements JsonSerializable
 
             $publicacion = new Publicacion();
             $publicacion->cargarDatosDeArray([
-
                 'texto'   => $fila['texto'],
                 'fecha' => $fila['fecha'],
                 'imagen'   => $fila['imagen'],
@@ -103,7 +102,7 @@ class Favoritos extends Modelo implements JsonSerializable
          }
          return true;
      }
-    /*
+
          public function eliminar($id): bool
          {
              $db = DBConnection::getConnection();
@@ -114,7 +113,7 @@ class Favoritos extends Modelo implements JsonSerializable
                  return false;
              }
              return true;
-         }*/
+         }
 
     public function getByPk(int $pk)
     {
