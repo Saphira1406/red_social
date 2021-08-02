@@ -107,7 +107,7 @@
         </svg>
       </button>
 
-      <button class="btn btn-favorite ml-2">
+      <button @click="agregarFavorito" class="btn btn-favorite ml-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -119,6 +119,18 @@
           <path
             d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"
           />
+        </svg>
+      </button>
+      <button class="btn btn-share ml-2">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-arrow-repeat"
+            viewBox="0 0 16 16">
+          <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+          <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
         </svg>
       </button>
       <BaseLoader v-if="loading" class="ml-3" size="small" />
@@ -214,6 +226,7 @@ import BaseLoader from "./BaseLoader.vue";
 import BaseNotification from "./BaseNotification.vue";
 import commentsService from "../services/comments.js";
 import friendsService from "../services/friends.js";
+import favoritesService from "../services/favorites.js";
 import $ from 'jquery';
 
 export default {
@@ -222,14 +235,19 @@ export default {
     BaseLoader,
     BaseNotification,
   },
-  props: ['user', 'publicacion', 'amigos'],
-  emits: ['newComment', 'newFriend'],
+  props: ['user', 'publicacion', 'amigos', 'favoritos'],
+  emits: ['newComment', 'newFriend', 'newFavorite'],
   data: function () {
     return {
       yaEsAmigo: false,
       amistad: {
         emisor_id: this.user.id,
         receptor_id: this.publicacion.usuarios_id,
+      },
+      yaEsFavorito: false,
+      favorito: {
+        emisor_id: this.user.id,
+        receptor_id: this.publicacion.id,
       },
       // nuevo comentario:
       comentario: {
@@ -245,6 +263,10 @@ export default {
         type: 'success',
       },
       notificationFriend: {
+        text: null,
+        type: 'success',
+      },
+      notificationFavorite: {
         text: null,
         type: 'success',
       },
@@ -313,6 +335,32 @@ export default {
         });
     },
 
+    agregarFavorito(){
+      favoritesService.create(this.favorito)
+      .then(rta => {
+        if(rta.success) {
+          this.$emit('newFavorite', true);
+          this.notificationFavorite.type = 'success';
+          this.yaEsFavorito = true;
+        } else {
+          this.notificationFavorite.type = 'danger';
+        }
+      })
+    },
+
+    esFavorito () {
+      let FavoritosObj = JSON.parse(JSON.stringify(this.favoritos));
+
+      for (let key in FavoritosObj) {
+        let obj = FavoritosObj[key];
+
+        if (obj.receptor_id == this.publicacion.id) {
+          this.yaEsFavorito = true;
+          break;
+        }
+      }
+    },
+
     /**
     * Valida el form Comentario.
     *
@@ -332,6 +380,7 @@ export default {
   },
   mounted () {
     this.esAmigo();
+    this.esFavorito();
   }
 }
 </script>

@@ -104,6 +104,16 @@ p .btn {
     background-color: #F26B8F;
 }
 
+.btn-share {
+    color: #C26E5B;
+    border: 1px solid #C26E5B;
+}
+
+.btn-share:hover {
+    color: #ffffff;
+    background-color: #C26E5B;
+}
+
 .btn-comment {
     color: #AC5CCF;
     border: 1px solid #AC5CCF;
@@ -129,7 +139,7 @@ body footer {
     height: 50px;
     justify-content: center;
     align-items: center;
-    background-color: rgba(242, 137, 114);
+    background-color: rgb(242, 137, 114);
     color: #000;
     margin-top: auto;
 }
@@ -161,6 +171,16 @@ body textarea {
 .loader-container {
     max-width: 50rem;
     margin: 1rem auto;
+}
+
+.fondo {
+    background: rgb(54, 25, 115);
+    color: white;
+}
+
+.fondo-eliminar {
+    background: rgb(54, 25, 115);
+    color: white;
 }
 
 @media screen and (min-width: 576px) {

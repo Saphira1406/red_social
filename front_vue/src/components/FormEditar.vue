@@ -192,10 +192,10 @@
                   aria-hidden="true"
                 >
                   <div class="modal-dialog" role="document">
-                    <div class="modal-content">
+                    <div class="modal-content fondo-eliminar">
                       <div class="modal-header">
                         <p
-                          class="modal-title text-danger h5"
+                          class="modal-title text-white h5"
                           id="confirmModalLabel"
                         >
                           Estás a punto de eliminar tu cuenta
@@ -210,7 +210,7 @@
                         </button>
                       </div>
                       <div class="modal-body">
-                        <p class="text-danger">
+                        <p class="text-white">
                           ¿Estás seguro de eliminar tu cuenta? Esta acción no
                           puede deshacerse.
                         </p>
