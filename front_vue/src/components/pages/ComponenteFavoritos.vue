@@ -91,6 +91,10 @@
         </div>
       </li>
     </ul>
+
+    <div v-else>
+      <p class="text-center mt-5">Aún no hay favoritos agregados.</p>
+    </div>
   </article>
 </template>
 
