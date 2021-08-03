@@ -64,7 +64,7 @@ class Favoritos extends Modelo implements JsonSerializable
 
             $favorito->setPublicacion($publicacion);
 
-            $publicacion->setUsuario($data->getByPk($id));
+            $publicacion->setUsuario($data->traerPorPK($id));
 
             $salida[] = $favorito;
         }
@@ -83,25 +83,6 @@ class Favoritos extends Modelo implements JsonSerializable
     {
         $this->publicacion = $publicacion;
     }
-
-    /**
-     * Crea una nuevo favorito en la base de datos.
-     *
-     * @param array $data
-     * @return bool
-     */
-     public function crear(array $data): bool
-     {
-         $db = DBConnection::getConnection();
-         $query = "INSERT INTO favoritos (emisor_id, receptor_id)
-                   VALUES (:emisor_id, :receptor_id)";
-         $stmt = $db->prepare($query);
-
-         if (!$stmt->execute($data)) {
-             return false;
-         }
-         return true;
-     }
 
          public function eliminar($id): bool
          {
