@@ -84,13 +84,14 @@ class Favoritos extends Modelo implements JsonSerializable
         $this->publicacion = $publicacion;
     }
 
-         public function eliminar($id): bool
-         {
-             $db = DBConnection::getConnection();
-             $query = "DELETE FROM favoritos
-                     WHERE id = ?";
-             $stmt = $db->prepare($query);
-             if (!$stmt->execute([$id])) {
+
+    public function eliminar($id): bool
+    {
+        $db = DBConnection::getConnection();
+        $query = "DELETE FROM favoritos
+                 WHERE id = ?";
+        $stmt = $db->prepare($query);
+        if (!$stmt->execute([$id])) {
                  return false;
              }
              return true;
