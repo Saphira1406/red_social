@@ -8,25 +8,21 @@ use JsonSerializable;
 use PDO;
 use PDOException;
 
-class Publicacion extends Modelo implements JsonSerializable
+class Republicacion extends Modelo implements JsonSerializable
 {
     /** @var string La tabla con la que el Modelo se mapea. */
-    protected $table = 'publicaciones';
+    protected $table = 'republicaciones';
 
     /** @var array La lista de atributos/campos de la tabla que se mapean con las propiedades del Modelo. */
     protected $attributes = [
         'id',
         'usuarios_id',
-        'texto',
-        'imagen',
-        'fecha',
+        'publicaciones_id',
     ];
 
     private $id;
     private $usuarios_id;
-    private $texto;
-    private $imagen;
-    private $fecha;
+    private $publicaciones_id;
 
     // Propiedades para las clases de las tablas asociadas.
     /** @var Usuario */
@@ -45,18 +41,16 @@ class Publicacion extends Modelo implements JsonSerializable
         return [
             'id'            => $this->getId(),
             'usuarios_id'   => $this->getUsuariosId(),
-            'texto'         => $this->getTexto(),
-            'imagen'        => $this->getImagen(),
-            'fecha'         => $this->getFecha(),
+            'publicaciones_id' => $this->getPublicacionesId(),
             'usuario'       => $this->getUsuario(),
             'comentarios'   => $this->getComentarios()
         ];
     }
 
     /**
-     * Retorna todas las publicaciones de la base de datos.
+     * Retorna todas las republicaciones de un usuario desde la base de datos.
      *
-     * @return array|Publicacion[]
+     * @return array|Republicacion[]
      * @throws QueryException
      */
     public function traerTodo(): array
@@ -64,8 +58,8 @@ class Publicacion extends Modelo implements JsonSerializable
         // Pedimos la conexión a la clase DBConnection...
         $db = DBConnection::getConnection();
 
-        $query = "SELECT p.*, u.email, u.nombre, u.apellido, u.imagen as img_perfil FROM publicaciones p
-                  INNER JOIN usuarios u ON p.usuarios_id = u.id ORDER BY p.id DESC";
+        $query = "SELECT r.*, u.email, u.nombre, u.apellido, u.imagen FROM republicaciones r
+                  INNER JOIN usuarios u ON r.usuarios_id = u.id ORDER BY r.id DESC";
         try {
             $stmt = $db->prepare($query);
             $stmt->execute();
@@ -86,7 +80,7 @@ class Publicacion extends Modelo implements JsonSerializable
                 'email'    => $fila['email'],
                 'nombre'   => $fila['nombre'],
                 'apellido' => $fila['apellido'],
-                'imagen'   => $fila['img_perfil'],
+                'imagen'   => $fila['imagen'],
                 'fecha'    => $fila['fecha'],
             ]);
 
@@ -156,74 +150,6 @@ class Publicacion extends Modelo implements JsonSerializable
     }
 
     /**
-     * Elimina una publicación por su $id.
-     * Retorna true en caso de éxito, false de lo contrario.
-     *
-     * @param $id
-     * @return bool
-     */
-    public function eliminar($id): bool
-    {
-        $db = DBConnection::getConnection();
-        $query = "DELETE FROM publicaciones
-                WHERE id = ?";
-        $stmt = $db->prepare($query);
-        if (!$stmt->execute([$id])) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Retorna todas las publicaciones de un usuario desde la base de datos.
-     *
-     * @param $usuarios_id
-     * @return array|Publicacion[]
-     * @throws QueryException
-     */
-    public function traerPorUsuario($usuarios_id): array
-    {
-        // Pedimos la conexión a la clase DBConnection...
-        $db = DBConnection::getConnection();
-
-        $query = "SELECT p.*, u.email, u.nombre, u.apellido, u.imagen as img_perfil FROM publicaciones p
-                  INNER JOIN usuarios u ON p.usuarios_id = u.id WHERE p.usuarios_id = ? ORDER BY p.id DESC";
-        try {
-            $stmt = $db->prepare($query);
-            $stmt->execute([$usuarios_id]);
-        } catch (PDOException $e) {
-            throw new QueryException($query, [$usuarios_id], $stmt->errorInfo(), $e->getMessage(), $e->getCode(), $e->getPrevious());
-        }
-
-        $salida = [];
-
-        while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $publicacion = new self();
-
-            $publicacion->cargarDatosDeArray($fila);
-
-            $usuario = new Usuario();
-            $usuario->cargarDatosDeArray([
-                'id'       => $fila['usuarios_id'],
-                'email'    => $fila['email'],
-                'nombre'   => $fila['nombre'],
-                'apellido' => $fila['apellido'],
-                'imagen'   => $fila['img_perfil'],
-                'fecha'    => $fila['fecha'],
-            ]);
-
-            $publicacion->setUsuario($usuario);
-
-            $salida[] = $publicacion;
-        }
-
-        // Cargamos los comentarios de las publicaciones que vamos a retornar.
-        $salida = $this->cargarComentariosEnLasPublicaciones($salida);
-
-        return $salida;
-    }
-
-    /**
      * @return mixed
      */
     public function getId()
@@ -258,49 +184,17 @@ class Publicacion extends Modelo implements JsonSerializable
     /**
      * @return mixed
      */
-    public function getTexto()
+    public function getPublicacionesId()
     {
-        return $this->texto;
+        return $this->publicaciones_id;
     }
 
     /**
-     * @param mixed $texto
+     * @param mixed $publicaciones_id
      */
-    public function setTexto($texto)
+    public function setPublicacionesId($publicaciones_id)
     {
-        $this->texto = $texto;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getImagen()
-    {
-        return $this->imagen;
-    }
-
-    /**
-     * @param mixed $imagen
-     */
-    public function setImagen($imagen)
-    {
-        $this->imagen = $imagen;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFecha()
-    {
-        return $this->fecha;
-    }
-
-    /**
-     * @param mixed $fecha
-     */
-    public function setFecha($fecha)
-    {
-        $this->fecha = $fecha;
+        $this->publicaciones_id = $publicaciones_id;
     }
 
     /**

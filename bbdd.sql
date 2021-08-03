@@ -149,6 +149,36 @@ UPDATE CASCADE
 
 )ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Tabla republicaciones
+-- -----------------------------------------------------
+CREATE TABLE
+IF NOT EXISTS republicaciones
+(id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+usuarios_id INT UNSIGNED,
+publicaciones_id INT UNSIGNED,
+
+PRIMARY KEY
+(id),
+
+FOREIGN KEY
+(usuarios_id) REFERENCES usuarios
+(id) ON
+DELETE
+SET NULL
+ON
+UPDATE CASCADE,
+
+FOREIGN KEY
+(publicaciones_id) REFERENCES publicaciones
+(id)
+ON
+DELETE
+SET NULL
+ON
+UPDATE CASCADE
+)ENGINE = InnoDB;
+
 -- INSERTS
 
 -- USUARIOS
@@ -291,3 +321,20 @@ INSERT INTO favoritos
 SET usuarios_id
 = 2,
 publicaciones_id = 3;
+
+-- REPUBLICACIONES
+
+INSERT INTO republicaciones
+SET usuarios_id
+= 1,
+publicaciones_id = 3;
+
+INSERT INTO republicaciones
+SET usuarios_id
+= 2,
+publicaciones_id = 2;
+
+INSERT INTO republicaciones
+SET usuarios_id
+= 3,
+publicaciones_id = 4;

@@ -9,8 +9,10 @@ use PDO;
 
 class Favorito extends Modelo implements JsonSerializable
 {
+    /** @var string La tabla con la que el Modelo se mapea. */
     protected $table = 'favoritos';
 
+    /** @var array La lista de atributos/campos de la tabla que se mapean con las propiedades del Modelo. */
     protected $attributes = [
         'id',
         'usuarios_id',
@@ -21,6 +23,8 @@ class Favorito extends Modelo implements JsonSerializable
     private $usuarios_id;
     private $publicaciones_id;
 
+    // Propiedades para las clases de las tablas asociadas.
+    /** @var Publicacion */
     private $publicacion;
 
     public function jsonSerialize()
