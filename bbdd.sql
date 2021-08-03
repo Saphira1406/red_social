@@ -284,3 +284,10 @@ INSERT INTO amigos
 SET emisor_id
 = 1,
 receptor_id = 3;
+
+-- FAVORITOS
+
+INSERT INTO favoritos
+SET usuarios_id
+= 2,
+publicaciones_id = 3;

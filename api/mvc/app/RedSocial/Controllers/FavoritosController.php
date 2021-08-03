@@ -5,7 +5,7 @@ namespace RedSocial\Controllers;
 
 use RedSocial\Core\Route;
 use RedSocial\Core\View;
-use RedSocial\Models\Favoritos;
+use RedSocial\Models\Favorito;
 
 
 class FavoritosController extends Controller
@@ -15,7 +15,7 @@ class FavoritosController extends Controller
     {
         $this->requiresAuth();
         $id = Route::getUrlParameters()['id'];
-        $favoritos = (new Favoritos())->traerTodos($id);
+        $favoritos = (new Favorito())->traerTodos($id);
         View::renderJson($favoritos);
     }
 
@@ -27,15 +27,15 @@ class FavoritosController extends Controller
         $postData = json_decode($inputData, true);
 
         // Captura de datos:
-        $emisor_id         = $postData['emisor_id'];
-        $receptor_id       = $postData['receptor_id'];
+        $usuarios_id         = $postData['usuarios_id'];
+        $publicaciones_id       = $postData['publicaciones_id'];
 
         $data = [
-            "emisor_id"  => $emisor_id,
-            "receptor_id"  => $receptor_id,
+            "usuarios_id"  => $usuarios_id,
+            "publicaciones_id"  => $publicaciones_id,
         ];
 
-        $favorito = new Favoritos();
+        $favorito = new Favorito();
         $exito = $favorito->crear($data);
 
         if ($exito) {
@@ -57,7 +57,7 @@ class FavoritosController extends Controller
 
         $id = urlParam('id');
 
-        $amigo = (new Favoritos)->getByPk($id);
+        $amigo = (new Favorito)->traerPorPK($id);
 
         if (!$amigo->eliminar($id)) {
             echo json_encode([

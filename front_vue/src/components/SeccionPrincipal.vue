@@ -27,7 +27,7 @@
       <router-view
         :user="user"
         :amigos="amigos"
-        :favoritos = "favoritos"
+        :favoritos="favoritos"
         @updatedFriend="loadFriends"
         @deletedFriend="loadFriends"
         @updatedFavorite="loadFavorites"
@@ -70,10 +70,10 @@ export default {
     loadFavorites () {
       this.loading = true;
       favoritesService.fetchAll(this.user.id)
-      .then(favoritos => {
-        this.loading = false;
-        this.favoritos = favoritos;
-      });
+        .then(favoritos => {
+          this.loading = false;
+          this.favoritos = favoritos; console.log(favoritos);
+        });
     },
 
   },
