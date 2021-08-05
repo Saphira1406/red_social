@@ -72,7 +72,7 @@ export default {
       favoritesService.fetchAll(this.user.id)
         .then(favoritos => {
           this.loading = false;
-          this.favoritos = favoritos; console.log(favoritos);
+          this.favoritos = favoritos;
         });
     },
 

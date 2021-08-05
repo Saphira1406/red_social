@@ -342,29 +342,33 @@ export default {
     },
 
     agregarFavorito () {
+      this.notificationFavorite = {
+        text: null,
+      };
       favoritesService.create(this.favorito)
         .then(rta => {
+          this.notificationFavorite.text = rta.msg;
           if (rta.success) {
             this.$emit('newFavorite', true);
             this.notificationFavorite.type = 'success';
-            this.yaEsFavorito = true;
+            //this.yaEsFavorito = true;
           } else {
             this.notificationFavorite.type = 'danger';
           }
         })
     },
 
-    /*esFavorito () {
-      let FavoritosObj = JSON.parse(JSON.stringify(this.favoritos));
+   /*esFavorito () {
+       let FavoritoObj = JSON.parse(JSON.stringify(this.favoritos));
 
-      for (let key in FavoritosObj) {
-        let obj = FavoritosObj[key];
+       for (let key in FavoritoObj) {
+         let obj = FavoritoObj[key];
 
-        if (obj.publicaciones_id == this.publicacion.id) {
-          this.yaEsFavorito = true;
-          break;
-        }
-      }
+            if (obj.publicaciones_id == this.publicacion.id) {
+              this.yaEsFavorito = true;
+              break;
+            }
+          }
     },*/
 
     /**
