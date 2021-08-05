@@ -7,19 +7,21 @@ use RedSocial\DB\DBConnection;
 use JsonSerializable;
 use PDO;
 
-class Favorito extends Modelo implements JsonSerializable
+class Favoritos extends Modelo implements JsonSerializable
 {
     protected $table = 'favoritos';
 
+    protected $primaryKey = 'id';
+
     protected $attributes = [
         'id',
-        'usuarios_id',
-        'publicaciones_id',
+        'emisor_id',
+        'receptor_id',
     ];
 
     private $id;
-    private $usuarios_id;
-    private $publicaciones_id;
+    private $emisor_id;
+    private $receptor_id;
 
     private $publicacion;
 
@@ -27,9 +29,9 @@ class Favorito extends Modelo implements JsonSerializable
     {
         return [
             'id'            => $this->getId(),
-            'usuarios_id'     => $this->getUsuariosId(),
-            'publicaciones_id'   => $this->getPublicacionesId(),
-            'publicacion'      => $this->getPublicacion(),
+            'emisor_id'     => $this->getEmisorId(),
+            'receptor_id'   => $this->getReceptorId(),
+            'receptor'      => $this->getPublicacion(),
         ];
     }
 
@@ -38,10 +40,8 @@ class Favorito extends Modelo implements JsonSerializable
         // Pedimos la conexión a la clase DBConnection...
         $db = DBConnection::getConnection();
 
-        $query = "SELECT f.*, p.imagen, p.texto, p.fecha, p.usuarios_id AS u_id, usuarios.nombre, usuarios.apellido, usuarios.imagen AS img_perfil FROM favoritos AS f 
-                INNER JOIN publicaciones AS p ON f.publicaciones_id = p.id
-                INNER JOIN usuarios ON p.usuarios_id = usuarios.id
-                WHERE f.usuarios_id = ? ";
+        $query = "SELECT f.*, p.imagen, p.texto, p.fecha, p.usuarios_id FROM favoritos f INNER JOIN publicaciones p ON f.receptor_id = p.id
+                  WHERE emisor_id = ? ";
 
         $stmt = $db->prepare($query);
         $stmt->execute([$id]);
@@ -58,33 +58,19 @@ class Favorito extends Modelo implements JsonSerializable
                 'texto'   => $fila['texto'],
                 'fecha' => $fila['fecha'],
                 'imagen'   => $fila['imagen'],
-                'usuarios_id'   => $fila['u_id'],
             ]);
 
-            $usuario = new Usuario();
-            $usuario->cargarDatosDeArray([
-                'id'       => $fila['u_id'],
-                'nombre'   => $fila['nombre'],
-                'apellido' => $fila['apellido'],
-                'imagen'   => $fila['img_perfil'],
-            ]);
-
-            $publicacion->setUsuario($usuario);
-
-
-            //$data = new Usuario();
+            $data = new Usuario();
 
             $favorito->setPublicacion($publicacion);
 
-            //$publicacion->setUsuario($data->traerPorPK($id));
-
+            $publicacion->setUsuario($data->traerPorPK($id));
 
             $salida[] = $favorito;
         }
+
         return $salida;
-
     }
-
     public function getPublicacion(): Publicacion
     {
         return $this->publicacion;
@@ -98,16 +84,39 @@ class Favorito extends Modelo implements JsonSerializable
         $this->publicacion = $publicacion;
     }
 
+
     public function eliminar($id): bool
     {
         $db = DBConnection::getConnection();
         $query = "DELETE FROM favoritos
-                     WHERE id = ?";
+                 WHERE id = ?";
         $stmt = $db->prepare($query);
         if (!$stmt->execute([$id])) {
-            return false;
+                 return false;
+             }
+             return true;
+         }
+
+    public function getByPk(int $pk)
+    {
+        $db = DBConnection::getConnection();
+
+        $query = "SELECT * FROM favoritos
+                    WHERE id = ?";
+        $stmt = $db->prepare($query);
+        $stmt->execute([$pk]);
+
+        // Si no podemos obtener la fila, retornamos null.
+        if (!$fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            return null;
         }
-        return true;
+
+        $favorito= new Favoritos;
+        $favorito->id = $fila['id'];
+        $favorito->emisor_id = $fila['emisor_id'];
+        $favorito->receptor_id = $fila['receptor_id'];
+
+        return $favorito;
     }
 
     /**
@@ -129,32 +138,34 @@ class Favorito extends Modelo implements JsonSerializable
     /**
      * @return mixed
      */
-    public function getUsuariosId()
+    public function getEmisorId()
     {
-        return $this->usuarios_id;
+        return $this->emisor_id;
     }
 
     /**
-     * @param mixed $usuarios_id
+     * @param mixed $emisor_id
      */
-    public function setUsuariosId($usuarios_id)
+    public function setEmisorId($emisor_id)
     {
-        $this->usuarios_id = $usuarios_id;
+        $this->emisor_id = $emisor_id;
     }
 
     /**
      * @return mixed
      */
-    public function getPublicacionesId()
+    public function getReceptorId()
     {
-        return $this->publicaciones_id;
+        return $this->receptor_id;
     }
 
     /**
-     * @param mixed $publicaciones_id
+     * @param mixed $receptor_id
      */
-    public function setPublicacionesId($publicaciones_id)
+    public function setReceptorId($receptor_id)
     {
-        $this->publicaciones_id = $publicaciones_id;
+        $this->receptor_id = $receptor_id;
     }
+
+
 }
