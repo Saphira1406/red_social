@@ -7,8 +7,8 @@
       class="mt-0 sticky-notification"
     />
 
-    <ul v-if="Object.keys(favoritos).length" class="card-columns list-unstyled">
-      <li v-for="favorito in favoritos" :key="favorito.id">
+    <ul v-if="Object.keys(favoritos).length" class="row row-cols-1 row-cols-md-2 list-unstyled">
+      <li v-for="favorito in favoritos" :key="favorito.id" class="col mb-4">
         <div class="card publicaciones mb-2">
           <div class="card-header">
             <div class="d-flex align-items-center">
