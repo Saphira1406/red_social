@@ -332,7 +332,7 @@ publicaciones_id = 3;
 INSERT INTO republicaciones
 SET usuarios_id
 = 2,
-publicaciones_id = 2;
+publicaciones_id = 4;
 
 INSERT INTO republicaciones
 SET usuarios_id

@@ -58,21 +58,23 @@ export default {
   methods: {
 
     loadFriends () {
-      this.loading = true;
+      // this.loading = true;
       friendsService.fetchAll(this.user.id)
         .then(amigos => {
-          this.loading = false;
+          //  this.loading = false;
+          console.log('amigos');
           // Asignamos los amigos al state del componente.
           this.amigos = amigos;
         });
     },
 
     loadFavorites () {
-      this.loading = true;
+      //this.loading = true;
       favoritesService.fetchAll(this.user.id)
         .then(favoritos => {
-          this.loading = false;
-          this.favoritos = favoritos; console.log(favoritos);
+          // this.loading = false;
+          console.log('favoritos');
+          this.favoritos = favoritos;
         });
     },
 

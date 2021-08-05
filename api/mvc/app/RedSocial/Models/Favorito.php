@@ -42,7 +42,7 @@ class Favorito extends Modelo implements JsonSerializable
         // Pedimos la conexión a la clase DBConnection...
         $db = DBConnection::getConnection();
 
-        $query = "SELECT f.*, p.imagen, p.texto, p.fecha, p.usuarios_id FROM favoritos f INNER JOIN publicaciones p ON f.publicaciones_id = p.id
+        $query = "SELECT f.* , p.imagen, p.texto, p.fecha, p.usuarios_id AS u_id FROM favoritos f INNER JOIN publicaciones p ON f.publicaciones_id = p.id
                   WHERE f.usuarios_id = ? ";
 
         $stmt = $db->prepare($query);
@@ -60,6 +60,7 @@ class Favorito extends Modelo implements JsonSerializable
                 'texto'   => $fila['texto'],
                 'fecha' => $fila['fecha'],
                 'imagen'   => $fila['imagen'],
+                'usuarios_id'   => $fila['u_id'],
             ]);
 
             $data = new Usuario();
