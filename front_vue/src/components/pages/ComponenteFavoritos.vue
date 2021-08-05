@@ -13,12 +13,12 @@
           <div class="card-header">
             <div class="d-flex align-items-center">
               <img
-                src="./../../assets/img/persona_2.jpg"
+                :src="imgUrl(favorito.publicacion.usuario.imagen)"
                 class="img-fluid avatar"
                 alt="#"
               />
               <div>
-                <p class="font-weight-bold ml-3 mb-0">Nombre Apellido</p>
+                <p class="font-weight-bold ml-3 mb-0">{{ favorito.publicacion.usuario.nombre + " " + favorito.publicacion.usuario.apellido }}</p>
                 <p class="small ml-3 mb-0">
                   {{ favorito.publicacion.fecha }}
                 </p>

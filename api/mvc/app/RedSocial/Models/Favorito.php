@@ -38,8 +38,10 @@ class Favorito extends Modelo implements JsonSerializable
         // Pedimos la conexión a la clase DBConnection...
         $db = DBConnection::getConnection();
 
-        $query = "SELECT f.*, p.imagen, p.texto, p.fecha, p.usuarios_id FROM favoritos f INNER JOIN publicaciones p ON f.publicaciones_id = p.id
-                  WHERE f.usuarios_id = ? ";
+        $query = "SELECT f.*, p.imagen, p.texto, p.fecha, p.usuarios_id AS u_id, usuarios.nombre, usuarios.apellido, usuarios.imagen AS img_perfil FROM favoritos AS f 
+                INNER JOIN publicaciones AS p ON f.publicaciones_id = p.id
+                INNER JOIN usuarios ON p.usuarios_id = usuarios.id
+                WHERE f.usuarios_id = ? ";
 
         $stmt = $db->prepare($query);
         $stmt->execute([$id]);
@@ -56,19 +58,33 @@ class Favorito extends Modelo implements JsonSerializable
                 'texto'   => $fila['texto'],
                 'fecha' => $fila['fecha'],
                 'imagen'   => $fila['imagen'],
+                'usuarios_id'   => $fila['u_id'],
             ]);
 
-            $data = new Usuario();
+            $usuario = new Usuario();
+            $usuario->cargarDatosDeArray([
+                'id'       => $fila['u_id'],
+                'nombre'   => $fila['nombre'],
+                'apellido' => $fila['apellido'],
+                'imagen'   => $fila['img_perfil'],
+            ]);
+
+            $publicacion->setUsuario($usuario);
+
+
+            //$data = new Usuario();
 
             $favorito->setPublicacion($publicacion);
 
-            $publicacion->setUsuario($data->traerPorPK($id));
+            //$publicacion->setUsuario($data->traerPorPK($id));
+
 
             $salida[] = $favorito;
         }
-
         return $salida;
+
     }
+
     public function getPublicacion(): Publicacion
     {
         return $this->publicacion;
