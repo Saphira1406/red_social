@@ -1,6 +1,7 @@
 <template>
   <div v-if="user.id">
     <section class="profile text-center">
+      <h2 class="d-none">Perfil</h2>
       <img
         v-if="usuario.imagen"
         :src="imageUrl(usuario.imagen)"

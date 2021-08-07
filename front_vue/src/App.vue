@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-column outer">
-    <header>
+    <header class="d-flex flex-column outer">
       <nav
         class="navbar navbar-expand-md navbar-light"
         style="background-color: rgba(242,137,114, .5);"
