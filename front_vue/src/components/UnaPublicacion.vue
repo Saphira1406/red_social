@@ -142,6 +142,13 @@
       <BaseLoader v-if="loading" class="ml-3" size="small" />
 
       <BaseNotification
+          v-if="notificationFavorite.text !== null"
+          :text="notificationFavorite.text"
+          :type="notificationFavorite.type"
+          class="mt-3 mb-0"
+      />
+
+      <BaseNotification
         v-if="notificationComment.text !== null"
         :text="notificationComment.text"
         :type="notificationComment.type"
