@@ -16,6 +16,7 @@
             :publicacion="publicacion"
             :user="user"
             :amigos="amigos"
+            :favoritos="favoritos"
             @newComment="loadPublications"
           />
         </li>
@@ -33,6 +34,7 @@ import BaseLoader from "../BaseLoader.vue";
 import UnaPublicacion from "../UnaPublicacion.vue";
 import usersService from "../../services/users.js";
 import publicationsService from "../../services/publications.js";
+import favoritesService from "../../services/favorites";
 
 export default {
   name: "PublicacionesUsuario",
@@ -40,13 +42,14 @@ export default {
     BaseLoader,
     UnaPublicacion
   },
-  props: ['user', 'amigos'],
+  props: ['user', 'amigos', 'favoritos'],
 
   data: function () {
     return {
       loading: false,
       publicaciones: [],
       usuario: [],
+      favorito: [],
     }
   },
   methods: {
@@ -72,9 +75,19 @@ export default {
         });
     },
 
+    loadFavorites () {
+      this.loading = true;
+      favoritesService.fetchAll(this.$route.params.id)
+          .then(favoritos => {
+            this.loading = false;
+            this.favorito = favoritos;
+          });
+    },
+
   },
   mounted () {
     this.loadUsuario();
+    this.loadFavorites();
     this.loadPublications();
   }
 }

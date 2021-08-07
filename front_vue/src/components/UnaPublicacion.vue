@@ -78,7 +78,7 @@
       v-if="publicacion.imagen !== null"
       :src="imageUrl(publicacion.imagen)"
       class="img-fluid"
-      alt=""
+      alt="imagen de la publicación"
     />
 
     <div class="card-body">
@@ -107,20 +107,20 @@
         </svg>
       </button>
 
-      <button @click="agregarFavorito" class="btn btn-favorite ml-2">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-star"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"
-          />
-        </svg>
-      </button>
+        <button @click="agregarFavorito" class="btn btn-favorite ml-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-star"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"
+            />
+          </svg>
+        </button>
       <button class="btn btn-share ml-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -140,6 +140,13 @@
         </svg>
       </button>
       <BaseLoader v-if="loading" class="ml-3" size="small" />
+
+      <BaseNotification
+          v-if="notificationFavorite.text !== null"
+          :text="notificationFavorite.text"
+          :type="notificationFavorite.type"
+          class="mt-3 mb-0"
+      />
 
       <BaseNotification
         v-if="notificationComment.text !== null"
@@ -342,8 +349,12 @@ export default {
     },
 
     agregarFavorito () {
+      this.notificationFavorite = {
+        text: null,
+      };
       favoritesService.create(this.favorito)
         .then(rta => {
+          this.notificationFavorite.text = rta.msg;
           if (rta.success) {
             this.$emit('newFavorite', true);
             this.notificationFavorite.type = 'success';
@@ -354,18 +365,19 @@ export default {
         })
     },
 
-    /*esFavorito () {
-      let FavoritosObj = JSON.parse(JSON.stringify(this.favoritos));
 
-      for (let key in FavoritosObj) {
-        let obj = FavoritosObj[key];
+   esFavorito () {
+       let FavoritoObj = JSON.parse(JSON.stringify(this.favoritos));
 
-        if (obj.publicaciones_id == this.publicacion.id) {
-          this.yaEsFavorito = true;
-          break;
-        }
-      }
-    },*/
+       for (let key in FavoritoObj) {
+         let obj = FavoritoObj[key];
+
+            if (obj.publicaciones_id == this.publicacion.id) {
+              this.yaEsFavorito = true;
+              break;
+            }
+          }
+    },
 
     /**
     * Valida el form Comentario.
@@ -386,7 +398,7 @@ export default {
   },
   mounted () {
     this.esAmigo();
-    //this.esFavorito();
+    this.esFavorito();
   }
 }
 </script>

@@ -14,7 +14,7 @@
               <img
                 :src="imageUrl(user.imagen)"
                 class="img-fluid avatar"
-                :alt="`Foto de perfil de ${user.nombre} ${user.apellido}`"
+                alt="Avatar"
               />
             </div>
             <div class="col">
@@ -59,11 +59,6 @@
                         d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54A.505.505 0 0 1 1 12.5v-9a.5.5 0 0 1 .5-.5h13z"
                       />
                     </svg>
-                    <!-- <img
-                      src="./../assets/img/image_violeta.png"
-                      class="img-fluid icono mr-2"
-                      alt="Ícono de imagen"
-                    />-->
                     Agregar imagen
                   </label>
                   <BaseLoader v-if="loadingImg" class="ml-3" size="small" />
@@ -83,7 +78,7 @@
 
           <div v-if="publicacion.imagen !== null" class="form-group mt-4">
             <p>Previsualización de la imagen seleccionada:</p>
-            <img :src="publicacion.imagen" alt="" class="d-block mx-auto" />
+            <img :src="publicacion.imagen" alt="imagen de la publicación" class="d-block mx-auto" />
           </div>
           <div class="text-center">
             <button
@@ -202,25 +197,10 @@ export default {
 </script>
 
 <style scoped>
-.icono {
-  width: 40px;
-}
-
-.icon-edit {
-  width: 30px;
-}
 
 .comentario {
   background-color: rgba(242, 166, 73, 0.7);
   padding: 0.5em;
   border-radius: 15px;
-}
-
-.dropdown-menu {
-  background-color: rgb(242, 166, 73);
-}
-
-.dropdown-item:hover {
-  background-color: rgba(242, 137, 114, 0.7);
 }
 </style>

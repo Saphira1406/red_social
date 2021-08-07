@@ -14,7 +14,7 @@
         />
 
         <form action="#" class="row g-3" method="post" @submit.prevent="login">
-          <div class="col-12 mb-4">
+          <div class="col-12 mb-5">
             <label for="email" class="form-label">Email</label>
             <input
               type="email"
@@ -28,12 +28,12 @@
             <div
               v-if="errors.email !== null"
               id="errors-email"
-              class="text-danger"
+              class="text-error"
             >
               {{ errors.email }}
             </div>
           </div>
-          <div class="col-12">
+          <div class="col-12 mb-3">
             <label for="password" class="form-label">Contraseña</label>
             <input
               type="password"
@@ -49,7 +49,7 @@
             <div
               v-if="errors.password !== null"
               id="errors-password"
-              class="text-danger"
+              class="text-error"
             >
               {{ errors.password }}
             </div>
@@ -161,7 +161,6 @@ section {
   background: url("./../assets/img/backgroundLogin.jpg") no-repeat;
   background-size: cover;
   height: calc(100vh - 74px - 50px);
-  padding-top: 1em;
 }
 .card {
   width: 60%;
@@ -171,9 +170,5 @@ section {
 
 .boton {
   color: white;
-}
-
-.loader {
-  background: rgba(255, 255, 255, 0.75);
 }
 </style>
