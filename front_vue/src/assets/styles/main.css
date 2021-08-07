@@ -35,6 +35,11 @@ nav .avatar {
     height: 30px;
 }
 
+.text-error {
+    color: #EDD1A1;
+    text-shadow: 0 0 8px rgb(54, 25, 115);
+}
+
 .btn-gradient {
     color: white;
     background: rgb(54, 25, 115);

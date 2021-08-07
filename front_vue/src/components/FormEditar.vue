@@ -42,21 +42,19 @@
               <div class="form-group text-center">
                 <label
                   for="imagenEditar"
-                  style="color: #361973; cursor: pointer;"
+                  class="img-edit"
                 >
                   <img
                     v-if="preview"
                     :src="usuario.imagen"
-                    alt="Previsualización de la nueva imagen de perfil"
+                    alt="Previsualización del nuevo avatar"
                     class="img-fluid img-profile"
                   />
                   <img
                     v-else
                     :src="imageUrl(usuario.imagen)"
                     class="img-fluid img-profile"
-                    :alt="
-                      `Foto de perfil de ${usuario.nombre} ${usuario.apellido}`
-                    "
+                    alt="Avatar"
                   />
                 </label>
                 <input
@@ -450,5 +448,10 @@ export default {
 
 .close:hover {
   color: white;
+}
+
+.img-edit {
+  color: #361973;
+  cursor: pointer;
 }
 </style>

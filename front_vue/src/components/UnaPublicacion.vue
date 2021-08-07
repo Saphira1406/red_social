@@ -75,10 +75,10 @@
     </div>
 
     <img
-      v-if="publicacion.imagen !== null"
+      v-if="publicacion.imagen !== ''"
       :src="imageUrl(publicacion.imagen)"
       class="img-fluid"
-      alt=""
+      alt="Imagen de la publicación"
     />
 
     <div class="card-body">
@@ -140,6 +140,13 @@
         </svg>
       </button>
       <BaseLoader v-if="loading" class="ml-3" size="small" />
+
+      <BaseNotification
+        v-if="notificationFavorite.text !== null"
+        :text="notificationFavorite.text"
+        :type="notificationFavorite.type"
+        class="mt-3 mb-0"
+      />
 
       <BaseNotification
         v-if="notificationComment.text !== null"
@@ -342,8 +349,12 @@ export default {
     },
 
     agregarFavorito () {
+      this.notificationFavorite = {
+        text: null,
+      };
       favoritesService.create(this.favorito)
         .then(rta => {
+          this.notificationFavorite.text = rta.msg;
           if (rta.success) {
             this.$emit('newFavorite', true);
             this.notificationFavorite.type = 'success';
@@ -354,11 +365,12 @@ export default {
         })
     },
 
-    esFavorito () {
-      let FavoritosObj = JSON.parse(JSON.stringify(this.favoritos));
 
-      for (let key in FavoritosObj) {
-        let obj = FavoritosObj[key];
+    esFavorito () {
+      let FavoritoObj = JSON.parse(JSON.stringify(this.favoritos));
+
+      for (let key in FavoritoObj) {
+        let obj = FavoritoObj[key];
 
         if (obj.publicaciones_id == this.publicacion.id) {
           this.yaEsFavorito = true;

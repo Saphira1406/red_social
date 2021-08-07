@@ -1,5 +1,5 @@
 <template>
-  <article class="container">
+  <div class="container">
     <BaseNotification
       v-if="notification.text !== null"
       :text="notification.text"
@@ -7,18 +7,18 @@
       class="mt-0 sticky-notification"
     />
 
-    <ul v-if="Object.keys(favoritos).length" class="card-columns list-unstyled">
-      <li v-for="favorito in favoritos" :key="favorito.id">
+    <ul v-if="Object.keys(favoritos).length" class="row row-cols-1 row-cols-md-2 list-unstyled">
+      <li v-for="favorito in favoritos" :key="favorito.id" class="col mb-4">
         <div class="card publicaciones mb-2">
           <div class="card-header">
             <div class="d-flex align-items-center">
               <img
-                src="./../../assets/img/persona_2.jpg"
+                :src="imgUrl(favorito.publicacion.usuario.imagen)"
                 class="img-fluid avatar"
-                alt="#"
+                alt="Avatar"
               />
               <div>
-                <p class="font-weight-bold ml-3 mb-0">Nombre Apellido</p>
+                <p class="font-weight-bold ml-3 mb-0">{{ favorito.publicacion.usuario.nombre + " " + favorito.publicacion.usuario.apellido }}</p>
                 <p class="small ml-3 mb-0">
                   {{ favorito.publicacion.fecha }}
                 </p>
@@ -47,7 +47,7 @@
             class="card-img-top"
             v-if="favorito.publicacion.imagen !== null"
             :src="imgUrl(favorito.publicacion.imagen)"
-            alt=""
+            alt="imagen de la publicacion"
           />
           <div class="card-body">
             <p class="card-text">{{ favorito.publicacion.texto }}</p>
@@ -107,7 +107,11 @@
         </div>
       </li>
     </ul>
-  </article>
+
+    <div v-else>
+      <p class="text-center mt-5">Aún no hay favoritos agregados.</p>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -156,10 +160,3 @@ export default {
 
 }
 </script>
-
-<style scoped>
-.coming-soon {
-  background: none;
-  margin-bottom: 2em;
-}
-</style>
