@@ -78,7 +78,7 @@
       v-if="publicacion.imagen !== null"
       :src="imageUrl(publicacion.imagen)"
       class="img-fluid"
-      alt=""
+      alt="imagen de la publicación"
     />
 
     <div class="card-body">

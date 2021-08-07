@@ -15,7 +15,7 @@
               <img
                 :src="imgUrl(favorito.publicacion.usuario.imagen)"
                 class="img-fluid avatar"
-                alt="#"
+                alt="Avatar"
               />
               <div>
                 <p class="font-weight-bold ml-3 mb-0">{{ favorito.publicacion.usuario.nombre + " " + favorito.publicacion.usuario.apellido }}</p>
@@ -47,7 +47,7 @@
             class="card-img-top"
             v-if="favorito.publicacion.imagen !== null"
             :src="imgUrl(favorito.publicacion.imagen)"
-            alt=""
+            alt="imagen de la publicacion"
           />
           <div class="card-body">
             <p class="card-text">{{ favorito.publicacion.texto }}</p>

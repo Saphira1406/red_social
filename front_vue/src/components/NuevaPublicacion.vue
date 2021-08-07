@@ -14,7 +14,7 @@
               <img
                 :src="imageUrl(user.imagen)"
                 class="img-fluid avatar"
-                :alt="`Foto de perfil de ${user.nombre} ${user.apellido}`"
+                alt="Avatar"
               />
             </div>
             <div class="col">
@@ -78,7 +78,7 @@
 
           <div v-if="publicacion.imagen !== null" class="form-group mt-4">
             <p>Previsualización de la imagen seleccionada:</p>
-            <img :src="publicacion.imagen" alt="" class="d-block mx-auto" />
+            <img :src="publicacion.imagen" alt="imagen de la publicación" class="d-block mx-auto" />
           </div>
           <div class="text-center">
             <button

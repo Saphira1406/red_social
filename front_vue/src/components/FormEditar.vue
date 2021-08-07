@@ -47,16 +47,14 @@
                   <img
                     v-if="preview"
                     :src="usuario.imagen"
-                    alt="Previsualización de la nueva imagen de perfil"
+                    alt="Previsualización del nuevo avatar"
                     class="img-fluid img-profile"
                   />
                   <img
                     v-else
                     :src="imageUrl(usuario.imagen)"
                     class="img-fluid img-profile"
-                    :alt="
-                      `Foto de perfil de ${usuario.nombre} ${usuario.apellido}`
-                    "
+                    alt="Avatar"
                   />
                 </label>
                 <input

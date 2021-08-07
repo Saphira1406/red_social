@@ -5,7 +5,7 @@
         v-if="usuario.imagen"
         :src="imageUrl(usuario.imagen)"
         class="img-profile"
-        :alt="`Foto de perfil de ${usuario.nombre} ${usuario.apellido}`"
+        alt="avatar"
       />
 
       <p class="font-weight-bold mt-3">
