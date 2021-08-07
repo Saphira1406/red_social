@@ -358,7 +358,7 @@ export default {
           if (rta.success) {
             this.$emit('newFavorite', true);
             this.notificationFavorite.type = 'success';
-            //this.yaEsFavorito = true;
+            this.yaEsFavorito = true;
           } else {
             this.notificationFavorite.type = 'danger';
           }
