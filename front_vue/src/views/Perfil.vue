@@ -18,7 +18,7 @@
     >
       <form-editar :user="user" @changed="updateUser" @deleted="deleteUser" />
 
-      <div class="card mt-3 mb-3 card-info" style="width: 35rem;">
+      <div class="card mt-3 mb-3 card-info">
         <div class="card-header">
           <p class="h5">Información</p>
         </div>
@@ -117,6 +117,7 @@ export default {
 .card-info {
   background-color: rgba(242, 166, 73, 0.5);
   font-family: "SourceSansPro", sans-serif;
+  width: 35rem;
 }
 .card-info ul li {
   background-color: rgba(242, 166, 73, 0.1);

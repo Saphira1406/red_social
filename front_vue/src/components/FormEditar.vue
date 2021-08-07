@@ -42,7 +42,7 @@
               <div class="form-group text-center">
                 <label
                   for="imagenEditar"
-                  style="color: #361973; cursor: pointer;"
+                  class="img-edit"
                 >
                   <img
                     v-if="preview"
@@ -450,5 +450,10 @@ export default {
 
 .close:hover {
   color: white;
+}
+
+.img-edit {
+  color: #361973;
+  cursor: pointer;
 }
 </style>

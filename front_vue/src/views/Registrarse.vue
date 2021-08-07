@@ -33,7 +33,7 @@
             <div
               v-if="errors.nombre !== null"
               id="errors-nombre"
-              class="text-danger"
+              class="text-error"
             >
               {{ errors.nombre }}
             </div>
@@ -53,7 +53,7 @@
             <div
               v-if="errors.apellido !== null"
               id="errors-apellido"
-              class="text-danger"
+              class="text-error"
             >
               {{ errors.apellido }}
             </div>
@@ -71,7 +71,7 @@
             <div
               v-if="errors.email !== null"
               id="errors-email"
-              class="text-danger"
+              class="text-error"
             >
               {{ errors.email }}
             </div>
@@ -99,7 +99,7 @@
             <div
               v-if="errors.password !== null"
               id="errors-password"
-              class="text-danger"
+              class="text-error"
             >
               {{ errors.password }}
             </div>
@@ -238,7 +238,6 @@ section {
   background: url("./../assets/img/backgroundLogin.jpg") no-repeat;
   background-size: cover;
   min-height: 96vh;
-  padding-top: 1em;
 }
 .card {
   width: 60%;
@@ -255,13 +254,5 @@ section {
     rgba(172, 92, 207, 1) 87%
   );
   color: white;
-}
-
-.text-danger {
-  text-shadow: 0 0 8px rgb(54, 25, 115);
-}
-
-.loader {
-  background: rgba(255, 255, 255, 0.75);
 }
 </style>

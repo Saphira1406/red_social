@@ -90,11 +90,6 @@ export default {
 }
 #barra {
   margin-top: 0.001em;
-  /*
-  position: sticky;
-  top: 0;
-  z-index: 9000;
-  */
 }
 .card-btn {
   border: transparent;
@@ -103,7 +98,6 @@ export default {
   width: 15rem;
   border: 1px solid #361973;
   color: #361973;
-  /* background: rgb(255, 231, 227); */
 }
 .tamaño-btn:hover,
 .router-link-exact-active {

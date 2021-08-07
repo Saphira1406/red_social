@@ -1,5 +1,5 @@
 <template>
-  <article class="container">
+  <div class="container">
     <BaseNotification
       v-if="notification.text !== null"
       :text="notification.text"
@@ -111,7 +111,7 @@
     <div v-else>
       <p class="text-center mt-5">Aún no hay favoritos agregados.</p>
     </div>
-  </article>
+  </div>
 </template>
 
 <script>
@@ -160,10 +160,3 @@ export default {
 
 }
 </script>
-
-<style scoped>
-.coming-soon {
-  background: none;
-  margin-bottom: 2em;
-}
-</style>
