@@ -9,20 +9,37 @@ use PDO;
 
 class Favorito extends Modelo implements JsonSerializable
 {
+    /**
+     * @var string La tabla con la que el Modelo se mapea.
+     */
     protected $table = 'favoritos';
 
+    /**
+     * @var array[] La lista de atributos/campos de la tabla que se mapean con las propiedades del Modelo.
+     */
     protected $attributes = [
         'id',
         'usuarios_id',
         'publicaciones_id',
     ];
 
+    // Propiedades para las clases de las tablas asociadas.
+    /** @var id */
     private $id;
+    /** @var usuarios_id */
     private $usuarios_id;
+    /** @var publicaciones_id */
     private $publicaciones_id;
 
+    /** @var Publicacion */
     private $publicacion;
 
+
+    /**
+     * Esta función debe retornar cómo se representa como JSON este objeto.
+     *
+     * @return array
+     */
     public function jsonSerialize()
     {
         return [
@@ -33,6 +50,12 @@ class Favorito extends Modelo implements JsonSerializable
         ];
     }
 
+    /**
+     * Retorna todos los favoritos de un usuario
+     *
+     * @param $id
+     * @return array|Favorito[]
+     */
     public function traerTodos($id): array
     {
         // Pedimos la conexión a la clase DBConnection...
@@ -85,6 +108,9 @@ class Favorito extends Modelo implements JsonSerializable
 
     }
 
+    /**
+     * @return Publicacion
+     */
     public function getPublicacion(): Publicacion
     {
         return $this->publicacion;
@@ -98,6 +124,13 @@ class Favorito extends Modelo implements JsonSerializable
         $this->publicacion = $publicacion;
     }
 
+    /**
+     * Elimina un favorito por su $id.
+     * Retorna true en caso de éxito, false de lo contrario.
+     *
+     * @param $id
+     * @return bool
+     */
     public function eliminar($id): bool
     {
         $db = DBConnection::getConnection();
