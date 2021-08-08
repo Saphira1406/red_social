@@ -27,7 +27,6 @@ class Modelo
     /** @var array La lista de atributos/campos de la tabla que se mapean con las propiedades del Modelo. */
     protected $attributes = [];
 
-
     /**
      * Asigna todos los valores de $data que referencien a atributos definidos en self::$attributes.
      *

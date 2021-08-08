@@ -13,7 +13,6 @@
           <p class="font-weight-bold ml-3 mb-0">
             {{ muro_usuario.nombre + " " + muro_usuario.apellido }}
           </p>
-          <p class="small ml-3 mb-0">{{ publicacion.fecha }}</p>
         </div>
         <div
           v-if="
@@ -179,6 +178,8 @@
             :data-target="`#commentForm${publicacion.id}`"
             aria-expanded="false"
             :aria-controls="`commentForm${publicacion.id}`"
+            aria-label="Comentar publicación"
+            title="Comentar publicación"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -194,7 +195,12 @@
             </svg>
           </button>
 
-          <button @click="agregarFavorito" class="btn btn-favorite ml-2">
+          <button
+            @click="agregarFavorito"
+            class="btn btn-favorite ml-2"
+            aria-label="Agregar favorito"
+            title="Agregar favorito"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -208,7 +214,13 @@
               />
             </svg>
           </button>
-          <button class="btn btn-share ml-2">
+
+          <button
+            @click="republicar"
+            class="btn btn-share ml-2"
+            aria-label="Republicar"
+            title="Republicar"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -229,16 +241,9 @@
           <BaseLoader v-if="loading" class="ml-3" size="small" />
 
           <BaseNotification
-            v-if="notificationFavorite.text !== null"
-            :text="notificationFavorite.text"
-            :type="notificationFavorite.type"
-            class="mt-3 mb-0"
-          />
-
-          <BaseNotification
-            v-if="notificationComment.text !== null"
-            :text="notificationComment.text"
-            :type="notificationComment.type"
+            v-if="notificationActions.text !== null"
+            :text="notificationActions.text"
+            :type="notificationActions.type"
             class="mt-2"
           />
 
@@ -336,6 +341,7 @@ import BaseNotification from "./BaseNotification.vue";
 import commentsService from "../services/comments.js";
 import friendsService from "../services/friends.js";
 import favoritesService from "../services/favorites.js";
+import republicationsService from "../services/republications.js";
 import $ from 'jquery';
 
 export default {
@@ -359,6 +365,10 @@ export default {
         publicaciones_id: this.publicacion.id,
       },
       esRepublicacion: false,
+      republicacion: {
+        usuarios_id: this.user.id,
+        publicaciones_id: this.publicacion.id,
+      },
       // nuevo comentario:
       comentario: {
         texto: null,
@@ -368,15 +378,11 @@ export default {
       errorsComment: {
         texto: null,
       },
-      notificationComment: {
+      notificationActions: {
         text: null,
         type: 'success',
       },
       notificationFriend: {
-        text: null,
-        type: 'success',
-      },
-      notificationFavorite: {
         text: null,
         type: 'success',
       },
@@ -395,22 +401,21 @@ export default {
       // Si no pasa la validación, no realizamos la petición.
       if (!this.validatesComment()) return;
       this.loading = true;
-      this.notificationComment = {
-        text: null,
-      };
+
+      this.notificationActions.text = null;
       commentsService.create(this.comentario)
         .then(rta => {
           this.loading = false;
-          this.notificationComment.text = rta.msg;
+          this.notificationActions.text = rta.msg;
           if (rta.success) {
-            this.notificationComment.type = 'success';
+            this.notificationActions.type = 'success';
             // Luego de grabar exitosamente, ocultamos y vaciamos el form.
             $(`#commentForm${this.comentario.publicaciones_id}`).collapse('hide');
             this.comentario.texto = null;
             this.$emit('newComment', this.publicacion);
 
           } else {
-            this.notificationComment.type = 'danger';
+            this.notificationActions.type = 'danger';
           }
         });
     },
@@ -423,7 +428,7 @@ export default {
 
         if (obj.receptor_id == this.publicacion.usuarios_id) {
           this.yaEsAmigo = true;
-          break;
+          // break;
         }
       }
     },
@@ -446,18 +451,33 @@ export default {
     },
 
     agregarFavorito () {
-      this.notificationFavorite = {
+      this.notificationActions = {
         text: null,
       };
       favoritesService.create(this.favorito)
         .then(rta => {
-          this.notificationFavorite.text = rta.msg;
+          this.notificationActions.text = rta.msg;
           if (rta.success) {
             this.$emit('newFavorite', true);
-            this.notificationFavorite.type = 'success';
+            this.notificationActions.type = 'success';
             this.yaEsFavorito = true;
           } else {
-            this.notificationFavorite.type = 'danger';
+            this.notificationActions.type = 'danger';
+          }
+        })
+    },
+
+    republicar () {
+      this.notificationActions.text = null;
+      republicationsService.create(this.republicacion)
+        .then(rta => {
+          this.notificationActions.text = rta.msg;
+          if (rta.success) {
+            // this.$emit('newFavorite', true);
+            this.notificationActions.type = 'success';
+            // this.yaEsFavorito = true;
+          } else {
+            this.notificationActions.type = 'danger';
           }
         })
     },
@@ -470,7 +490,7 @@ export default {
 
         if (obj.publicaciones_id == this.publicacion.id) {
           this.yaEsFavorito = true;
-          break;
+          // break;
         }
       }
     },

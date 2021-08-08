@@ -24,13 +24,6 @@ class Republicacion extends Modelo implements JsonSerializable
     private $usuarios_id;
     private $publicaciones_id;
 
-    // Propiedades para las clases de las tablas asociadas.
-    /** @var Usuario */
-    private $usuario;
-
-    /** @var array|Comentario[] */
-    private $comentarios = [];
-
     /**
      * Esta función debe retornar cómo se representa como JSON este objeto.
      *
@@ -42,111 +35,7 @@ class Republicacion extends Modelo implements JsonSerializable
             'id'            => $this->getId(),
             'usuarios_id'   => $this->getUsuariosId(),
             'publicaciones_id' => $this->getPublicacionesId(),
-            'usuario'       => $this->getUsuario(),
-            'comentarios'   => $this->getComentarios()
         ];
-    }
-
-    /**
-     * Retorna todas las republicaciones de un usuario desde la base de datos.
-     *
-     * @return array|Republicacion[]
-     * @throws QueryException
-     */
-    public function traerTodo(): array
-    {
-        // Pedimos la conexión a la clase DBConnection...
-        $db = DBConnection::getConnection();
-
-        $query = "SELECT r.*, u.email, u.nombre, u.apellido, u.imagen FROM republicaciones r
-                  INNER JOIN usuarios u ON r.usuarios_id = u.id ORDER BY r.id DESC";
-        try {
-            $stmt = $db->prepare($query);
-            $stmt->execute();
-        } catch (PDOException $e) {
-            throw new QueryException($query, [], $stmt->errorInfo(), $e->getMessage(), $e->getCode(), $e->getPrevious());
-        }
-
-        $salida = [];
-
-        while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $publicacion = new self();
-
-            $publicacion->cargarDatosDeArray($fila);
-
-            $usuario = new Usuario();
-            $usuario->cargarDatosDeArray([
-                'id'       => $fila['usuarios_id'],
-                'email'    => $fila['email'],
-                'nombre'   => $fila['nombre'],
-                'apellido' => $fila['apellido'],
-                'imagen'   => $fila['imagen'],
-                'fecha'    => $fila['fecha'],
-            ]);
-
-            $publicacion->setUsuario($usuario);
-
-            $salida[] = $publicacion;
-        }
-
-        // Cargamos los comentarios de las publicaciones que vamos a retornar.
-        $salida = $this->cargarComentariosEnLasPublicaciones($salida);
-
-        return $salida;
-    }
-
-    /**
-     * Carga los Comentarios en las $publicaciones provistas, y retorna un nuevo array con esos datos.
-     *
-     * @param array|Publicacion[] $publicaciones
-     * @return array
-     */
-    public function cargarComentariosEnLasPublicaciones(array $publicaciones): array
-    {
-        $salida = [];
-        $ids = [];
-
-        foreach ($publicaciones as $publicacion) {
-            $id = $publicacion->getId();
-            $ids[] = $id;
-            $salida[$id] = $publicacion;
-        }
-
-        // Con los ids en mano, hacemos el query para traer los comentarios.
-        $comentariosTotales = (new Comentario())->traerPorListaDePublicaciones($ids);
-
-        // Ahora, finalmente, asignamos cada comentario a la publicación que le corresponde.
-        foreach ($comentariosTotales as $comentario) {
-            $idPublicacion = $comentario->getPublicacionesId();
-            $salida[$idPublicacion]->addComentario($comentario);
-        }
-
-        // Reseteamos las claves del array, para dejarlo tal cual nos lo entregaron.
-        return array_values($salida);
-    }
-
-    /**
-     * Trae los comentarios de la Publicación.
-     */
-    public function traerComentarios()
-    {
-        $this->comentarios = (new Comentario())->traerPorIdPublicacion($this->getId());
-    }
-
-    /**
-     * @return Usuario
-     */
-    public function getUsuario(): Usuario
-    {
-        return $this->usuario;
-    }
-
-    /**
-     * @param Usuario $usuario
-     */
-    public function setUsuario(Usuario $usuario): void
-    {
-        $this->usuario = $usuario;
     }
 
     /**
@@ -198,26 +87,29 @@ class Republicacion extends Modelo implements JsonSerializable
     }
 
     /**
-     * @return array|Comentario[]
+     * Chequea si ya existe una fila con un usuarios_id y republicaciones_id determinados.
+     *
+     * @param mixed $usuarios_id
+     * @param mixed $publicaciones_id
+     * @return boolean
+     * @throws QueryException
      */
-    public function getComentarios(): array
+    public function verSiExiste($publicaciones_id, $usuarios_id)
     {
-        return $this->comentarios;
-    }
+        $db = DBConnection::getConnection();
+        $query = "SELECT * FROM republicaciones
+                WHERE publicaciones_id = ? AND usuarios_id = ?";
 
-    /**
-     * @param array|Comentario[] $comentarios
-     */
-    public function setComentarios(array $comentarios): void
-    {
-        $this->comentarios = $comentarios;
-    }
-
-    /**
-     * @param Comentario $comentario
-     */
-    public function addComentario(Comentario $comentario): void
-    {
-        $this->comentarios[] = $comentario;
+        try {
+            $stmt = $db->prepare($query);
+            $stmt->execute([$publicaciones_id, $usuarios_id]);
+        } catch (PDOException $e) {
+            throw new QueryException($query, [$publicaciones_id, $usuarios_id], $stmt->errorInfo(), $e->getMessage(), $e->getCode(), $e->getPrevious());
+        }
+        if ($stmt->fetchObject(static::class)) {
+            return true; // ya existe la fila
+        } else {
+            return false; // no existe
+        }
     }
 }
