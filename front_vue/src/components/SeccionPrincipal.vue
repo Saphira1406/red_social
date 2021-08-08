@@ -25,6 +25,7 @@
       class="d-flex justify-content-center align-items-center flex-column pt-3"
     >
       <router-view
+        v-if="friendsLoaded"
         :user="user"
         :amigos="amigos"
         :favoritos="favoritos"
@@ -53,6 +54,7 @@ export default {
       loading: false,
       amigos: [],
       favoritos: [],
+      friendsLoaded: false,
     }
   },
   methods: {
@@ -62,8 +64,10 @@ export default {
       friendsService.fetchAll(this.user.id)
         .then(amigos => {
           this.loading = false;
+
           // Asignamos los amigos al state del componente.
           this.amigos = amigos;
+          this.friendsLoaded = true;
         });
     },
 

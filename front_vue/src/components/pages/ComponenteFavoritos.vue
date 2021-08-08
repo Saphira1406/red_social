@@ -7,7 +7,10 @@
       class="mt-0 sticky-notification"
     />
 
-    <ul v-if="Object.keys(favoritos).length" class="row row-cols-1 row-cols-md-2 list-unstyled">
+    <ul
+      v-if="Object.keys(favoritos).length"
+      class="row row-cols-1 row-cols-md-2 list-unstyled"
+    >
       <li v-for="favorito in favoritos" :key="favorito.id" class="col mb-4">
         <div class="card publicaciones mb-2">
           <div class="card-header">
@@ -18,7 +21,13 @@
                 alt="Avatar"
               />
               <div>
-                <p class="font-weight-bold ml-3 mb-0">{{ favorito.publicacion.usuario.nombre + " " + favorito.publicacion.usuario.apellido }}</p>
+                <p class="font-weight-bold ml-3 mb-0">
+                  {{
+                    favorito.publicacion.usuario.nombre +
+                      " " +
+                      favorito.publicacion.usuario.apellido
+                  }}
+                </p>
                 <p class="small ml-3 mb-0">
                   {{ favorito.publicacion.fecha }}
                 </p>
@@ -45,9 +54,9 @@
           </div>
           <img
             class="card-img-top"
-            v-if="favorito.publicacion.imagen !== null"
+            v-if="favorito.publicacion.imagen !== ''"
             :src="imgUrl(favorito.publicacion.imagen)"
-            alt="imagen de la publicacion"
+            alt="Imagen de la publicación"
           />
           <div class="card-body">
             <p class="card-text">{{ favorito.publicacion.texto }}</p>

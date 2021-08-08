@@ -23,7 +23,7 @@ class Favorito extends Modelo implements JsonSerializable
         'publicaciones_id',
     ];
 
-    // Propiedades para las clases de las tablas asociadas.
+
     /** @var id */
     private $id;
     /** @var usuarios_id */
@@ -31,9 +31,9 @@ class Favorito extends Modelo implements JsonSerializable
     /** @var publicaciones_id */
     private $publicaciones_id;
 
+    // Propiedades para las clases de las tablas asociadas.
     /** @var Publicacion */
     private $publicacion;
-
 
     /**
      * Esta función debe retornar cómo se representa como JSON este objeto.
@@ -105,7 +105,6 @@ class Favorito extends Modelo implements JsonSerializable
             $salida[] = $favorito;
         }
         return $salida;
-
     }
 
     /**

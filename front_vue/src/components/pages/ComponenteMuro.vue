@@ -65,7 +65,7 @@ export default {
       this.$emit('updatedFriend', true);
     },
 
-    updateFavorite() {
+    updateFavorite () {
       this.$emit('updatedFavorite', true);
     },
 

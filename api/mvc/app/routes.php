@@ -87,3 +87,11 @@ Route::add('POST', '/favoritos/nuevo', 'FavoritosController@nuevoGuardar');
 // Rutas para eliminar un favorito:
 Route::add('DELETE', '/favoritos/{id}/eliminar', 'FavoritosController@eliminar');
 Route::add('OPTIONS', '/favoritos/{id}/eliminar', 'AuthController@options');
+
+/*
+ |--------------------------------------------------------------------------
+ | Republicaciones
+ |--------------------------------------------------------------------------
+ */
+
+Route::add('POST', '/republicaciones/nuevo', 'RepublicacionesController@nuevoGuardar');
