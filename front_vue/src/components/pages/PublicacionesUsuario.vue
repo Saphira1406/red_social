@@ -17,6 +17,7 @@
             :user="user"
             :amigos="amigos"
             :favoritos="favoritos"
+            :muro_usuario="usuario"
             @newComment="loadPublications"
           />
         </li>
@@ -78,10 +79,10 @@ export default {
     loadFavorites () {
       this.loading = true;
       favoritesService.fetchAll(this.$route.params.id)
-          .then(favoritos => {
-            this.loading = false;
-            this.favorito = favoritos;
-          });
+        .then(favoritos => {
+          this.loading = false;
+          this.favorito = favoritos;
+        });
     },
 
   },

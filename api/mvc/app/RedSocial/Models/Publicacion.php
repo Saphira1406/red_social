@@ -186,11 +186,12 @@ class Publicacion extends Modelo implements JsonSerializable
         // Pedimos la conexión a la clase DBConnection...
         $db = DBConnection::getConnection();
 
-        $query = "SELECT p.*, r.*, u.email, u.nombre, u.apellido, u.imagen as img_perfil 
+        $query = "SELECT p.*,  r.usuarios_id AS id_us_rep, r.publicaciones_id,  u.email, u.nombre, u.apellido, u.imagen as img_perfil 
             FROM publicaciones p
             INNER JOIN usuarios u ON p.usuarios_id = u.id 
-            LEFT OUTER JOIN republicaciones r ON r.publicaciones_id = p.id 
-            WHERE p.usuarios_id = ? OR r.usuarios_id = ? 
+            LEFT OUTER JOIN republicaciones r ON r.publicaciones_id = p.id  
+            WHERE p.usuarios_id = ? 
+            OR r.usuarios_id = ? 
             ORDER BY p.id DESC";
         try {
             $stmt = $db->prepare($query);
