@@ -19,12 +19,19 @@
             !(
               publicacion.usuarios_id == muro_usuario.id ||
               publicacion.usuarios_id == user.id ||
+              user.id == muro_usuario.id ||
               yaEsAmigo
             )
           "
           class="ml-auto"
         >
-          <button @click="agregarAmigo" class="btn btn-add">
+          <button
+            type="button"
+            @click="agregarAmigo"
+            class="btn btn-add"
+            aria-label="Agregar amigo/a"
+            title="Agregar amigo/a"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -74,8 +81,8 @@
 
     <div class="card-body" :class="!esRepublicacion ? 'p-0' : ''">
       <div
-        class="card publicaciones"
-        :class="esRepublicacion ? 'bg-transparent' : ''"
+        class="card publicaciones bg-transparent"
+        :class="!esRepublicacion ? 'border-0' : ''"
       >
         <div class="card-header">
           <div class="mt-1 mb-1 d-flex align-items-center">
@@ -106,7 +113,13 @@
               "
               class="ml-auto"
             >
-              <button @click="agregarAmigo" class="btn btn-add">
+              <button
+                type="button"
+                @click="agregarAmigo"
+                class="btn btn-add"
+                aria-label="Agregar amigo/a"
+                title="Agregar amigo/a"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -196,6 +209,7 @@
           </button>
 
           <button
+            type="button"
             @click="agregarFavorito"
             class="btn btn-favorite ml-2"
             aria-label="Agregar favorito"
@@ -216,6 +230,7 @@
           </button>
 
           <button
+            type="button"
             @click="republicar"
             class="btn btn-share ml-2"
             aria-label="Republicar"

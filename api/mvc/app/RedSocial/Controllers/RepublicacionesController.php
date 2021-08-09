@@ -26,7 +26,7 @@ class RepublicacionesController extends Controller
             if ($republicacion->verSiExiste($publicaciones_id, $usuarios_id)) {
                 echo json_encode([
                     'success' => false,
-                    'msg' => 'La publicación ya estaba en tu muro.',
+                    'msg' => 'Esta publicación ya está en tu muro, no se puede volver a compartir.',
                 ]);
                 exit;
             }

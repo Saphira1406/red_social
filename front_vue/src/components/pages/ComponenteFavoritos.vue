@@ -33,9 +33,12 @@
                 </p>
               </div>
               <button
+                type="button"
                 class="btn btn-delete ml-auto"
                 data-toggle="modal"
                 :data-target="`#confirmModal-${favorito.id}`"
+                aria-label="Eliminar favorito"
+                title="Eliminar favorito"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +56,7 @@
             </div>
           </div>
           <img
-            class="card-img-top"
+            class="img-fluid"
             v-if="favorito.publicacion.imagen !== ''"
             :src="imgUrl(favorito.publicacion.imagen)"
             alt="Imagen de la publicación"
