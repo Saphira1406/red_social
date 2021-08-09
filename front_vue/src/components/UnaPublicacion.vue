@@ -211,7 +211,8 @@
           <button
             type="button"
             @click="agregarFavorito"
-            class="btn btn-favorite ml-2"
+            :disabled="yaEsFavorito"
+            :class="[!yaEsFavorito ?  'btn ml-2 btn-favorite' : 'btn ml-2 btn-already-favorite']"
             aria-label="Agregar favorito"
             title="Agregar favorito"
           >

@@ -109,6 +109,11 @@ p .btn {
     background-color: #F26B8F;
 }
 
+.btn-already-favorite {
+    color: #ffffff;
+    background-color: #F26B8F;
+}
+
 .btn-share {
     color: #C26E5B;
     border: 1px solid #C26E5B;
