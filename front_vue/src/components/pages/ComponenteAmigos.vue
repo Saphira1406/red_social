@@ -42,6 +42,8 @@
                   type="button"
                   data-toggle="modal"
                   :data-target="`#confirmModal-${amigo.id}`"
+                  aria-label="Eliminar amigo/a"
+                  title="Eliminar amigo/a"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -83,6 +85,7 @@
                   class="close"
                   data-dismiss="modal"
                   aria-label="Cerrar"
+                  title="Cerrar"
                 >
                   <span aria-hidden="true">&times;</span>
                 </button>

@@ -2,13 +2,18 @@
   <div class="pt-3">
     <section
       id="barra"
-      class="bg-transparent card card-btn d-flex justify-content-center align-items-center"
+      class="container bg-transparent card card-btn d-flex justify-content-center align-items-center"
     >
-      <div class="card-body">
-        <div class="btn-group" role="group" aria-label="Navegación interna">
-          <router-link to="/" class="btn tamaño-btn">Publicaciones</router-link>
-          <router-link to="/amigos" class="btn tamaño-btn">Amigos</router-link>
-          <router-link to="/favoritos" class="btn tamaño-btn"
+      <div class="pt-3 w-100">
+        <div
+          class="w-100"
+          :class="wideScreen ? 'btn-group' : 'btn-group-vertical'"
+          role="group"
+          aria-label="Navegación interna"
+        >
+          <router-link to="/" class="btn barra-btn">Publicaciones</router-link>
+          <router-link to="/amigos" class="btn barra-btn">Amigos</router-link>
+          <router-link to="/favoritos" class="btn barra-btn"
             >Favoritos</router-link
           >
         </div>
@@ -55,10 +60,14 @@ export default {
       amigos: [],
       favoritos: [],
       friendsLoaded: false,
+      // Responsive btn-group "#barra":
+      windowWidth: window.innerWidth,
+      breakpoint: '576',
+      wideScreen: false, initialWidth: '',
     }
   },
-  methods: {
 
+  methods: {
     loadFriends () {
       this.loading = true;
       friendsService.fetchAll(this.user.id)
@@ -79,31 +88,46 @@ export default {
           this.favoritos = favoritos;
         });
     },
-
+    onResize () {
+      this.windowWidth = window.innerWidth;
+    },
+    checkWidth (width) {
+      if (width >= this.breakpoint) {
+        this.wideScreen = true;
+      } else {
+        this.wideScreen = false;
+      }
+    }
+  },
+  watch: {
+    windowWidth (newWidth) {
+      this.checkWidth(newWidth);
+    }
   },
   mounted () {
+    this.initialWidth = window.innerWidth; this.checkWidth(this.initialWidth);
+    window.addEventListener('resize', this.onResize);
     this.loadFriends();
     this.loadFavorites();
-  }
+  },
+  beforeUnmount () {
+    window.removeEventListener('resize', this.onResize);
+  },
 }
 </script>
 
 <style scoped>
-.bg-transparent {
-  background: transparent;
-}
 #barra {
   margin-top: 0.001em;
 }
 .card-btn {
   border: transparent;
 }
-.tamaño-btn {
-  width: 15rem;
+.barra-btn {
   border: 1px solid #361973;
   color: #361973;
 }
-.tamaño-btn:hover,
+.barra-btn:hover,
 .router-link-exact-active {
   background: rgb(54, 25, 115);
   background: linear-gradient(
@@ -116,5 +140,17 @@ export default {
 .card-body > p {
   margin-left: 1em;
   margin-right: 1em;
+}
+
+@media screen and (min-width: 576px) {
+  .barra-btn {
+    width: 33.33%;
+  }
+}
+
+@media (min-width: 992px) {
+  #barra {
+    max-width: calc(50rem + 30px);
+  }
 }
 </style>
