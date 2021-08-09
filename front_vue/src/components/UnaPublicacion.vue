@@ -472,10 +472,10 @@ export default {
       };
       favoritesService.create(this.favorito)
         .then(rta => {
-          this.notificationActions.text = rta.msg;
+          //this.notificationActions.text = rta.msg;
           if (rta.success) {
             this.$emit('newFavorite', true);
-            this.notificationActions.type = 'success';
+           // this.notificationActions.type = 'success';
             this.yaEsFavorito = true;
           } else {
             this.notificationActions.type = 'danger';

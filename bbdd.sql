@@ -322,6 +322,16 @@ SET usuarios_id
 = 2,
 publicaciones_id = 3;
 
+INSERT INTO favoritos
+SET usuarios_id
+= 1,
+publicaciones_id = 2;
+
+INSERT INTO favoritos
+SET usuarios_id
+= 3,
+publicaciones_id = 2;
+
 -- REPUBLICACIONES
 
 INSERT INTO republicaciones
