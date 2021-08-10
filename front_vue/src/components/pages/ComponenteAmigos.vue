@@ -162,13 +162,12 @@ export default {
             this.notification.type = 'success';
             this.$emit('deletedFriend', true);
 
-            // Cerrar la modal:
-            $('#confirmModal-' + id).modal('hide');
-            $('.modal-backdrop').remove();
-
           } else {
             this.notification.type = 'danger';
           }
+          // Cerrar la modal:
+          $('#confirmModal-' + id).modal('hide');
+          $('.modal-backdrop').remove();
         });
     }
   },

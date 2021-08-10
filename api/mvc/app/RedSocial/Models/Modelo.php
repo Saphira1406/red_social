@@ -169,4 +169,27 @@ class Modelo
         }
         return $salida;
     }
+
+    /**
+     * Elimina un registro según su PK.
+     *
+     * @param mixed $id
+     * @return bool
+     * @throws QueryException
+     */
+
+    public function eliminar($id)
+    {
+        $db = DBConnection::getConnection();
+        $query = "DELETE FROM " . $this->table . "
+                WHERE " . $this->primaryKey . " = ?";
+
+        $stmt = $db->prepare($query);
+
+        if (!$stmt->execute([$id])) {
+            throw new \Exception("Ocurrió un error inesperado y no se pudo completar la acción de eliminar.");
+        }
+
+        return true;
+    }
 }

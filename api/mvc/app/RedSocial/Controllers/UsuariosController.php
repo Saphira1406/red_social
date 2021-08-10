@@ -13,6 +13,7 @@ use RedSocial\Validation\EmptyFieldsException;
 use RedSocial\Validation\NotExistentRuleException;
 use RedSocial\Storage\FileUpload;
 use RedSocial\Storage\InvalidFileTypeException;
+use Exception;
 
 class UsuariosController extends Controller
 {
@@ -177,22 +178,16 @@ class UsuariosController extends Controller
 
     public function eliminar()
     {
-        $this->requiresAuth();
+        try {
+            $this->requiresAuth();
 
-        $id = urlParam('id');
+            $id = urlParam('id');
 
-        $usuario = (new Usuario())->traerPorPK($id);
-        $nombreImagen = $usuario->getImagen();
-
-        if (!$usuario->eliminar($id)) {
-            echo json_encode([
-                "success" => false,
-                "msg" => 'Ocurrió un error al tratar de eliminar el usuario.',
-            ]);
-        } else {
+            $usuario = (new Usuario())->traerPorPK($id);
+            $nombreImagen = $usuario->getImagen();
+            $usuario->eliminar($id);
 
             // borrar archivo físico:
-
             $ruta = App::getPublicPath() . '/img';
 
             if ($nombreImagen != 'default.jpg') :
@@ -201,7 +196,12 @@ class UsuariosController extends Controller
 
             echo json_encode([
                 'success' => true,
-                'msg' => 'El usuario ha sido eliminado',
+                'msg' => 'El usuario ha sido eliminado.',
+            ]);
+        } catch (Exception $e) {
+            echo json_encode([
+                'success' => false,
+                'msg' => $e->getMessage(),
             ]);
         }
     }

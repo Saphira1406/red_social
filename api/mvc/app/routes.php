@@ -33,8 +33,6 @@ Route::add('POST', '/publicaciones/nuevo', 'PublicacionesController@nuevoGuardar
 // Mostrar publicaciones de un usuario según el id del mismo:
 Route::add('GET', '/publicaciones/{id}', 'PublicacionesController@usuario');
 
-Route::add('DELETE', '/publicaciones/{id}/eliminar', 'PublicacionesController@eliminar');
-
 /*
  |--------------------------------------------------------------------------
  | Usuarios

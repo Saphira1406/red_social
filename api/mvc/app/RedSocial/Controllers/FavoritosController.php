@@ -3,6 +3,7 @@
 
 namespace RedSocial\Controllers;
 
+use Exception;
 use RedSocial\Core\Route;
 use RedSocial\Core\View;
 use RedSocial\Models\Favorito;
@@ -54,21 +55,19 @@ class FavoritosController extends Controller
     public function eliminar()
     {
         $this->requiresAuth();
-
         $id = urlParam('id');
+        $favorito = (new Favorito)->traerPorPK($id);
 
-        $amigo = (new Favorito)->traerPorPK($id);
-
-        if (!$amigo->eliminar($id)) {
-            echo json_encode([
-                "success" => false,
-                "msg" => 'Ocurrió un error al tratar de eliminar el favorito.',
-            ]);
-        } else {
-
+        try {
+            $favorito->eliminar($id);
             echo json_encode([
                 'success' => true,
-                'msg' => 'El favorito ha sido eliminado',
+                'msg' => 'El favorito ha sido eliminado exitosamente.',
+            ]);
+        } catch (Exception $e) {
+            echo json_encode([
+                'success' => false,
+                'msg' => $e->getMessage(),
             ]);
         }
     }

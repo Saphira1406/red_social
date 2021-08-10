@@ -156,25 +156,6 @@ class Publicacion extends Modelo implements JsonSerializable
     }
 
     /**
-     * Elimina una publicación por su $id.
-     * Retorna true en caso de éxito, false de lo contrario.
-     *
-     * @param $id
-     * @return bool
-     */
-    public function eliminar($id): bool
-    {
-        $db = DBConnection::getConnection();
-        $query = "DELETE FROM publicaciones
-                WHERE id = ?";
-        $stmt = $db->prepare($query);
-        if (!$stmt->execute([$id])) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * Retorna todas las publicaciones y republicaciones de un usuario desde la base de datos.
      *
      * @param $usuarios_id

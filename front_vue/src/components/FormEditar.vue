@@ -40,10 +40,7 @@
             />
             <form action="#" @submit.prevent="editUsuario">
               <div class="form-group text-center">
-                <label
-                  for="imagenEditar"
-                  class="img-edit"
-                >
+                <label for="imagenEditar" class="img-edit">
                   <img
                     v-if="preview"
                     :src="usuario.imagen"
@@ -381,6 +378,7 @@ export default {
     },
 
     deleteUsuario () {
+      this.notification.text = null;
       usersService.delete(this.usuario.id)
         .then(rta => {
           if (rta.success) {
@@ -399,10 +397,8 @@ export default {
             $('.modal-backdrop').remove();
 
           } else {
-            this.notification = {
-              text: 'Ocurrió un error al tratar de eliminar el usuario.',
-              type: 'danger',
-            }
+            this.notification.text = rta.msg;
+            this.notification.type = 'danger';
           }
         });
     },

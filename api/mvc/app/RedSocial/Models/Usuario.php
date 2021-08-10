@@ -66,27 +66,6 @@ class Usuario extends Modelo implements JsonSerializable
     }
 
     /**
-     * Elimina un usuario por su $id.
-     * Retorna true en caso de éxito, false de lo contrario.
-     *
-     * @param $id
-     * @return bool
-     */
-    public function eliminar($id): bool
-    {
-        $db = DBConnection::getConnection();
-
-        $query = " DELETE FROM usuarios
-                WHERE id = ?";
-        $stmt = $db->prepare($query);
-        if (!$stmt->execute([$id])) {
-            //throw new \Exception("No se pudo eliminar el usuario.");
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * Retorna el usuario al que pertenece el $email.
      *
      * @param string $email
