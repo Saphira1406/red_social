@@ -5,7 +5,6 @@ namespace RedSocial\Models;
 use RedSocial\DB\DBConnection;
 use RedSocial\DB\QueryException;
 use JsonSerializable;
-use PDO;
 use PDOException;
 
 class Republicacion extends Modelo implements JsonSerializable
@@ -87,7 +86,7 @@ class Republicacion extends Modelo implements JsonSerializable
     }
 
     /**
-     * Chequea si ya existe una fila con un usuarios_id y republicaciones_id determinados.
+     * Chequea si ya existe una fila con un usuarios_id y publicaciones_id determinados.
      *
      * @param mixed $usuarios_id
      * @param mixed $publicaciones_id

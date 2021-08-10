@@ -193,7 +193,6 @@ export default {
             );
 
           } else {
-
             this.notification.type = 'danger';
           }
         });

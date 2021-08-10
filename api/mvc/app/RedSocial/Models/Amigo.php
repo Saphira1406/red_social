@@ -3,8 +3,10 @@
 namespace RedSocial\Models;
 
 use RedSocial\DB\DBConnection;
+use RedSocial\DB\QueryException;
 use JsonSerializable;
 use PDO;
+use PDOException;
 
 class Amigo extends Modelo implements JsonSerializable
 {
@@ -143,5 +145,32 @@ class Amigo extends Modelo implements JsonSerializable
     public function setReceptorId($receptor_id)
     {
         $this->receptor_id = $receptor_id;
+    }
+
+    /**
+     * Chequea si ya existe una fila con un emisor_id y receptor_id determinados.
+     *
+     * @param mixed $emisor_id
+     * @param mixed $receptor_id
+     * @return boolean
+     * @throws QueryException
+     */
+    public function verSiExiste($emisor_id, $receptor_id)
+    {
+        $db = DBConnection::getConnection();
+        $query = "SELECT * FROM amigos
+                WHERE emisor_id = ? AND receptor_id = ?";
+
+        try {
+            $stmt = $db->prepare($query);
+            $stmt->execute([$emisor_id, $receptor_id]);
+        } catch (PDOException $e) {
+            throw new QueryException($query, [$emisor_id, $receptor_id], $stmt->errorInfo(), $e->getMessage(), $e->getCode(), $e->getPrevious());
+        }
+        if ($stmt->fetchObject(static::class)) {
+            return true; // ya existe la fila
+        } else {
+            return false; // no existe
+        }
     }
 }

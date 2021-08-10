@@ -6,7 +6,8 @@
     <div class="loader-container">
       <BaseLoader v-if="loading" />
     </div>
-    <ul>
+
+    <ul v-if="Object.keys(publicaciones).length">
       <li v-for="publicacion in publicaciones" :key="publicacion.id">
         <una-publicacion
           :publicacion="publicacion"
@@ -19,6 +20,10 @@
         />
       </li>
     </ul>
+
+    <div v-else>
+      <p class="text-center mt-5">Aún no hay publicaciones para mostrar.</p>
+    </div>
   </div>
 </template>
 

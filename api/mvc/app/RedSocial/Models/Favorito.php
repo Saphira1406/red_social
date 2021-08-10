@@ -4,9 +4,10 @@
 namespace RedSocial\Models;
 
 use RedSocial\DB\DBConnection;
+use RedSocial\DB\QueryException;
 use JsonSerializable;
 use PDO;
-use RedSocial\DB\QueryException;
+use PDOException;
 
 class Favorito extends Modelo implements JsonSerializable
 {
@@ -170,5 +171,32 @@ class Favorito extends Modelo implements JsonSerializable
     public function setPublicacionesId($publicaciones_id)
     {
         $this->publicaciones_id = $publicaciones_id;
+    }
+
+    /**
+     * Chequea si ya existe una fila con un usuarios_id y publicaciones_id determinados.
+     *
+     * @param mixed $usuarios_id
+     * @param mixed $publicaciones_id
+     * @return boolean
+     * @throws QueryException
+     */
+    public function verSiExiste($publicaciones_id, $usuarios_id)
+    {
+        $db = DBConnection::getConnection();
+        $query = "SELECT * FROM favoritos
+                WHERE publicaciones_id = ? AND usuarios_id = ?";
+
+        try {
+            $stmt = $db->prepare($query);
+            $stmt->execute([$publicaciones_id, $usuarios_id]);
+        } catch (PDOException $e) {
+            throw new QueryException($query, [$publicaciones_id, $usuarios_id], $stmt->errorInfo(), $e->getMessage(), $e->getCode(), $e->getPrevious());
+        }
+        if ($stmt->fetchObject(static::class)) {
+            return true; // ya existe la fila
+        } else {
+            return false; // no existe
+        }
     }
 }

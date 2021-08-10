@@ -31,12 +31,21 @@ class FavoritosController extends Controller
         $usuarios_id         = $postData['usuarios_id'];
         $publicaciones_id       = $postData['publicaciones_id'];
 
+        $favorito = new Favorito();
+
+        if ($favorito->verSiExiste($publicaciones_id, $usuarios_id)) {
+            echo json_encode([
+                'success' => false,
+                'msg' => 'Ya agregaste esta publicación a Favoritos, no se puede volver a agregar.',
+            ]);
+            exit;
+        }
+
         $data = [
             "usuarios_id"  => $usuarios_id,
             "publicaciones_id"  => $publicaciones_id,
         ];
 
-        $favorito = new Favorito();
         $exito = $favorito->crear($data);
 
         if ($exito) {

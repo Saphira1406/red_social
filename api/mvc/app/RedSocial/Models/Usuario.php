@@ -36,11 +36,8 @@ class Usuario extends Modelo implements JsonSerializable
     {
         $db = DBConnection::getConnection();
 
-        $query = "SELECT * FROM usuarios WHERE id = ?";
-        $stmt = $db->prepare($query);
-        $stmt->execute([$id]);
-
-        if (!$fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $usuario = (new Usuario)->traerPorPK($id);
+        if (!$usuario) {
             return false;
         }
 
