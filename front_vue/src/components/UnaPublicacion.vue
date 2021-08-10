@@ -233,7 +233,7 @@
           <button
             type="button"
             @click="republicar"
-            class="btn btn-share ml-2"
+            class="btn ml-2 btn-share"
             aria-label="Republicar"
             title="Republicar"
           >
@@ -472,10 +472,10 @@ export default {
       };
       favoritesService.create(this.favorito)
         .then(rta => {
-          //this.notificationActions.text = rta.msg;
+          this.notificationActions.text = rta.msg;
           if (rta.success) {
             this.$emit('newFavorite', true);
-           // this.notificationActions.type = 'success';
+           this.notificationActions.type = 'success';
             this.yaEsFavorito = true;
           } else {
             this.notificationActions.type = 'danger';
