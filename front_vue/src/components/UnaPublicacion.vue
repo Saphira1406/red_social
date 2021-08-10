@@ -46,36 +46,6 @@
             </svg>
           </button>
         </div>
-        <!-- Editar y eliminar publicación, todavía no agregado al backend:
-        <div
-          v-if="publicacion.usuarios_id == user.id"
-          class="dropdown ml-auto align-self-center"
-        >
-          <button
-            class="btn pr-0"
-            type="button"
-            :id="`dropdownPublicationMenuButton${publicacion.id}`"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            <img
-              src="./../assets/img/editar.png"
-              class="icon-edit"
-              alt="Ícono de editar"
-              title="Editar publicación"
-              aria-label="Editar publicación"
-            />
-          </button>
-          <div
-            class="dropdown-menu"
-            :aria-labelledby="`dropdownPublicationMenuButton${publicacion.id}`"
-          >
-            <a class="dropdown-item" href="#">Editar</a>
-            <a class="dropdown-item" href="#">Eliminar</a>
-          </div>
-        </div>
-        -->
       </div>
     </div>
 
@@ -134,36 +104,6 @@
                 </svg>
               </button>
             </div>
-            <!-- Editar y eliminar publicación, todavía no agregado al backend:
-        <div
-          v-if="publicacion.usuarios_id == user.id"
-          class="dropdown ml-auto align-self-center"
-        >
-          <button
-            class="btn pr-0"
-            type="button"
-            :id="`dropdownPublicationMenuButton${publicacion.id}`"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            <img
-              src="./../assets/img/editar.png"
-              class="icon-edit"
-              alt="Ícono de editar"
-              title="Editar publicación"
-              aria-label="Editar publicación"
-            />
-          </button>
-          <div
-            class="dropdown-menu"
-            :aria-labelledby="`dropdownPublicationMenuButton${publicacion.id}`"
-          >
-            <a class="dropdown-item" href="#">Editar</a>
-            <a class="dropdown-item" href="#">Eliminar</a>
-          </div>
-        </div>
-        -->
           </div>
           <BaseNotification
             v-if="notificationFriend.text !== null"
