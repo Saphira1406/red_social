@@ -5,6 +5,8 @@ namespace RedSocial\Controllers;
 use RedSocial\Core\App;
 use RedSocial\Core\Route;
 use RedSocial\Core\View;
+use RedSocial\DB\QueryException;
+use RedSocial\Debug\Debug;
 use RedSocial\Models\Usuario;
 use RedSocial\Validation\Validator;
 use RedSocial\Validation\EmptyFieldsException;
@@ -54,6 +56,15 @@ class UsuariosController extends Controller
                 $password = password_hash($postData['password'], PASSWORD_DEFAULT);
                 $data['password'] = $password;
                 $usuario_obj = new Usuario();
+
+                if ($usuario_obj->verSiExiste($email)) {
+                    echo json_encode([
+                        'success' => false,
+                        'msg' => 'El email ya se encuentra registrado.',
+                    ]);
+                    exit;
+                }
+
                 $exito = $usuario_obj->crear($data);
 
                 if ($exito) {

@@ -151,7 +151,8 @@
           <button
             type="button"
             @click="agregarFavorito"
-            class="btn btn-favorite ml-2"
+            :disabled="yaEsFavorito"
+            :class="[!yaEsFavorito ?  'btn ml-2 btn-favorite' : 'btn ml-2 btn-already-favorite']"
             aria-label="Agregar favorito"
             title="Agregar favorito"
           >
@@ -172,7 +173,7 @@
           <button
             type="button"
             @click="republicar"
-            class="btn btn-share ml-2"
+            class="btn ml-2 btn-share"
             aria-label="Republicar"
             title="Republicar"
           >
@@ -414,7 +415,7 @@ export default {
           this.notificationActions.text = rta.msg;
           if (rta.success) {
             this.$emit('newFavorite', true);
-            this.notificationActions.type = 'success';
+           this.notificationActions.type = 'success';
             this.yaEsFavorito = true;
           } else {
             this.notificationActions.type = 'danger';

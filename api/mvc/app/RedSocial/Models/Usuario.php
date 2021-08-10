@@ -215,4 +215,31 @@ class Usuario extends Modelo implements JsonSerializable
             'imagen'        => $this->getImagen(),
         ];
     }
+
+    /**
+     * Chequea si ya existe una fila con un usuarios_id y republicaciones_id determinados.
+     *
+     * @param mixed $usuarios_id
+     * @param mixed $publicaciones_id
+     * @return boolean
+     * @throws QueryException
+     */
+    public function verSiExiste($email)
+    {
+        $db = DBConnection::getConnection();
+        $query = "SELECT * FROM usuarios
+                WHERE email = ? ";
+
+        try {
+            $stmt = $db->prepare($query);
+            $stmt->execute([$email]);
+        } catch (PDOException $e) {
+            throw new QueryException($query, [$email], $stmt->errorInfo(), $e->getMessage(), $e->getCode(), $e->getPrevious());
+        }
+        if ($stmt->fetchObject(static::class)) {
+            return true; // ya existe la fila
+        } else {
+            return false; // no existe
+        }
+    }
 }

@@ -6,6 +6,7 @@ namespace RedSocial\Models;
 use RedSocial\DB\DBConnection;
 use JsonSerializable;
 use PDO;
+use RedSocial\DB\QueryException;
 
 class Favorito extends Modelo implements JsonSerializable
 {
