@@ -152,9 +152,21 @@
             type="button"
             @click="agregarFavorito"
             :disabled="yaEsFavorito"
-            :class="[!yaEsFavorito ?  'btn ml-2 btn-favorite' : 'btn ml-2 btn-already-favorite']"
-            aria-label="Agregar favorito"
-            title="Agregar favorito"
+            :class="[
+              !yaEsFavorito
+                ? 'btn ml-2 btn-favorite'
+                : 'btn ml-2 btn-already-favorite'
+            ]"
+            :aria-label="
+              yaEsFavorito
+                ? 'Esta publicación ya está agregada a Favoritos'
+                : 'Agregar a Favoritos'
+            "
+            :title="
+              yaEsFavorito
+                ? 'Esta publicación ya está agregada a Favoritos'
+                : 'Agregar a Favoritos'
+            "
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -325,15 +337,6 @@ export default {
         usuarios_id: this.user.id,
         publicaciones_id: this.publicacion.id,
       },
-      // nuevo comentario:
-      comentario: {
-        texto: null,
-        publicaciones_id: this.publicacion.id,
-        usuarios_id: this.user.id,
-      },
-      errorsComment: {
-        texto: null,
-      },
       notificationActions: {
         text: null,
         type: 'success',
@@ -343,6 +346,15 @@ export default {
         type: 'success',
       },
       loading: false,
+      // nuevo comentario:
+      comentario: {
+        texto: null,
+        publicaciones_id: this.publicacion.id,
+        usuarios_id: this.user.id,
+      },
+      errorsComment: {
+        texto: null,
+      },
     }
   },
   methods: {
@@ -384,7 +396,6 @@ export default {
 
         if (obj.receptor_id == this.publicacion.usuarios_id) {
           this.yaEsAmigo = true;
-          // break;
         }
       }
     },
@@ -415,7 +426,7 @@ export default {
           this.notificationActions.text = rta.msg;
           if (rta.success) {
             this.$emit('newFavorite', true);
-           this.notificationActions.type = 'success';
+            this.notificationActions.type = 'success';
             this.yaEsFavorito = true;
           } else {
             this.notificationActions.type = 'danger';
@@ -429,9 +440,7 @@ export default {
         .then(rta => {
           this.notificationActions.text = rta.msg;
           if (rta.success) {
-            // this.$emit('newFavorite', true);
             this.notificationActions.type = 'success';
-            // this.yaEsFavorito = true;
           } else {
             this.notificationActions.type = 'danger';
           }
@@ -446,7 +455,6 @@ export default {
 
         if (obj.publicaciones_id == this.publicacion.id) {
           this.yaEsFavorito = true;
-          // break;
         }
       }
     },

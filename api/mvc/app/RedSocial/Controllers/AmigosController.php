@@ -2,8 +2,6 @@
 
 namespace RedSocial\Controllers;
 
-// use RedSocial\Core\App;
-
 use Exception;
 use RedSocial\Core\Route;
 use RedSocial\Core\View;
@@ -30,12 +28,21 @@ class AmigosController extends Controller
         $emisor_id         = $postData['emisor_id'];
         $receptor_id       = $postData['receptor_id'];
 
+        $amigo = new Amigo();
+
+        if ($amigo->verSiExiste($emisor_id, $receptor_id)) {
+            echo json_encode([
+                'success' => false,
+                'msg' => 'Esta amistad ya existe, no se puede volver a agregar.',
+            ]);
+            exit;
+        }
+
         $data = [
             "emisor_id"  => $emisor_id,
             "receptor_id"  => $receptor_id,
         ];
 
-        $amigo = new Amigo();
         $exito = $amigo->crear($data);
 
         if ($exito) {
