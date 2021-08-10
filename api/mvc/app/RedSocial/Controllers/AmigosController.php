@@ -3,6 +3,8 @@
 namespace RedSocial\Controllers;
 
 // use RedSocial\Core\App;
+
+use Exception;
 use RedSocial\Core\Route;
 use RedSocial\Core\View;
 use RedSocial\Models\Amigo;
@@ -57,16 +59,16 @@ class AmigosController extends Controller
 
         $amigo = (new Amigo())->traerPorPK($id);
 
-        if (!$amigo->eliminar($id)) {
-            echo json_encode([
-                "success" => false,
-                "msg" => 'Ocurrió un error al tratar de eliminar la amistad.',
-            ]);
-        } else {
-
+        try {
+            $amigo->eliminar($id);
             echo json_encode([
                 'success' => true,
                 'msg' => 'La amistad ha sido eliminada exitosamente.',
+            ]);
+        } catch (Exception $e) {
+            echo json_encode([
+                'success' => false,
+                'msg' => $e->getMessage(),
             ]);
         }
     }

@@ -20,9 +20,18 @@ class PublicacionesController extends Controller
 {
     public function listado()
     {
-        $this->requiresAuth();
-        $publicaciones = (new Publicacion())->traerTodo();
-        View::renderJson($publicaciones);
+        try {
+            $this->requiresAuth();
+            $publicaciones = (new Publicacion())->traerTodo();
+            View::renderJson($publicaciones);
+        } catch (QueryException $e) {
+            Debug::printQueryException($e);
+
+            echo json_encode([
+                'success' => false,
+                'msg' => 'Ocurrió un error inesperado y la publicación no pudo ser creada.',
+            ]);
+        }
     }
 
     public function usuario()

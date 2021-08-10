@@ -124,25 +124,6 @@ class Favorito extends Modelo implements JsonSerializable
     }
 
     /**
-     * Elimina un favorito por su $id.
-     * Retorna true en caso de éxito, false de lo contrario.
-     *
-     * @param $id
-     * @return bool
-     */
-    public function eliminar($id): bool
-    {
-        $db = DBConnection::getConnection();
-        $query = "DELETE FROM favoritos
-                     WHERE id = ?";
-        $stmt = $db->prepare($query);
-        if (!$stmt->execute([$id])) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * @return mixed
      */
     public function getId()

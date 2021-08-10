@@ -98,25 +98,6 @@ class Amigo extends Modelo implements JsonSerializable
     }
 
     /**
-     * Elimina un amigo por su $id.
-     * Retorna true en caso de éxito, false de lo contrario.
-     *
-     * @param $id
-     * @return bool
-     */
-    public function eliminar($id): bool
-    {
-        $db = DBConnection::getConnection();
-        $query = "DELETE FROM amigos
-                WHERE id = ?";
-        $stmt = $db->prepare($query);
-        if (!$stmt->execute([$id])) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * @return mixed
      */
     public function getId()
