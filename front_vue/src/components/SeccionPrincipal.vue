@@ -1,6 +1,6 @@
 <template>
   <div class="pt-3">
-    <section
+    <div
       id="barra"
       class="container bg-transparent card card-btn d-flex justify-content-center align-items-center"
     >
@@ -18,7 +18,7 @@
           >
         </div>
       </div>
-    </section>
+    </div>
 
     <div class="container">
       <div class="loader-container">
