@@ -24,7 +24,7 @@
         <div class="collapse navbar-collapse" id="mainNavBar">
           <ul v-if="auth.user.id !== null" class="navbar-nav ml-auto">
             <li class="nav-item">
-              <router-link class="nav-link ml-1" to="/">Home</router-link>
+              <router-link class="nav-link ml-1" to="/">Inicio</router-link>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -173,12 +173,12 @@ export default {
 </script>
 <style>
 #drop-perfil {
-  background-color: rgba(242, 137, 114, 0.8);
+  background-color: rgb(242, 137, 114);
   left: auto;
   right: 0;
 }
 .drop-hover:hover {
-  background-color: rgba(242, 137, 114, 0.9) !important;
+  background-color: #F2A649 !important;
 }
 .nav-item.dropdown .dropdown-toggle::after {
   margin-left: 0.75em;

@@ -2,7 +2,7 @@
   <main>
     <div
       v-if="!user.id"
-      class="home d-flex justify-content-center align-items-center"
+      class="home d-md-flex justify-content-md-center align-items-md-center"
     >
       <div class="bg-home"></div>
       <section class="container-fluid">
@@ -39,6 +39,22 @@ export default {
 main > div:first-child {
   background: rgba(242, 137, 114, 0.1);
   min-height: calc(100vh - 74px - 50px);
+}
+
+@media screen and (max-width: 768px) {
+  .bg-home {
+    width: 100% !important;
+    min-height: 40vh !important;
+  }
+  .home section {
+    margin-top: 1em !important;
+  }
+  .home section .h1 {
+    font-size: 4em !important;
+  }
+  .boton, .botonLogin {
+    width: 100% !important;
+  }
 }
 
 .bg-home {

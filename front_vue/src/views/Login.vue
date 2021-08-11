@@ -2,7 +2,7 @@
   <section
     class="container-fluid d-flex justify-content-center align-items-center"
   >
-    <div class="card text-white">
+    <div class="card text-white col-12 col-md-8">
       <div class="card-header">
         <h2 class="card-title">Iniciar sesión</h2>
       </div>
@@ -55,7 +55,7 @@
             </div>
           </div>
           <div
-            class="d-flex justify-content-center align-items-end mx-auto mt-2"
+            class="d-flex justify-content-center align-items-end mx-auto mt-2 div-boton"
           >
             <button type="submit" class="btn boton mx-auto" :disabled="loading">
               Iniciar Sesión
@@ -170,5 +170,15 @@ section {
 
 .boton {
   color: white;
+}
+
+.div-boton {
+  width: 80%;
+}
+
+@media screen and (max-width: 768px) {
+  .div-boton {
+    width: 90% !important;
+  }
 }
 </style>

@@ -12,7 +12,7 @@
 
     <!-- Modal -->
     <div
-      class="modal fade"
+      class="modal fade col-12"
       id="editForm"
       tabindex="-1"
       aria-labelledby="editFormLabel"
