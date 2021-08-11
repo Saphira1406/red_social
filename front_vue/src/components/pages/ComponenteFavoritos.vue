@@ -121,7 +121,9 @@
     </ul>
 
     <div v-else>
-      <p class="text-center mt-5">Aún no hay favoritos agregados.</p>
+      <div class="text-center">
+        <img src="./../../assets/img/no_favoritos.png" alt="Aún no hay favoritos agregados" class="img-fluid">
+      </div>
     </div>
   </div>
 </template>
