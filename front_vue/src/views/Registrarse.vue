@@ -2,7 +2,7 @@
   <section
     class="container-fluid d-flex justify-content-center align-items-center"
   >
-    <div class="card text-white">
+    <div class="card text-white col-12 col-md-8">
       <div class="card-header">
         <h2 class="card-title">Registrate</h2>
       </div>
@@ -253,5 +253,11 @@ section {
     rgba(172, 92, 207, 1) 87%
   );
   color: white;
+}
+
+@media screen and (max-width: 768px) {
+  .boton {
+    width: 90% !important;
+  }
 }
 </style>

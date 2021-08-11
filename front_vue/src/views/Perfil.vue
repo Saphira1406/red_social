@@ -18,7 +18,7 @@
     >
       <form-editar :user="user" @changed="updateUser" @deleted="deleteUser" />
 
-      <div class="card mt-3 mb-3 card-info">
+      <div class="card mt-3 mb-3 card-info col-10 col-md-6">
         <div class="card-header">
           <p class="h5">Información</p>
         </div>
