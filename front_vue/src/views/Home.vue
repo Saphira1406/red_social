@@ -9,11 +9,14 @@
         <p class="h1">Red Social</p>
         <p>Comparte tus experiencias para que otros puedan aprender de ti</p>
         <div class="d-grid gap-2">
-          <router-link to="registrarse" class="btn boton" type="button"
+          <router-link
+            to="registrarse"
+            class="btn boton btn-gradient"
+            type="button"
             >Registrate</router-link
           >
         </div>
-        <div class="d-grid gap-2 pt-3">
+        <div class="d-grid gap-2 pt-3 mb-2">
           <router-link to="login" class="btn botonLogin" type="button"
             >Iniciar Sesión</router-link
           >
@@ -45,6 +48,7 @@ main > div:first-child {
   .bg-home {
     width: 100% !important;
     min-height: 40vh !important;
+    background-size: cover;
   }
   .home section {
     margin-top: 1em !important;
@@ -52,7 +56,8 @@ main > div:first-child {
   .home section .h1 {
     font-size: 4em !important;
   }
-  .boton, .botonLogin {
+  .boton,
+  .botonLogin {
     width: 100% !important;
   }
 }

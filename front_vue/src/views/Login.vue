@@ -57,7 +57,11 @@
           <div
             class="d-flex justify-content-center align-items-end mx-auto mt-2 div-boton"
           >
-            <button type="submit" class="btn boton mx-auto" :disabled="loading">
+            <button
+              type="submit"
+              class="btn boton mx-auto btn-gradient"
+              :disabled="loading"
+            >
               Iniciar Sesión
             </button>
             <BaseLoader v-if="loading" class="ml-3" size="small" />
@@ -67,7 +71,7 @@
           ¿Aún no estás registrado?
           <router-link
             to="registrarse"
-            class="btn btn-link text-white"
+            class="btn btn-link text-white hover"
             type="button"
             >Registrate</router-link
           >

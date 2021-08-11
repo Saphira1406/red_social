@@ -44,7 +44,7 @@ nav .avatar {
     color: white;
     background: rgb(54, 25, 115);
     background: linear-gradient( 351deg, rgba(54, 25, 115, 1) 37%, rgba(172, 92, 207, 1) 87%);
-    border: none;
+    /* border: none; */
 }
 
 .btn-gradient:hover {
@@ -196,6 +196,10 @@ body textarea {
 .fondo-eliminar {
     background: rgb(54, 25, 115);
     color: white;
+}
+
+.hover:hover {
+    background: rgba(0, 0, 0, 0.2);
 }
 
 @media screen and (min-width: 576px) {
