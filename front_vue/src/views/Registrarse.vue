@@ -107,13 +107,18 @@
           <div
             class="w-100 d-flex justify-content-center align-items-end mx-auto"
           >
-            <button type="submit" class="btn boton">Registrarse</button>
+            <button type="submit" class="btn boton btn-gradient">
+              Registrarse
+            </button>
             <BaseLoader v-if="loading" class="ml-3" size="small" />
           </div>
         </form>
         <p class="text-center mt-3">
           ¿Ya estás registrado?
-          <router-link to="login" class="btn btn-link text-white" type="button"
+          <router-link
+            to="login"
+            class="btn btn-link text-white hover"
+            type="button"
             >Iniciar Sesión</router-link
           >
         </p>
