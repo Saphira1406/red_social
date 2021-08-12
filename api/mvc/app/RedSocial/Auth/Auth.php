@@ -21,25 +21,16 @@ class Auth
      */
     public function login(string $email, string $password): bool
     {
-        try {
-            $user = new Usuario;
-            $user = $user->getByEmail($email);
+        $user = new Usuario;
+        $user = $user->getByEmail($email);
 
-            if ($user) {
-                if (password_verify($password, $user->getPassword())) {
-                    $this->setAsAuthenticated($user);
-                    return true;
-                }
+        if ($user) {
+            if (password_verify($password, $user->getPassword())) {
+                $this->setAsAuthenticated($user);
+                return true;
             }
-            return false;
-        } catch (QueryException $e) {
-            Debug::printQueryException($e);
-
-            echo json_encode([
-                'success' => false,
-                'msg' => 'Ocurrió un error inesperado y no se pudo completar la acción.',
-            ]);
         }
+        return false;
     }
 
     /**

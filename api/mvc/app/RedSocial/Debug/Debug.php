@@ -13,11 +13,13 @@ class Debug
      */
     public static function printQueryException(\RedSocial\DB\QueryException $e)
     {
-        if (App::getEnv('DEBUG')) {
-            echo "Error en la ejecución del query: " . implode(' - ', $e->getErrorInfo()) . "<br>";
-            echo "Query con bindings reemplazados: " . $e->getSqlWithBindings() . "<br>";
-            echo "Query: " . $e->getSql() . "<br>";
-            echo "Bindings: [" . implode(', ', $e->getBindings()) . "]<br>";
+        if (App::getEnv('DEBUG') == "true") {
+            return ("Error en la ejecución del query: " . implode(' - ', $e->getErrorInfo()) . " 
+            Query con bindings reemplazados: " . $e->getSqlWithBindings() . " 
+            Query: " . $e->getSql() . " 
+            Bindings: [" . implode(', ', $e->getBindings()) . "]");
+        } else {
+            return null;
         }
     }
 }
