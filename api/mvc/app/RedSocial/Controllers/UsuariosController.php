@@ -5,8 +5,6 @@ namespace RedSocial\Controllers;
 use RedSocial\Core\App;
 use RedSocial\Core\Route;
 use RedSocial\Core\View;
-use RedSocial\DB\QueryException;
-use RedSocial\Debug\Debug;
 use RedSocial\Models\Usuario;
 use RedSocial\Validation\Validator;
 use RedSocial\Validation\EmptyFieldsException;

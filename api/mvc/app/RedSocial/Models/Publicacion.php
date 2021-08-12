@@ -65,40 +65,40 @@ class Publicacion extends Modelo implements JsonSerializable
         $db = DBConnection::getConnection();
 
         $query = "SELECT p.*, u.email, u.nombre, u.apellido, u.imagen as img_perfil FROM publicaciones p
-                  INNER JOIN usuarios u ON p.usuarios_id = u.id ORDER BY p.id DESC";
-        try {
-            $stmt = $db->prepare($query);
-            $stmt->execute();
-        } catch (PDOException $e) {
-            throw new QueryException($query, [], $stmt->errorInfo(), $e->getMessage(), $e->getCode(), $e->getPrevious());
+                  INNER JOIN usuarios u ONN p.usuarios_id = u.id ORDER BY p.id DESC";
+
+        $stmt = $db->prepare($query);
+
+        if ($stmt->execute()) {
+            $salida = [];
+
+            while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $publicacion = new self();
+
+                $publicacion->cargarDatosDeArray($fila);
+
+                $usuario = new Usuario();
+                $usuario->cargarDatosDeArray([
+                    'id'       => $fila['usuarios_id'],
+                    'email'    => $fila['email'],
+                    'nombre'   => $fila['nombre'],
+                    'apellido' => $fila['apellido'],
+                    'imagen'   => $fila['img_perfil'],
+                    'fecha'    => $fila['fecha'],
+                ]);
+
+                $publicacion->setUsuario($usuario);
+
+                $salida[] = $publicacion;
+            }
+
+            // Cargamos los comentarios de las publicaciones que vamos a retornar.
+            $salida = $this->cargarComentariosEnLasPublicaciones($salida);
+
+            return $salida;
+        } else {
+            throw new QueryException($query, [], $stmt->errorInfo());
         }
-
-        $salida = [];
-
-        while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $publicacion = new self();
-
-            $publicacion->cargarDatosDeArray($fila);
-
-            $usuario = new Usuario();
-            $usuario->cargarDatosDeArray([
-                'id'       => $fila['usuarios_id'],
-                'email'    => $fila['email'],
-                'nombre'   => $fila['nombre'],
-                'apellido' => $fila['apellido'],
-                'imagen'   => $fila['img_perfil'],
-                'fecha'    => $fila['fecha'],
-            ]);
-
-            $publicacion->setUsuario($usuario);
-
-            $salida[] = $publicacion;
-        }
-
-        // Cargamos los comentarios de las publicaciones que vamos a retornar.
-        $salida = $this->cargarComentariosEnLasPublicaciones($salida);
-
-        return $salida;
     }
 
     /**
