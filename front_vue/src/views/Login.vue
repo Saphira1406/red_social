@@ -132,6 +132,9 @@ export default {
           } else {
             this.notification.text = response.msg;
             this.notification.type = 'danger';
+            if (response.debugLog) {
+              console.log(response.debugLog);
+            }
           }
         });
     },

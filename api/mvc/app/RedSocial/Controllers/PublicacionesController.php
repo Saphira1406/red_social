@@ -25,12 +25,18 @@ class PublicacionesController extends Controller
             $publicaciones = (new Publicacion())->traerTodo();
             View::renderJson($publicaciones);
         } catch (QueryException $e) {
-            Debug::printQueryException($e);
+            $debugLog = Debug::printQueryException($e);
 
-            echo json_encode([
+            $result = [
                 'success' => false,
                 'msg' => 'Ocurrió un error inesperado y la publicación no pudo ser creada.',
-            ]);
+            ];
+
+            if ($debugLog) {
+                $result['debugLog'] = $debugLog;
+            }
+
+            echo json_encode($result);
         }
     }
 

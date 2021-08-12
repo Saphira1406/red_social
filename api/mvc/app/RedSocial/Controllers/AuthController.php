@@ -77,12 +77,18 @@ class AuthController
                 'msg' => $e->getMessage(),
             ]);
         } catch (QueryException $e) {
-            Debug::printQueryException($e);
+            $debugLog = Debug::printQueryException($e);
 
-            echo json_encode([
+            $result = [
                 'success' => false,
                 'msg' => 'Ocurrió un error inesperado y no se pudo completar la acción.',
-            ]);
+            ];
+
+            if ($debugLog != null) {
+                $result['debugLog'] = $debugLog;
+            }
+
+            echo json_encode($result);
         }
     }
 
