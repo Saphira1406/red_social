@@ -2,9 +2,9 @@
 
 namespace RedSocial\Controllers;
 
+use RedSocial\Models\Republicacion;
 use RedSocial\DB\QueryException;
 use RedSocial\Debug\Debug;
-use RedSocial\Models\Republicacion;
 
 class RepublicacionesController extends Controller
 {

@@ -161,16 +161,16 @@ class Amigo extends Modelo implements JsonSerializable
         $query = "SELECT * FROM amigos
                 WHERE emisor_id = ? AND receptor_id = ?";
 
-        try {
-            $stmt = $db->prepare($query);
-            $stmt->execute([$emisor_id, $receptor_id]);
-        } catch (PDOException $e) {
-            throw new QueryException($query, [$emisor_id, $receptor_id], $stmt->errorInfo(), $e->getMessage(), $e->getCode(), $e->getPrevious());
-        }
-        if ($stmt->fetchObject(static::class)) {
-            return true; // ya existe la fila
+        $stmt = $db->prepare($query);
+
+        if ($stmt->execute([$emisor_id, $receptor_id])) {
+            if ($stmt->fetchObject(static::class)) {
+                return true; // ya existe la fila
+            } else {
+                return false; // no existe
+            }
         } else {
-            return false; // no existe
+            throw new QueryException($query, [$emisor_id, $receptor_id], $stmt->errorInfo());
         }
     }
 }

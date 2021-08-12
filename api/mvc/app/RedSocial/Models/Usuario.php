@@ -227,12 +227,9 @@ class Usuario extends Modelo implements JsonSerializable
         $query = "SELECT * FROM usuarios
                 WHERE email = ? ";
 
-        try {
-            $stmt = $db->prepare($query);
-            $stmt->execute([$email]);
-        } catch (PDOException $e) {
-            throw new QueryException($query, [$email], $stmt->errorInfo(), $e->getMessage(), $e->getCode(), $e->getPrevious());
-        }
+        $stmt = $db->prepare($query);
+        $stmt->execute([$email]);
+
         if ($stmt->fetchObject(static::class)) {
             return true; // ya existe la fila
         } else {

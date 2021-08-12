@@ -12,6 +12,8 @@ use RedSocial\Validation\NotExistentRuleException;
 use RedSocial\Storage\FileUpload;
 use RedSocial\Storage\InvalidFileTypeException;
 use Exception;
+use RedSocial\DB\QueryException;
+use RedSocial\Debug\Debug;
 
 class UsuariosController extends Controller
 {
