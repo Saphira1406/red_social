@@ -66,7 +66,7 @@ export default {
             // Asignamos las publicaciones al state del componente.
             this.publicaciones = rta.publicaciones;
 
-          } else {
+          } else if (rta.debugLog) {
             console.log(rta.debugLog);
           }
         });

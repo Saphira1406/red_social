@@ -96,13 +96,7 @@ class Favorito extends Modelo implements JsonSerializable
 
             $publicacion->setUsuario($usuario);
 
-
-            //$data = new Usuario();
-
             $favorito->setPublicacion($publicacion);
-
-            //$publicacion->setUsuario($data->traerPorPK($id));
-
 
             $salida[] = $favorito;
         }
