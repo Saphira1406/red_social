@@ -65,7 +65,7 @@ class Publicacion extends Modelo implements JsonSerializable
         $db = DBConnection::getConnection();
 
         $query = "SELECT p.*, u.email, u.nombre, u.apellido, u.imagen as img_perfil FROM publicaciones p
-                  INNER JOIN usuarios u ONN p.usuarios_id = u.id ORDER BY p.id DESC";
+                  INNER JOIN usuarios u ON p.usuarios_id = u.id ORDER BY p.id DESC";
 
         $stmt = $db->prepare($query);
 

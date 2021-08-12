@@ -443,6 +443,9 @@ export default {
             this.notificationActions.type = 'success';
           } else {
             this.notificationActions.type = 'danger';
+            if (rta.debugLog) {
+              console.log(rta.debugLog);
+            }
           }
         })
     },

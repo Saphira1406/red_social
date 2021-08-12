@@ -60,7 +60,6 @@ export default {
 
       publicationsService.fetchAll()
         .then(rta => {
-          // console.log(rta);
           this.loading = false;
           if (rta.success) {
 
@@ -70,7 +69,6 @@ export default {
           } else {
             console.log(rta.debugLog);
           }
-
         });
     },
 
