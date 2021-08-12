@@ -2,9 +2,9 @@
 
 namespace RedSocial\Controllers;
 
+use RedSocial\Models\Republicacion;
 use RedSocial\DB\QueryException;
 use RedSocial\Debug\Debug;
-use RedSocial\Models\Republicacion;
 
 class RepublicacionesController extends Controller
 {
@@ -49,12 +49,18 @@ class RepublicacionesController extends Controller
                 ]);
             }
         } catch (QueryException $e) {
-            Debug::printQueryException($e);
+            $debugLog = Debug::printQueryException($e);
 
-            echo json_encode([
+            $result = [
                 'success' => false,
                 'msg' => 'Ocurrió un error inesperado y la publicación no pudo ser agregada a tu muro.',
-            ]);
+            ];
+
+            if ($debugLog) {
+                $result['debugLog'] = $debugLog;
+            }
+
+            echo json_encode($result);
         }
     }
 }

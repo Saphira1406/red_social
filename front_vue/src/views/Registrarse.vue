@@ -199,6 +199,9 @@ export default {
 
           } else {
             this.notification.type = 'danger';
+            if (rta.debugLog) {
+              console.log(rta.debugLog);
+            }
           }
         });
     },

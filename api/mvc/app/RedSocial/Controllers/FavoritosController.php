@@ -7,7 +7,8 @@ use Exception;
 use RedSocial\Core\Route;
 use RedSocial\Core\View;
 use RedSocial\Models\Favorito;
-
+use RedSocial\DB\QueryException;
+use RedSocial\Debug\Debug;
 
 class FavoritosController extends Controller
 {
@@ -24,40 +25,56 @@ class FavoritosController extends Controller
     {
         $this->requiresAuth();
 
-        $inputData = file_get_contents('php://input');
-        $postData = json_decode($inputData, true);
+        try {
 
-        // Captura de datos:
-        $usuarios_id         = $postData['usuarios_id'];
-        $publicaciones_id       = $postData['publicaciones_id'];
+            $inputData = file_get_contents('php://input');
+            $postData = json_decode($inputData, true);
 
-        $favorito = new Favorito();
+            // Captura de datos:
+            $usuarios_id         = $postData['usuarios_id'];
+            $publicaciones_id       = $postData['publicaciones_id'];
 
-        if ($favorito->verSiExiste($publicaciones_id, $usuarios_id)) {
-            echo json_encode([
-                'success' => false,
-                'msg' => 'Ya agregaste esta publicación a Favoritos, no se puede volver a agregar.',
-            ]);
-            exit;
-        }
+            $favorito = new Favorito();
 
-        $data = [
-            "usuarios_id"  => $usuarios_id,
-            "publicaciones_id"  => $publicaciones_id,
-        ];
+            if ($favorito->verSiExiste($publicaciones_id, $usuarios_id)) {
+                echo json_encode([
+                    'success' => false,
+                    'msg' => 'Ya agregaste esta publicación a Favoritos, no se puede volver a agregar.',
+                ]);
+                exit;
+            }
 
-        $exito = $favorito->crear($data);
+            $data = [
+                "usuarios_id"  => $usuarios_id,
+                "publicaciones_id"  => $publicaciones_id,
+            ];
 
-        if ($exito) {
-            echo json_encode([
-                'success' => true,
-                'msg' => 'Favorito agregado con éxito.',
-            ]);
-        } else {
-            echo json_encode([
+            $exito = $favorito->crear($data);
+
+            if ($exito) {
+                echo json_encode([
+                    'success' => true,
+                    'msg' => 'Favorito agregado con éxito.',
+                ]);
+            } else {
+                echo json_encode([
+                    'success' => false,
+                    'msg' => 'Ocurrió un error inesperado y no se pudo agregar el favorito.',
+                ]);
+            }
+        } catch (QueryException $e) {
+            $debugLog = Debug::printQueryException($e);
+
+            $result = [
                 'success' => false,
                 'msg' => 'Ocurrió un error inesperado y no se pudo agregar el favorito.',
-            ]);
+            ];
+
+            if ($debugLog) {
+                $result['debugLog'] = $debugLog;
+            }
+
+            echo json_encode($result);
         }
     }
 

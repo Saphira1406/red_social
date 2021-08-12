@@ -413,6 +413,9 @@ export default {
             this.yaEsAmigo = true;
           } else {
             this.notificationFriend.type = 'danger';
+            if (rta.debugLog) {
+              console.log(rta.debugLog);
+            }
           }
         });
     },
@@ -430,6 +433,9 @@ export default {
             this.yaEsFavorito = true;
           } else {
             this.notificationActions.type = 'danger';
+            if (rta.debugLog) {
+              console.log(rta.debugLog);
+            }
           }
         })
     },
@@ -443,6 +449,9 @@ export default {
             this.notificationActions.type = 'success';
           } else {
             this.notificationActions.type = 'danger';
+            if (rta.debugLog) {
+              console.log(rta.debugLog);
+            }
           }
         })
     },

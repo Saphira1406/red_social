@@ -4,8 +4,6 @@ namespace RedSocial\Auth;
 
 use RedSocial\Models\Usuario;
 use RedSocial\Models\Token;
-use RedSocial\DB\QueryException;
-use RedSocial\Debug\Debug;
 
 class Auth
 {
@@ -17,7 +15,6 @@ class Auth
      * @param string $email
      * @param string $password
      * @return bool
-     * @throws QueryException
      */
     public function login(string $email, string $password): bool
     {

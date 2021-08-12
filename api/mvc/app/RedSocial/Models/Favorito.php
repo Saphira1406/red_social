@@ -96,13 +96,7 @@ class Favorito extends Modelo implements JsonSerializable
 
             $publicacion->setUsuario($usuario);
 
-
-            //$data = new Usuario();
-
             $favorito->setPublicacion($publicacion);
-
-            //$publicacion->setUsuario($data->traerPorPK($id));
-
 
             $salida[] = $favorito;
         }
@@ -187,16 +181,16 @@ class Favorito extends Modelo implements JsonSerializable
         $query = "SELECT * FROM favoritos
                 WHERE publicaciones_id = ? AND usuarios_id = ?";
 
-        try {
-            $stmt = $db->prepare($query);
-            $stmt->execute([$publicaciones_id, $usuarios_id]);
-        } catch (PDOException $e) {
-            throw new QueryException($query, [$publicaciones_id, $usuarios_id], $stmt->errorInfo(), $e->getMessage(), $e->getCode(), $e->getPrevious());
-        }
-        if ($stmt->fetchObject(static::class)) {
-            return true; // ya existe la fila
+        $stmt = $db->prepare($query);
+
+        if ($stmt->execute([$publicaciones_id, $usuarios_id])) {
+            if ($stmt->fetchObject(static::class)) {
+                return true; // ya existe la fila
+            } else {
+                return false; // no existe
+            }
         } else {
-            return false; // no existe
+            throw new QueryException($query, [$publicaciones_id, $usuarios_id], $stmt->errorInfo());
         }
     }
 }

@@ -2,10 +2,12 @@
 
 namespace RedSocial\Controllers;
 
-use Exception;
 use RedSocial\Core\Route;
 use RedSocial\Core\View;
 use RedSocial\Models\Amigo;
+use Exception;
+use RedSocial\DB\QueryException;
+use RedSocial\Debug\Debug;
 
 class AmigosController extends Controller
 {
@@ -21,40 +23,56 @@ class AmigosController extends Controller
     {
         $this->requiresAuth();
 
-        $inputData = file_get_contents('php://input');
-        $postData = json_decode($inputData, true);
+        try {
 
-        // Captura de datos:       
-        $emisor_id         = $postData['emisor_id'];
-        $receptor_id       = $postData['receptor_id'];
+            $inputData = file_get_contents('php://input');
+            $postData = json_decode($inputData, true);
 
-        $amigo = new Amigo();
+            // Captura de datos:       
+            $emisor_id         = $postData['emisor_id'];
+            $receptor_id       = $postData['receptor_id'];
 
-        if ($amigo->verSiExiste($emisor_id, $receptor_id)) {
-            echo json_encode([
-                'success' => false,
-                'msg' => 'Esta amistad ya existe, no se puede volver a agregar.',
-            ]);
-            exit;
-        }
+            $amigo = new Amigo();
 
-        $data = [
-            "emisor_id"  => $emisor_id,
-            "receptor_id"  => $receptor_id,
-        ];
+            if ($amigo->verSiExiste($emisor_id, $receptor_id)) {
+                echo json_encode([
+                    'success' => false,
+                    'msg' => 'Esta amistad ya existe, no se puede volver a agregar.',
+                ]);
+                exit;
+            }
 
-        $exito = $amigo->crear($data);
+            $data = [
+                "emisor_id"  => $emisor_id,
+                "receptor_id"  => $receptor_id,
+            ];
 
-        if ($exito) {
-            echo json_encode([
-                'success' => true,
-                'msg' => 'Amistad creada con éxito.',
-            ]);
-        } else {
-            echo json_encode([
+            $exito = $amigo->crear($data);
+
+            if ($exito) {
+                echo json_encode([
+                    'success' => true,
+                    'msg' => 'Amistad creada con éxito.',
+                ]);
+            } else {
+                echo json_encode([
+                    'success' => false,
+                    'msg' => 'Ocurrió un error inesperado y no se pudo crear la amistad.',
+                ]);
+            }
+        } catch (QueryException $e) {
+            $debugLog = Debug::printQueryException($e);
+
+            $result = [
                 'success' => false,
                 'msg' => 'Ocurrió un error inesperado y no se pudo crear la amistad.',
-            ]);
+            ];
+
+            if ($debugLog) {
+                $result['debugLog'] = $debugLog;
+            }
+
+            echo json_encode($result);
         }
     }
 

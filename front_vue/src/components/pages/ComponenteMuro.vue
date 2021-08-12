@@ -59,10 +59,16 @@ export default {
       this.loading = true;
 
       publicationsService.fetchAll()
-        .then(publicaciones => {
+        .then(rta => {
           this.loading = false;
-          // Asignamos las publicaciones al state del componente.
-          this.publicaciones = publicaciones;
+          if (rta.success) {
+
+            // Asignamos las publicaciones al state del componente.
+            this.publicaciones = rta.publicaciones;
+
+          } else if (rta.debugLog) {
+            console.log(rta.debugLog);
+          }
         });
     },
 

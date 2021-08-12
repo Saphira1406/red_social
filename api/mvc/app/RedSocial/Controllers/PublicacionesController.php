@@ -23,29 +23,51 @@ class PublicacionesController extends Controller
         try {
             $this->requiresAuth();
             $publicaciones = (new Publicacion())->traerTodo();
-            View::renderJson($publicaciones);
+
+            $result = [
+                'success' => true,
+                'publicaciones' => $publicaciones,
+            ];
         } catch (QueryException $e) {
             $debugLog = Debug::printQueryException($e);
 
             $result = [
                 'success' => false,
-                'msg' => 'Ocurrió un error inesperado y la publicación no pudo ser creada.',
+                'msg' => 'Ocurrió un error inesperado y no se pudo cargar las publicaciones.',
             ];
 
             if ($debugLog) {
                 $result['debugLog'] = $debugLog;
             }
-
-            echo json_encode($result);
         }
+        echo json_encode($result);
     }
 
     public function usuario()
     {
         $this->requiresAuth();
-        $usuarios_id = Route::getUrlParameters()['id'];
-        $publicaciones = (new Publicacion())->traerPorUsuario($usuarios_id);
-        View::renderJson($publicaciones);
+        try {
+
+            $usuarios_id = Route::getUrlParameters()['id'];
+            $publicaciones = (new Publicacion())->traerPorUsuario($usuarios_id);
+
+            $result = [
+                'success' => true,
+                'publicaciones' => $publicaciones,
+            ];
+        } catch (QueryException $e) {
+            $debugLog = Debug::printQueryException($e);
+
+            $result = [
+                'success' => false,
+                'msg' => 'Ocurrió un error inesperado y no se pudo cargar los favoritos del usuario.',
+            ];
+
+            if ($debugLog) {
+                $result['debugLog'] = $debugLog;
+            }
+        }
+        echo json_encode($result);
     }
 
     public function nuevoGuardar()
